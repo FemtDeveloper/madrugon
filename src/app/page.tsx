@@ -1,12 +1,24 @@
-import { Hero } from "@/components/Hero";
+import { Hero, heroContent } from "@/components/Hero";
 import { Navbar, PromoBanner } from "@/components/Navbar";
+import {
+  MainCategories,
+  mainCategoriesContent,
+} from "@/components/MainCategories";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
 
 export default function Home() {
   return (
     <main className="flex w-full flex-col items-center justify-between">
-      <PromoBanner />
-      <Navbar />
-      <Hero />
+      <div className="w-full flex flex-col sticky top-0 z-50">
+        <PromoBanner />
+        <Navbar />
+      </div>
+      <div className="w-full flex flex-col gap-8 lg:gap:15 items-center">
+        <Hero content={heroContent} />
+        <MainCategories content={mainCategoriesContent} />
+      </div>
     </main>
   );
 }

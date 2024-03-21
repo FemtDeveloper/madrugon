@@ -14,7 +14,8 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       spacing: {
-        13: '3.25rem'
+        13: '3.25rem',
+        15: '3.75rem'
       },
       maxWidth: {
         "mw-container": "1440px",
