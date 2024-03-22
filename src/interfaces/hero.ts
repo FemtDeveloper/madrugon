@@ -5,3 +5,9 @@ interface Hero {
   title: string
   subtitle?: string;
 }
+
+
+interface Banner extends Hero {
+  titleDescription: string
+  subtitleDescription: string
+}

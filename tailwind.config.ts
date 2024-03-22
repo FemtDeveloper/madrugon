@@ -10,7 +10,7 @@ const config: Config = {
     colors: {
       transparent: "transparent",
       white: "#ffffff",
-      title: '#050504',
+      title: "#050504",
       blur: "#0C0C0C40",
       current: "currentColor",
       black: "#1B1B1B",
@@ -44,13 +44,17 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       spacing: {
-        13: '3.25rem',
-        15: '3.75rem'
+        13: "3.25rem",
+        15: "3.75rem",
       },
       maxWidth: {
         "mw-container": "1440px",
         wrapper: "1224px",
         358: "358px",
+      },
+      fontSize: {
+        h1: "56px",
+        super: "164px",
       },
     },
   },

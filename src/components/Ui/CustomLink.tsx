@@ -20,7 +20,8 @@ const CustomLink = ({ path, btnTitle, variant = "medium" }: Props) => {
       aria-label={`Botón que dirige a la sección ${btnTitle}`}
       className={clsx(
         "rounded-full bg-black text-white py-3 lg:py-4 z-10 flex justify-center items-center px-10",
-        getWidth()
+        getWidth(),
+        variant === "large" && "b1"
       )}
     >
       {btnTitle}
