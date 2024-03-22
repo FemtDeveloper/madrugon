@@ -21,7 +21,7 @@ interface Props {
 
 const MainCategories = ({ content }: Props) => {
   return (
-    <div className="w-full max-w-wrapper h-[544px] lg:h-[620px]">
+    <div className="w-full max-w-wrapper">
       <div className="swiperContainer lg:hidden">
         <Swiper
           modules={[Autoplay]}

@@ -7,6 +7,7 @@ import {
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
+import { MainGrid } from "@/components/MainGrid";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <div className="w-full flex flex-col gap-8 lg:gap:15 items-center">
         <Hero content={heroContent} />
         <MainCategories content={mainCategoriesContent} />
+        <MainGrid />
       </div>
     </main>
   );

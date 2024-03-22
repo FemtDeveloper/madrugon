@@ -10,6 +10,7 @@ const Searchbar = () => {
       <input
         type="text"
         placeholder="Buscar productos..."
+        spellCheck={false}
         className="l1 lg:b1 focus:outline-none max-w-36 lg:max-w-max"
       />
     </div>
