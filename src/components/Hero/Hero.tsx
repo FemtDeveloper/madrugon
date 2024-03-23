@@ -9,7 +9,7 @@ interface Props {
 
 const Hero = ({ content }: Props) => {
   return (
-    <div className="w-full h-[544px] lg:h-[620px]">
+    <section className="w-full h-[544px] lg:h-[620px]">
       <Swiper
         modules={[EffectFade, Autoplay]}
         speed={800}
@@ -23,7 +23,7 @@ const Hero = ({ content }: Props) => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </section>
   );
 };
 

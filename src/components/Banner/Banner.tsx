@@ -17,7 +17,7 @@ const BannerComponent = ({ content }: Props) => {
   } = content;
 
   return (
-    <section className="w-full max-w-wrapper flex items-center justify-center relative lg:h-[333px] h-80 lg:rounded-3xl p-6 lg:p-10">
+    <section className="w-full max-w-wrapper flex items-center justify-center relative lg:h-[333px] h-80 lg:rounded-3xl p-6 lg:p-10 mt-5">
       <Image
         src={img}
         alt="title"

@@ -21,7 +21,7 @@ interface Props {
 
 const MainCategories = ({ content }: Props) => {
   return (
-    <div className="w-full max-w-wrapper">
+    <section className="w-full max-w-wrapper">
       <div className="swiperContainer lg:hidden">
         <Swiper
           modules={[Autoplay]}
@@ -43,7 +43,7 @@ const MainCategories = ({ content }: Props) => {
           <MainCategoryCard content={hero} key={i} />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
