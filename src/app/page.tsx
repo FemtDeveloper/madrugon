@@ -8,6 +8,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import { MainGrid } from "@/components/MainGrid";
+import { Banner } from "@/components/Banner";
+import { BANNER_CONTENT } from "@/mocks";
 
 export default function Home() {
   return (
@@ -20,6 +22,7 @@ export default function Home() {
         <Hero content={heroContent} />
         <MainCategories content={mainCategoriesContent} />
         <MainGrid />
+        <Banner content={BANNER_CONTENT} />
       </div>
     </main>
   );
