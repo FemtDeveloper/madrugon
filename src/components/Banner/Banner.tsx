@@ -25,9 +25,9 @@ const BannerComponent = ({ content }: Props) => {
         height={312}
         className="h-full w-full lg:rounded-3xl absolute object-cover"
       />
-      <div className="h-full w-full flex  lg:flex-row flex-col-reverse justify-between  bg-blur gap-2 lg:gap-10 z-10">
+      <div className="h-full w-full flex  lg:flex-row flex-col-reverse justify-center lg:justify-between  bg-blur lg:bg-transparent gap-5 lg:gap-10 z-10">
         <div className="leftContent flex flex-col justify-center items-center gap-5 lg:gap-10">
-          <div className="subtitle flex flex-col justify-center items-center gap-2 text-white lg:max-w-[420px] rounded-3xl max-h-56 lg:p-4">
+          <div className="subtitle flex flex-col justify-center items-center gap-2 text-white lg:max-w-[420px] rounded-3xl max-h-56 lg:p-4 lg:bg-blur">
             <h5 className="lg:d3 text-[28px] text-center">{subtitle}</h5>
             <h6 className="hidden lg:block text-center max-w-80">
               {subtitleDescription}
@@ -35,8 +35,8 @@ const BannerComponent = ({ content }: Props) => {
           </div>
           <CustomLink btnTitle={btnTitle} path={path} variant="large" />
         </div>
-        <div className="rightContent flex flex-col justify-end items-center gap-2 lg:gap-10">
-          <div className="subtitle flex flex-col justify-center gap-1 text-white rounded-3xl max-h-52 p-4">
+        <div className="rightContent flex flex-col justify-end items-center gap-2 lg:gap-10 ">
+          <div className="subtitle flex flex-col justify-center gap-1 text-white rounded-3xl max-h-52 lg:p-4 lg:bg-blur">
             <h5 className="lg:d1 text-[52px] leading-none text-center">
               {title}
             </h5>
