@@ -10,7 +10,7 @@ interface Props {
 const MainCategoryCard = ({ content }: Props) => {
   const { btnTitle, img, path } = content;
   return (
-    <div className="w-full relative min-h-52 lg:min-h-96 flex justify-center items-end max-w-96">
+    <article className="w-full relative min-h-52 lg:min-h-96 flex justify-center items-end max-w-96">
       <Image
         src={img}
         alt="Imágen de referencia"
@@ -21,7 +21,7 @@ const MainCategoryCard = ({ content }: Props) => {
       <div className="mb-6 lg:mb-10">
         <CustomLink path={path} btnTitle={btnTitle} variant="small" />
       </div>
-    </div>
+    </article>
   );
 };
 

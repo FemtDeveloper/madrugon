@@ -7,7 +7,7 @@ const StarIcon = ({ size = 20, color = "currentCOlor" }: IconProps) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_513_374)">
+      <g clipPath="url(#clip0_513_374)">
         <path
           d="M10.4998 14.892L15.6498 18.0003L14.2832 12.142L18.8332 8.20033L12.8415 7.69199L10.4998 2.16699L8.15817 7.69199L2.1665 8.20033L6.7165 12.142L5.34984 18.0003L10.4998 14.892Z"
           fill="#EEAB28"

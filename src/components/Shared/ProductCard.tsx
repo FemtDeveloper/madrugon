@@ -13,7 +13,7 @@ const ProductCard = ({ product }: Props) => {
     name,
     images,
     price,
-    discount_price,
+    regular_price,
     discount_percentage,
   } = product;
 
@@ -35,7 +35,7 @@ const ProductCard = ({ product }: Props) => {
         <p className="b3 lg:b2 text-title">{name}</p>
         <div className="price b3 lg:b2 text-p-1 flex justify-center w-full gap-4 lg:gap-5">
           <p className="">$ {formatCurrency(price)}</p>
-          <p className="line-through">$ {formatCurrency(discount_price)}</p>
+          <p className="line-through">$ {formatCurrency(regular_price)}</p>
         </div>
       </div>
     </div>
