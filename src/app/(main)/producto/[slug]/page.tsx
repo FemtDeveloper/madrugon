@@ -5,13 +5,18 @@ import { getProductBySlug } from "@/services/products";
 export async function generateStaticParams() {
   const { data, error } = await supabase.from("products").select("*");
 
-  if (!data) {
-    return;
+  if (error) {
+    console.error("Error fetching products:", error);
+    return [];
   }
 
-  return data.map((product) => {
-    slug: product.slug;
-  });
+  if (!data) {
+    return [];
+  }
+
+  return data.map((product) => ({
+    slug: product.slug,
+  }));
 }
 
 const ProductDetail = async ({ params }: { params: { slug: string } }) => {

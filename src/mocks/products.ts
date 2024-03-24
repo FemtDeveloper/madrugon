@@ -1,5 +1,5 @@
 export const MOCK_PRODUCT: Product = {
-  id: "un id",
+  id: 1,
   created_at: new Date().toISOString(),
   name: "Sleek Wooden Table",
   slug: "sleek-wooden-table",
@@ -12,4 +12,5 @@ export const MOCK_PRODUCT: Product = {
   user_id: "user-uuid-here",
   category: "nuevos",
   gender: "male",
+  sizes: ["S"],
 };
