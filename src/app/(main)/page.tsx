@@ -1,5 +1,4 @@
 import { Hero, heroContent } from "@/components/Hero";
-import { Navbar, PromoBanner } from "@/components/Navbar";
 import {
   MainCategories,
   mainCategoriesContent,
@@ -20,7 +19,6 @@ export default function Home() {
         <MainCategories content={mainCategoriesContent} />
         <MainGrid />
         <Banner content={BANNER_CONTENT} />
-        <Footer />
       </div>
     </main>
   );

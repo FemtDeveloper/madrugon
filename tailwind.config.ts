@@ -54,6 +54,9 @@ const config: Config = {
         13: "3.25rem",
         15: "3.75rem",
       },
+      boxShadow: {
+        "3xl": "0 15px 60px 5px rgba(0, 0, 0, 0.05)",
+      },
       maxWidth: {
         "mw-container": "1440px",
         wrapper: "1224px",

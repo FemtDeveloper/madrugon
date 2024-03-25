@@ -7,7 +7,9 @@ const FavoriteStar = () => {
   return (
     <button
       className="h-8 w-8 bg-blur rounded-full grid place-items-center"
-      onClick={() => setIsFavorite(!isFavorite)}
+      onClick={(e) => {
+        setIsFavorite(!isFavorite);
+      }}
     >
       {isFavorite ? <HeartIconFilled /> : <HeartIcon />}
     </button>

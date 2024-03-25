@@ -1,3 +1,4 @@
+import { Footer } from "@/components/Footer";
 import { Navbar, PromoBanner } from "@/components/Navbar";
 import React, { ReactNode } from "react";
 
@@ -9,6 +10,7 @@ const layout = ({ children }: { children: ReactNode }) => {
         <Navbar />
       </div>
       {children}
+      <Footer />
     </div>
   );
 };

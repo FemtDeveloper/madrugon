@@ -19,7 +19,11 @@ const MainCategoryCard = ({ content }: Props) => {
         className="w-full object-cover rounded-xl lg:rounded-3xl h-full absolute -z-10 "
       />
       <div className="mb-6 lg:mb-10">
-        <CustomLink path={path} btnTitle={btnTitle} variant="small" />
+        <CustomLink
+          path={`/categorias/${path}`}
+          btnTitle={btnTitle}
+          variant="small"
+        />
       </div>
     </article>
   );

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import FavoriteStar from "./FavoriteStar";
 import { formatCurrency } from "@/utils";
+import Link from "next/link";
+import { CustomLabel, CustomLink } from "../Ui";
 
 interface Props {
   product: Product;
@@ -15,21 +17,31 @@ const ProductCard = ({ product }: Props) => {
     price,
     regular_price,
     discount_percentage,
+    slug,
   } = product;
 
   return (
-    <div className="product_card max-w-44 lg:max-w-72 flex flex-col items-center gap-3 lg:gap-6">
-      <figure className="relative h-full">
-        <Image
-          src={images![0]}
-          alt={name!}
-          width={286}
-          height={354}
-          className="rounded-2xl lg:rounded-3xl"
-        />
+    <article className="product_card max-w-44 lg:max-w-72 flex flex-col items-center gap-3 lg:gap-6">
+      <figure className="group relative h-full overflow-hidden rounded-2xl lg:rounded-3xl">
         <div className="favorite_container absolute z-10 top-3 right-3 lg:top-4 lg:right-4">
           <FavoriteStar />
         </div>
+        <Link
+          href={`/producto/${slug}`}
+          aria-label="Enlace que dirige al producto"
+        >
+          <Image
+            src={images![0]}
+            alt={name!}
+            width={286}
+            height={354}
+            className="rounded-2xl lg:rounded-3xl group-hover:scale-110 transition-transform"
+          />
+
+          <div className="favorite_container absolute z-10 top-1/2 right-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <CustomLabel title="Ver producto" variant="small" />
+          </div>
+        </Link>
       </figure>
       <div className="info_product flex flex-col items-center ">
         <p className="b3 lg:b2 text-title">{name}</p>
@@ -37,8 +49,14 @@ const ProductCard = ({ product }: Props) => {
           <p className="">$ {formatCurrency(price!)}</p>
           <p className="line-through">$ {formatCurrency(regular_price!)}</p>
         </div>
+        <Link
+          href={`/marcas/${brand?.toLocaleLowerCase()}`}
+          className="b3 lg:b2 underline-offset-1 underline text-p-1"
+        >
+          {brand}
+        </Link>
       </div>
-    </div>
+    </article>
   );
 };
 

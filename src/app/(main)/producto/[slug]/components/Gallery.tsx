@@ -12,23 +12,24 @@ interface Props {
 
 const Gallery = ({ images }: Props) => {
   return (
-    <div className="w-full lg:w-1/3 flex">
+    <div className="w-full lg:w-[40%] flex">
       <Swiper
         slidesPerView={1}
         modules={[Autoplay]}
         speed={800}
         centeredSlides
         autoplay={{ delay: 2500 }}
-        className="flex"
+        className="w-full max-h-96 lg:max-h-[520px] gallery"
       >
         {images.map((image, i) => {
           return (
-            <SwiperSlide key={i} className="h-full w-full flex">
+            <SwiperSlide key={i} className="h-full w-full flex justify-center">
               <Image
                 src={image}
                 alt="Imágen del producto"
                 width={418}
                 height={519}
+                className="h-full object-cover rounded-lg"
               />
             </SwiperSlide>
           );

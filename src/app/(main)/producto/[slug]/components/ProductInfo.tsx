@@ -1,6 +1,7 @@
-import { formatCurrency } from "@/utils";
 import Sizes from "./Sizes";
 import Prices from "./Prices";
+import { CustomLink } from "@/components/Ui";
+import Categories from "./Categories";
 
 interface Props {
   product: Product;
@@ -20,29 +21,26 @@ const ProductInfo = ({ product }: Props) => {
   } = product;
 
   return (
-    <div className="infoContainer flex flex-col w-full gap-4 px-4 lg:px-0">
-      <h1 className="b1 lg:h2 text-title">{name}</h1>
-      <h1 className="b2 text-p-1">{description}</h1>
-      <h1 className="b2 text-p-1 font-bold underline">
+    <div className="infoContainer flex flex-col w-full lg:w-[55%] gap-3 px-4 lg:px-0 pb-4">
+      <h1 className="text-2xl font-bold lg:h2 text-title">{name}</h1>
+      <h2 className="b2 text-p-1">{description}</h2>
+      <h2 className="b2 text-p-1 font-bold underline">
         {brand?.toUpperCase()}
-      </h1>
+      </h2>
       <Prices
         discount_percentage={discount_percentage}
         price={price}
         regular_price={regular_price}
       />
-      <div className="flex justify-between items-center">
+      <CustomLink
+        path={`https://wa.me/57${3507107300}`}
+        btnTitle="Contactar al vendedor"
+        variant="xLarge"
+        otherTab
+      />
+      <div className="flex flex-col justify-between gap-7">
         <Sizes sizes={sizes} />
-        <div className="flex gap-10">
-          <div>
-            <h2 className="text-xl font-bold tracking-wider">Categoría</h2>
-            <h2 className="text-xl  tracking-wider">{category}</h2>
-          </div>
-          <div>
-            <h2 className="text-xl font-bold tracking-wider">Genero</h2>
-            <h2 className="text-xl  tracking-wider">{gender}</h2>
-          </div>
-        </div>
+        <Categories category={category!} gender={gender!} />
       </div>
     </div>
   );
