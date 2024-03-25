@@ -9,7 +9,6 @@ import "swiper/css/autoplay";
 import { MainGrid } from "@/components/MainGrid";
 import { Banner } from "@/components/Banner";
 import { BANNER_CONTENT } from "@/mocks";
-import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (

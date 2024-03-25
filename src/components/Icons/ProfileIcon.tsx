@@ -5,7 +5,7 @@ const ProfileIcon = ({ size = 32, color = "currentCOlor" }: IconProps) => {
       height={size}
       viewBox="0 0 32 32"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      className="w-6 h-6 lg:w-8 lg:h-8"
     >
       <circle
         cx="5.33333"

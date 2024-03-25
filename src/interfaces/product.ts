@@ -28,4 +28,4 @@ interface UserFavorite extends UserFavoriteDto {
   created_at: string;
 }
 
-type Gender = "male" | "female" | "children";
+type Gender = "Hombre" | "Mujer" | "Niños/as" | "Remates";
