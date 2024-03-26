@@ -6,8 +6,6 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-type Gender = "male" | "female" | "children";
-
 export type Database = {
   public: {
     Tables: {

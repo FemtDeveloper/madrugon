@@ -11,6 +11,6 @@ export const MOCK_PRODUCT: Product = {
   brand: "WoodWorks",
   user_id: "user-uuid-here",
   category: "nuevos",
-  gender: "male",
+  gender: "Hombre",
   sizes: ["S"],
 };

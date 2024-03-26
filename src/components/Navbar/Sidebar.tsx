@@ -40,17 +40,17 @@ const Sidebar = () => {
               <h2 className="h2 text-center font-medium">Menú</h2>
               <div className="flex flex-col gap-6">
                 {GENDERS.map((gender, i) => (
-                  <div key={i} className="w-full flex justify-between">
+                  <button
+                    key={i}
+                    className="w-full flex justify-between"
+                    onClick={() => {
+                      setGender(genderMapping[gender]);
+                      setIsCategorySidebarOpen(true);
+                    }}
+                  >
                     <p>{gender}</p>
-                    <button
-                      onClick={() => {
-                        setGender(genderMapping[gender]);
-                        setIsCategorySidebarOpen(true);
-                      }}
-                    >
-                      <ChevronRightIcon />
-                    </button>
-                  </div>
+                    <ChevronRightIcon />
+                  </button>
                 ))}
               </div>
             </div>

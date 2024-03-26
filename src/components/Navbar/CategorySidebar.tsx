@@ -61,6 +61,7 @@ const CategorySidebar = ({ isOpen, setIsOpen, gender }: Props) => {
                 type="checkbox"
                 value={category}
                 onClick={() => handleSelect(category.toLowerCase())}
+                className="appearance-none w-4 h-4 border-2 border-blue-500 rounded-sm bg-white checked:bg-title"
               />
             </div>
           ))}
