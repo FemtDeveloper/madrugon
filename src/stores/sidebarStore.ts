@@ -6,6 +6,7 @@ type SidebarStore = {
   isSidebarOpen: boolean;
   sidebarType: SidebarType;
   setIsSidebarOpen: () => void;
+  setSidebarType: (sidebarType: SidebarType) => void;
 };
 
 export const useSidebarStore = create<SidebarStore>((set) => ({
@@ -15,4 +16,5 @@ export const useSidebarStore = create<SidebarStore>((set) => ({
     set((state) => ({
       isSidebarOpen: !state.isSidebarOpen,
     })),
+  setSidebarType: (sidebarType: SidebarType) => set({ sidebarType }),
 }));

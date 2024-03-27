@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import { Gallery, ProductInfo } from "./components";
 import { getProductBySlug } from "@/services/products";
 import { GridTitle, ProductGrid } from "@/components/Shared";

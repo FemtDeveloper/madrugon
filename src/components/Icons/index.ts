@@ -1,5 +1,7 @@
 export { default as ChevronLeftIcon } from "./ChevronLeftIcon";
 export { default as ChevronRightIcon } from "./ChevronRightIcon";
+export { default as EyeClosedIcon } from "./EyeClosedIcon";
+export { default as EyeOpenededIcon } from "./EyeOpenededIcon";
 export { default as HeartIcon } from "./HeartIcon";
 export { default as HeartIconFilled } from "./HeartIconFilled";
 export { default as IsoIcon } from "./IsoIcon";

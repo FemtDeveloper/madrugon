@@ -19,18 +19,20 @@ const CategorySidebar = ({ isOpen, setIsOpen, gender }: Props) => {
 
   const { push } = useRouter();
 
-  const handleSelect = (value: string) => {
-    if (selectedCategories.includes(value))
-      return setSelectedCategories(
-        selectedCategories.filter((category) => category !== value)
-      );
-    setSelectedCategories((prev) => [...prev, value]);
+  const handleSelect = (category: string) => {
+    setSelectedCategories((prevSelected) =>
+      prevSelected.includes(category)
+        ? prevSelected.filter((c) => c !== category)
+        : [...prevSelected, category]
+    );
   };
 
   const handleApply = () => {
     setIsSidebarOpen();
+    setIsOpen(false);
+    setSelectedCategories([]);
     push(
-      `/busqueda?genero=${gender.toLowerCase()}&filtros=${selectedCategories.join(
+      `/busqueda?genero=${gender.toLowerCase()}&categorias=${selectedCategories.join(
         ","
       )}`
     );
@@ -45,9 +47,7 @@ const CategorySidebar = ({ isOpen, setIsOpen, gender }: Props) => {
     >
       <button
         className="bg-title rounded-full p-1"
-        onClick={() => {
-          setIsSidebarOpen(), setIsOpen(false);
-        }}
+        onClick={() => setIsOpen(false)}
       >
         <ChevronLeftIcon color="white" />
       </button>
@@ -60,7 +60,8 @@ const CategorySidebar = ({ isOpen, setIsOpen, gender }: Props) => {
               <input
                 type="checkbox"
                 value={category}
-                onClick={() => handleSelect(category.toLowerCase())}
+                checked={selectedCategories.includes(category)}
+                onChange={() => handleSelect(category)}
                 className="appearance-none w-4 h-4 border-2 border-blue-500 rounded-sm bg-white checked:bg-title"
               />
             </div>

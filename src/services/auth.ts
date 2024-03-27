@@ -1,0 +1,20 @@
+import { supabase } from "@/lib/supabase/client";
+import { Session, User } from "@supabase/supabase-js";
+
+type SignupResponse = {
+  user: User | null;
+  session: Session | null;
+};
+
+export const signUpNewUser = async ({
+  email,
+  //   captchaToken,
+  password,
+}: SignupParams): Promise<SignupResponse> => {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    // options: { captchaToken },
+  });
+  return data;
+};

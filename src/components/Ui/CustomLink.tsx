@@ -6,6 +6,7 @@ interface Props {
   btnTitle: string;
   variant?: "xLarge" | "large" | "medium" | "small";
   type?: "button" | "link";
+  btnType?: "button" | "submit" | "reset" | undefined;
   otherTab?: boolean;
   onClick?: () => void;
 }
@@ -16,6 +17,7 @@ const CustomLink = ({
   variant = "medium",
   otherTab = false,
   type = "link",
+  btnType = "button",
   onClick = () => null,
 }: Props) => {
   const getWidth = () => {
@@ -30,6 +32,7 @@ const CustomLink = ({
       <button
         aria-label={`Botón que dirige a la sección ${btnTitle}`}
         name="Botón"
+        type={btnType}
         onClick={onClick}
         className={clsx(
           "rounded-full bg-title text-white py-3 lg:py-4 z-10 flex justify-center items-center px-10",
