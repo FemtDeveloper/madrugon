@@ -1,8 +1,9 @@
-import { Dispatch } from "react";
+import { Dispatch, useState } from "react";
 import clsx from "clsx";
 import { ChevronLeftIcon } from "../Icons";
 import LoginMobile from "./LoginMobile";
 import { useSidebarStore } from "@/stores";
+import SignupMobile from "./SIgnupMobile";
 
 interface Props {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface Props {
 
 const AuthMobile = ({ isOpen, setIsOpen }: Props) => {
   const setIsSidebarOpen = useSidebarStore((state) => state.setIsSidebarOpen);
+  const [isRegisterScreenOpen, setIsRegisterScreenOpen] = useState(false);
   return (
     <div
       className={clsx(
@@ -19,12 +21,18 @@ const AuthMobile = ({ isOpen, setIsOpen }: Props) => {
       )}
     >
       <button
-        className="bg-title absolute rounded-full p-1 left-0"
+        className="bg-title absolute rounded-full p-1 left-0 z-20"
         onClick={setIsSidebarOpen}
       >
         <ChevronLeftIcon color="white" />
       </button>
-      <LoginMobile isOpen />
+      <div className="h-full w-full">
+        <LoginMobile isOpen setIsRegisterScreenOpen={setIsRegisterScreenOpen} />
+        <SignupMobile
+          isOpen={isRegisterScreenOpen}
+          setIsRegisterScreenOpen={setIsRegisterScreenOpen}
+        />
+      </div>
     </div>
   );
 };

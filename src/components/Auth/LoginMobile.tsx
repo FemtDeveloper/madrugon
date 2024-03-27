@@ -8,10 +8,10 @@ import { AuthError, Session, User } from "@supabase/supabase-js";
 
 interface Props {
   isOpen: boolean;
-  setIsOpen?: Dispatch<boolean>;
+  setIsRegisterScreenOpen: Dispatch<boolean>;
 }
 
-const LoginMobile = ({ isOpen }: Props) => {
+const LoginMobile = ({ isOpen, setIsRegisterScreenOpen }: Props) => {
   const [userSession, setUserSession] = useState<Session | null>(null);
   const { control, handleSubmit } = useForm<SignupParams>({
     defaultValues: { email: "", password: "" },
@@ -28,7 +28,7 @@ const LoginMobile = ({ isOpen }: Props) => {
     setUserSession(session);
   };
 
-  console.log({ userSession });
+  // console.log({ userSession });
 
   return (
     <div className="h-full flex items-center justify-center w-full">
@@ -42,13 +42,17 @@ const LoginMobile = ({ isOpen }: Props) => {
             placeholder="Ingrese su corrreo electrónico"
             name="email"
             type="text"
+            id="emailLogin"
             control={control}
+            hasLabel
           />
           <RHFCustomInput
             placeholder="Ingrese su contraseña"
             name="password"
+            id="passwordLogin"
             type="password"
             control={control}
+            hasLabel
           />
         </div>
         <div className="flex justify-between text-[14px] w-full">
@@ -72,7 +76,13 @@ const LoginMobile = ({ isOpen }: Props) => {
         />
         <div className="flex gap-2 text-[14px]">
           <p className="text-p-2">¿No tienes una cuenta?</p>
-          <button className="underline">Regístrate</button>
+          <button
+            className="underline"
+            type="button"
+            onClick={() => setIsRegisterScreenOpen(true)}
+          >
+            Regístrate
+          </button>
         </div>
       </form>
     </div>

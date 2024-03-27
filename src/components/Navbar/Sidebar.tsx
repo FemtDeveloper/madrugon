@@ -1,7 +1,7 @@
 "use client";
 import clsx from "clsx";
 import { useSidebarStore } from "@/stores";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 import CategorySidebar from "./CategorySidebar";
 import MenuSidebar from "./MenuSidebar";
@@ -18,7 +18,9 @@ const Sidebar = () => {
   const [isCategorySidebarOpen, setIsCategorySidebarOpen] = useState(false);
   const [gender, setGender] = useState("Hombre");
 
-  console.log({ isSidebarOpen });
+  useEffect(() => {
+    document.body.style.overflow = isSidebarOpen ? "hidden" : "auto";
+  }, [isSidebarOpen]);
 
   return (
     <div

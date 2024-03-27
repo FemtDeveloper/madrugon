@@ -6,6 +6,7 @@ import { useResponsive } from "@/hooks";
 import Searchbar from "./Searchbar";
 import Profile from "./Profile";
 import SidebarMenuButton from "./SidebarMenuButton";
+import { IsoIcon } from "../Icons";
 
 const Navbar = () => {
   const { isMobile } = useResponsive();
@@ -15,12 +16,7 @@ const Navbar = () => {
       <nav className="w-full flex gap-8  lg:gap-13  max-w-wrapper">
         <div className="w-full flex items-center justify-between gap-4">
           <Link href="/" aria-label="Link que te dirige al home">
-            <Image
-              src="/images/isoicon.png"
-              alt="Iso icon"
-              width={isMobile ? 32 : 42}
-              height={isMobile ? 24 : 32}
-            />
+            <IsoIcon width={isMobile ? 32 : 42} height={isMobile ? 24 : 32} />
           </Link>
           <NavbarLinks />
           <Searchbar />

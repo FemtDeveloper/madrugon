@@ -1,13 +1,16 @@
 import Image from "next/image";
+import { IsoIcon } from "../Icons";
+import { useResponsive } from "@/hooks";
 
 interface Props {
   title: string;
 }
 const LoginHeader = ({ title }: Props) => {
+  const { isMobile } = useResponsive();
   return (
     <div className="flex flex-col items-center gap-4">
-      <Image src="/images/isoicon.png" alt="iso icon" width={42} height={32} />
-      <h2 className="h2 text-center font-medium">Iniciar sesión</h2>
+      <IsoIcon width={isMobile ? 32 : 42} height={isMobile ? 24 : 32} />
+      <h2 className="h2 text-center font-medium">{title}</h2>
     </div>
   );
 };
