@@ -3,7 +3,7 @@ import { Dispatch, useState } from "react";
 import { CustomLink, RHFCustomInput } from "../Ui";
 import { SubmitHandler, useForm } from "react-hook-form";
 import LoginHeader from "./LoginHeader";
-import { signUpNewUser } from "@/services/auth";
+import { login } from "@/services/auth";
 import { AuthError, Session, User } from "@supabase/supabase-js";
 
 interface Props {
@@ -13,18 +13,18 @@ interface Props {
 
 const LoginMobile = ({ isOpen, setIsRegisterScreenOpen }: Props) => {
   const [userSession, setUserSession] = useState<Session | null>(null);
-  const { control, handleSubmit } = useForm<SignupParams>({
+  const { control, handleSubmit } = useForm<SigninParams>({
     defaultValues: { email: "", password: "" },
   });
 
-  const onSubmit: SubmitHandler<SignupParams> = async (data) => {
+  const onSubmit: SubmitHandler<SigninParams> = async (data) => {
     console.log({ data });
 
-    const { session, user } = await signUpNewUser({
+    const { session, user } = await login({
       email: data.email,
       password: data.password,
     });
-
+    console.log({ session, user });
     setUserSession(session);
   };
 

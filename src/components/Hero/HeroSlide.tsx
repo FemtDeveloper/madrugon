@@ -15,6 +15,7 @@ const HeroSlide = ({ content }: Props) => {
         height={2000}
         alt="Hero image"
         className="absolute object-cover object-top -z-10 h-full"
+        priority
       />
       <div className="titleContainer flex flex-col gap-3">
         <h2 className="d1 text-white text-center font-bold">{title}</h2>

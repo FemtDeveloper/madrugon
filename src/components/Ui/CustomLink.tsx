@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import Link from "next/link";
+import LoadingDots from "./LoadingDots";
 
 interface Props {
   path?: string;
@@ -9,6 +10,7 @@ interface Props {
   btnType?: "button" | "submit" | "reset" | undefined;
   otherTab?: boolean;
   onClick?: () => void;
+  loading?: boolean;
 }
 
 const CustomLink = ({
@@ -19,6 +21,7 @@ const CustomLink = ({
   type = "link",
   btnType = "button",
   onClick = () => null,
+  loading = false,
 }: Props) => {
   const getWidth = () => {
     if (variant === "xLarge") return "w-[310px]";
@@ -40,7 +43,7 @@ const CustomLink = ({
           variant === "large" && "b1"
         )}
       >
-        {btnTitle}
+        {loading ? <LoadingDots /> : btnTitle}
       </button>
     );
 

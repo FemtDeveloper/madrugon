@@ -10,11 +10,24 @@ export const signUpNewUser = async ({
   email,
   //   captchaToken,
   password,
-}: SignupParams): Promise<SignupResponse> => {
+}: SigninParams): Promise<SignupResponse> => {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     // options: { captchaToken },
+  });
+  console.log({ data, error: error?.message });
+
+  return data;
+};
+
+export const login = async ({
+  email,
+  password,
+}: SigninParams): Promise<SignupResponse> => {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
   });
   return data;
 };

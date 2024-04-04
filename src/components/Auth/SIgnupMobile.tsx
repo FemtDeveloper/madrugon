@@ -5,6 +5,7 @@ import { signUpNewUser } from "@/services/auth";
 import { Session } from "@supabase/supabase-js";
 import LoginHeader from "./LoginHeader";
 import clsx from "clsx";
+import { supabase } from "@/lib/supabase/client";
 
 interface Props {
   setIsRegisterScreenOpen: Dispatch<boolean>;
@@ -12,22 +13,35 @@ interface Props {
 }
 
 const SignupMobile = ({ setIsRegisterScreenOpen, isOpen }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [userSession, setUserSession] = useState<Session | null>(null);
   const { control, handleSubmit } = useForm<SignupParams>({
-    defaultValues: { email: "", password: "" },
+    defaultValues: {
+      email: "",
+      password: "",
+      lastName: "",
+      name: "",
+      phoneNumber: "",
+    },
   });
-  const onSubmit: SubmitHandler<SignupParams> = async (data) => {
-    console.log({ data });
 
-    const { session, user } = await signUpNewUser({
+  const onSubmit: SubmitHandler<SignupParams> = async (data) => {
+    setIsLoading(true);
+
+    const { user } = await signUpNewUser({
       email: data.email,
       password: data.password,
     });
 
-    setUserSession(session);
+    const { data: createResponse, error } = await supabase.from("user").insert({
+      email: data.email,
+      id: user?.id,
+      name: `${data.name} ${data.lastName}`,
+    });
+
+    setIsLoading(false);
   };
 
-  // console.log({ userSession });
   return (
     <div
       className={clsx(
@@ -55,7 +69,7 @@ const SignupMobile = ({ setIsRegisterScreenOpen, isOpen }: Props) => {
         <div className="flex flex-col w-full gap-4">
           <RHFCustomInput
             placeholder="Nombres"
-            name="names"
+            name="name"
             type="text"
             id="names"
             control={control}
@@ -63,8 +77,8 @@ const SignupMobile = ({ setIsRegisterScreenOpen, isOpen }: Props) => {
           <RHFCustomInput
             placeholder="Apellidos"
             type="text"
-            name="lastNames"
-            id="lastNames"
+            name="lastName"
+            id="lastName"
             control={control}
           />
           <RHFCustomInput
@@ -110,6 +124,7 @@ const SignupMobile = ({ setIsRegisterScreenOpen, isOpen }: Props) => {
           </div>
         </div>
         <CustomLink
+          loading={isLoading}
           type="button"
           btnType="submit"
           btnTitle="Crear cuenta"

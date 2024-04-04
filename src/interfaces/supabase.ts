@@ -87,7 +87,7 @@ export type Database = {
         };
         Relationships: [];
       };
-      users: {
+      user: {
         Row: {
           age: number | null;
           avatar: string | null;
@@ -97,6 +97,7 @@ export type Database = {
           id: string;
           isSeller: boolean | null;
           name: string | null;
+          email: string | null;
         };
         Insert: {
           age?: number | null;
@@ -107,6 +108,7 @@ export type Database = {
           id?: string;
           isSeller?: boolean | null;
           name?: string | null;
+          email: string | null;
         };
         Update: {
           age?: number | null;
@@ -117,6 +119,7 @@ export type Database = {
           id?: string;
           isSeller?: boolean | null;
           name?: string | null;
+          email: string | null;
         };
         Relationships: [];
       };
