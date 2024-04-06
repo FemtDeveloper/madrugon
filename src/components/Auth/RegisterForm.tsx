@@ -1,20 +1,22 @@
-import { Dispatch, useState } from "react";
-import { CustomLink, RHFCustomInput } from "../Ui";
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import { useShallow } from "zustand/react/shallow";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { CustomLink, RHFCustomInput } from "../Ui";
 import { signUpNewUser } from "@/services/auth";
-import { Session } from "@supabase/supabase-js";
 import LoginHeader from "./LoginHeader";
-import clsx from "clsx";
 import { supabase } from "@/lib/supabase/client";
+import { useModalStore } from "@/stores";
 
-interface Props {
-  setIsRegisterScreenOpen: Dispatch<boolean>;
-  isOpen: boolean;
-}
-
-const SignupMobile = ({ setIsRegisterScreenOpen, isOpen }: Props) => {
+const RegisterForm = () => {
+  const { openModal, closeModal } = useModalStore(
+    useShallow((state) => ({
+      openModal: state.openModal,
+      closeModal: state.closeModal,
+    }))
+  );
   const [isLoading, setIsLoading] = useState(false);
-  const [userSession, setUserSession] = useState<Session | null>(null);
   const { control, handleSubmit } = useForm<SignupParams>({
     defaultValues: {
       email: "",
@@ -33,37 +35,25 @@ const SignupMobile = ({ setIsRegisterScreenOpen, isOpen }: Props) => {
       password: data.password,
     });
 
-    const { data: createResponse, error } = await supabase.from("user").insert({
+    await supabase.from("user").insert({
       email: data.email,
       id: user?.id,
       name: `${data.name} ${data.lastName}`,
     });
-
     setIsLoading(false);
+    openModal({
+      description: "Has sido registrado exitosamente",
+      title: "Registro exitoso",
+    });
+    setTimeout(() => {
+      closeModal();
+    }, 2000);
   };
 
   return (
-    <div
-      className={clsx(
-        "flex flex-col items-center justify-center h-full gap-8 w-full top-0 absolute bg-white transition-transform duration-300 z-10 ",
-        isOpen ? "translate-x-0" : "translate-x-[120%]"
-      )}
-    >
-      <div className="header-container flex flex-col gap-4">
-        <LoginHeader title="Registrarse" />
-        <div className="flex gap-2 text-[14px]">
-          <p className="text-p-2">¿Ya tienes cuenta?</p>
-          <button
-            className="underline"
-            type="button"
-            onClick={() => setIsRegisterScreenOpen(false)}
-          >
-            Iniciar sesión
-          </button>
-        </div>
-      </div>
+    <div className="flex flex-col justify-center items-center gap-8">
       <form
-        className="flex flex-col items-center gap-4 w-full h-full overflow-y-auto"
+        className="flex flex-col items-center justify-center gap-4 w-full"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col w-full gap-4">
@@ -92,7 +82,7 @@ const SignupMobile = ({ setIsRegisterScreenOpen, isOpen }: Props) => {
             placeholder="Ingrese su corrreo electrónico"
             name="email"
             type="text"
-            id="emailLogin"
+            id="emailSignup"
             control={control}
             hasLabel
           />
@@ -135,4 +125,4 @@ const SignupMobile = ({ setIsRegisterScreenOpen, isOpen }: Props) => {
   );
 };
 
-export default SignupMobile;
+export default RegisterForm;

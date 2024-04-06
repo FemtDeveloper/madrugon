@@ -9,6 +9,7 @@ import "swiper/css/autoplay";
 import { MainGrid } from "@/components/MainGrid";
 import { Banner } from "@/components/Banner";
 import { BANNER_CONTENT } from "@/mocks";
+import { Modal } from "@/components/Modal";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
         <MainGrid />
         <Banner content={BANNER_CONTENT} />
       </div>
+      <Modal />
     </main>
   );
 }

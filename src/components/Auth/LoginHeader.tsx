@@ -1,4 +1,4 @@
-import Image from "next/image";
+"use client";
 import { IsoIcon } from "../Icons";
 import { useResponsive } from "@/hooks";
 

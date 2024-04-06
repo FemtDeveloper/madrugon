@@ -1,24 +1,11 @@
-import { useSidebarStore } from "@/stores";
+import Link from "next/link";
 import { ProfileIcon } from "../Icons";
-import { useShallow } from "zustand/react/shallow";
 
 const Profile = () => {
-  const { setIsSidebarOpen, setSidebarType } = useSidebarStore(
-    useShallow((state) => ({
-      setIsSidebarOpen: state.setIsSidebarOpen,
-      setSidebarType: state.setSidebarType,
-    }))
-  );
-
-  const handleOpenSidebar = () => {
-    setSidebarType("auth");
-    setIsSidebarOpen();
-  };
-
   return (
-    <button name="botón de perfil" onClick={handleOpenSidebar}>
+    <Link aria-label="botón de perfil" href="/auth/login">
       <ProfileIcon />
-    </button>
+    </Link>
   );
 };
 

@@ -1,18 +1,11 @@
 "use client";
-import { Dispatch, useState } from "react";
-import { CustomLink, RHFCustomInput } from "../Ui";
 import { SubmitHandler, useForm } from "react-hook-form";
+import Link from "next/link";
+import { CustomLink, RHFCustomInput } from "../Ui";
 import LoginHeader from "./LoginHeader";
 import { login } from "@/services/auth";
-import { AuthError, Session, User } from "@supabase/supabase-js";
 
-interface Props {
-  isOpen: boolean;
-  setIsRegisterScreenOpen: Dispatch<boolean>;
-}
-
-const LoginMobile = ({ isOpen, setIsRegisterScreenOpen }: Props) => {
-  const [userSession, setUserSession] = useState<Session | null>(null);
+const LoginForm = () => {
   const { control, handleSubmit } = useForm<SigninParams>({
     defaultValues: { email: "", password: "" },
   });
@@ -25,10 +18,7 @@ const LoginMobile = ({ isOpen, setIsRegisterScreenOpen }: Props) => {
       password: data.password,
     });
     console.log({ session, user });
-    setUserSession(session);
   };
-
-  // console.log({ userSession });
 
   return (
     <div className="h-full flex items-center justify-center w-full">
@@ -76,17 +66,13 @@ const LoginMobile = ({ isOpen, setIsRegisterScreenOpen }: Props) => {
         />
         <div className="flex gap-2 text-[14px]">
           <p className="text-p-2">¿No tienes una cuenta?</p>
-          <button
-            className="underline"
-            type="button"
-            onClick={() => setIsRegisterScreenOpen(true)}
-          >
+          <Link className="underline" type="button" href="/auth/register">
             Regístrate
-          </button>
+          </Link>
         </div>
       </form>
     </div>
   );
 };
 
-export default LoginMobile;
+export default LoginForm;
