@@ -1,7 +1,7 @@
 const heroContent: Hero[] = [
   {
     img: "/images/main-hero.png",
-    path: "/",
+    path: "/promos",
     btnTitle: "Promociones",
     title: "30% OFF JEANS",
     subtitle: "PROMOCIÓN VÁLIDA *HASTA EL 29 DE ENERO DE 2024*",

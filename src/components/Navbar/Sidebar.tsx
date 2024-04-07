@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 import CategorySidebar from "./CategorySidebar";
 import MenuSidebar from "./MenuSidebar";
-import { AuthMobile, LoginMobile } from "../Auth";
+import { AuthMobile } from "../Auth";
 
 const Sidebar = () => {
   const { isSidebarOpen, sidebarType, setIsSidebarOpen } = useSidebarStore(
@@ -37,7 +37,7 @@ const Sidebar = () => {
             setIsSidebarOpen={setIsSidebarOpen}
           />
         ) : (
-          <AuthMobile isOpen />
+          <AuthMobile />
         )}
         <CategorySidebar
           isOpen={isCategorySidebarOpen}
