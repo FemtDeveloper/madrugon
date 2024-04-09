@@ -20,14 +20,3 @@ export const signUpNewUser = async ({
 
   return data;
 };
-
-export const login = async ({
-  email,
-  password,
-}: SigninParams): Promise<SignupResponse> => {
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-  });
-  return data;
-};

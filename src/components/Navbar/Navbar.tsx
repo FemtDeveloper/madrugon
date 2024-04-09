@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import NavbarLinks from "./NavbarLinks";
 import { useResponsive } from "@/hooks";
@@ -7,6 +6,9 @@ import Searchbar from "./Searchbar";
 import Profile from "./Profile";
 import SidebarMenuButton from "./SidebarMenuButton";
 import { IsoIcon } from "../Icons";
+import { useUserStore } from "@/stores";
+import { useEffect } from "react";
+import { cookies } from "next/headers";
 
 const Navbar = () => {
   const { isMobile } = useResponsive();

@@ -1,8 +1,8 @@
 "use client";
+import { useState } from "react";
 import Link from "next/link";
 import { ProfileIcon } from "../Icons";
 import { ProfileModal } from "../Modal/ProfileModal";
-import { useState } from "react";
 
 const Profile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,7 +22,7 @@ const Profile = () => {
       >
         <ProfileIcon />
       </button>
-      {isModalOpen && <ProfileModal />}
+      {isModalOpen && <ProfileModal setisModalOpen={setIsModalOpen} />}
     </div>
   );
 };

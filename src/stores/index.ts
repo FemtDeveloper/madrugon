@@ -1,3 +1,3 @@
 export * from "./useModalStore";
 export * from "./sidebarStore";
-export * from "./userStore";
+export * from "./useUserStore";

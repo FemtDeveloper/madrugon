@@ -87,7 +87,7 @@ export type Database = {
         };
         Relationships: [];
       };
-      user: {
+      users: {
         Row: {
           age: number | null;
           avatar: string | null;

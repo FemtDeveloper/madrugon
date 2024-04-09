@@ -3,21 +3,17 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 import { CustomLink, RHFCustomInput } from "../Ui";
 import LoginHeader from "./LoginHeader";
-import { login } from "@/services/auth";
+import { useModalStore } from "@/stores";
+import { login } from "@/app/auth/actions";
 
 const LoginForm = () => {
+  const openModal = useModalStore((state) => state.openModal);
   const { control, handleSubmit } = useForm<SigninParams>({
     defaultValues: { email: "", password: "" },
   });
 
   const onSubmit: SubmitHandler<SigninParams> = async (data) => {
-    console.log({ data });
-
-    const { session, user } = await login({
-      email: data.email,
-      password: data.password,
-    });
-    console.log({ session, user });
+    login(data);
   };
 
   return (
