@@ -8,7 +8,6 @@ import { cookies } from "next/headers";
 
 export async function login(formData: SigninParams) {
   const supabase = createClient();
-  console.log("login again");
 
   const data = {
     email: formData.email,

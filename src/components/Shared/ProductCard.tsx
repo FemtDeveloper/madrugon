@@ -3,12 +3,13 @@ import FavoriteStar from "./FavoriteStar";
 import { formatCurrency } from "@/utils";
 import Link from "next/link";
 import { CustomLabel, CustomLink } from "../Ui";
+import { createClient } from "@/utils/supabase/server";
 
 interface Props {
   product: Product;
 }
 
-const ProductCard = ({ product }: Props) => {
+const ProductCard = async ({ product }: Props) => {
   const {
     brand,
     category,

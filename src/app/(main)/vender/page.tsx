@@ -1,3 +1,4 @@
+import { AddProductForm, ImagesUpload } from "@/components/Forms";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -9,7 +10,12 @@ const SellingPage = async () => {
   if (error || !data?.user) {
     redirect("/");
   }
-  return <div></div>;
+  return (
+    <div className="w-full max-w-wrapper flex py-12">
+      <ImagesUpload />
+      <AddProductForm />
+    </div>
+  );
 };
 
 export default SellingPage;

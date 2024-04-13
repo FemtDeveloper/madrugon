@@ -13,6 +13,7 @@ interface Props {
   type?: InputType;
   id?: string;
   hasLabel?: boolean;
+  inputHeight?: number;
 }
 
 const RHFCustomInput = ({
@@ -22,6 +23,7 @@ const RHFCustomInput = ({
   type = "text",
   id,
   hasLabel = false,
+  inputHeight,
 }: Props) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(
     type === "text" ? true : false
@@ -30,13 +32,14 @@ const RHFCustomInput = ({
   const handlePasswordVisibility = () => {
     setIsPasswordVisible((prevIsVisible) => !prevIsVisible);
   };
+
   return (
     <Controller
       name={name}
       control={control}
       render={({ field }) => (
         <div className="border-neutral-400 border py-2 px-4 flex justify-between items-center rounded-xl h-14">
-          <div className="flex flex-col gap-[2px]">
+          <div className="flex flex-col gap-[2px] w-full">
             {hasLabel && (
               <label htmlFor={name} className="l2 text-neutral-500">
                 {name}
@@ -47,7 +50,9 @@ const RHFCustomInput = ({
               type={isPasswordVisible ? "text" : "password"}
               id={id}
               placeholder={placeholder}
-              className="focus-visible:outline-none"
+              className="focus-visible:outline-none w-full"
+              height={`${inputHeight}px`}
+              spellCheck={false}
             />
           </div>
           {type === "password" && (

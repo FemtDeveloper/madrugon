@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import { useShallow } from "zustand/react/shallow";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { CustomLink, RHFCustomInput } from "../Ui";
+import { CustomLink } from "../Ui";
 import { signUpNewUser } from "@/services/auth";
 import LoginHeader from "./LoginHeader";
 import { supabase } from "@/lib/supabase/client";
 import { useModalStore } from "@/stores";
+import { RHFCustomInput } from "../Inputs";
 
 const RegisterForm = () => {
   const { openModal, closeModal } = useModalStore(

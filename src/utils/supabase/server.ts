@@ -11,12 +11,9 @@ export function createClient() {
     {
       cookies: {
         get(name: string) {
-          console.log("getting cookir");
-
           return cookieStore.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
-          console.log("setting cookir");
           try {
             cookieStore.set({ name, value, ...options });
           } catch (error) {
@@ -26,8 +23,6 @@ export function createClient() {
           }
         },
         remove(name: string, options: CookieOptions) {
-          console.log("removing cookie");
-
           try {
             cookieStore.set({ name, value: "", ...options });
           } catch (error) {

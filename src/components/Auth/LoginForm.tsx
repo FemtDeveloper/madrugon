@@ -1,10 +1,11 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-import { CustomLink, RHFCustomInput } from "../Ui";
+import { CustomLink } from "../Ui";
 import LoginHeader from "./LoginHeader";
 import { useModalStore } from "@/stores";
 import { login } from "@/app/auth/actions";
+import { RHFCustomInput } from "../Inputs";
 
 const LoginForm = () => {
   const openModal = useModalStore((state) => state.openModal);
