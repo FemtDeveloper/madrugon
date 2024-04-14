@@ -10,7 +10,7 @@ export const MOCK_PRODUCT: Product = {
   description: "A beautifully crafted wooden table that fits any home.",
   brand: "WoodWorks",
   user_id: "user-uuid-here",
-  category: "nuevos",
+  category: "Jeans",
   gender: "Hombre",
   sizes: ["S"],
 };

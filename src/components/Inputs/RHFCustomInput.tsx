@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { EyeClosedIcon, EyeOpenededIcon } from "../Icons";
 
-type InputType = "text" | "password";
+type InputType = "text" | "password" | "currency";
 
 interface Props {
   name: string;
@@ -12,7 +12,7 @@ interface Props {
   placeholder: string;
   type?: InputType;
   id?: string;
-  hasLabel?: boolean;
+  label?: string;
   inputHeight?: number;
 }
 
@@ -22,11 +22,11 @@ const RHFCustomInput = ({
   placeholder,
   type = "text",
   id,
-  hasLabel = false,
+  label,
   inputHeight,
 }: Props) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(
-    type === "text" ? true : false
+    type === "password" ? false : true
   );
 
   const handlePasswordVisibility = () => {
@@ -38,22 +38,25 @@ const RHFCustomInput = ({
       name={name}
       control={control}
       render={({ field }) => (
-        <div className="border-neutral-400 border py-2 px-4 flex justify-between items-center rounded-xl h-14">
+        <div className="border-neutral-400 border py-2 px-4 flex justify-between items-center rounded-xl h-14 w-full">
           <div className="flex flex-col gap-[2px] w-full">
-            {hasLabel && (
+            {label && (
               <label htmlFor={name} className="l2 text-neutral-500">
-                {name}
+                {label}
               </label>
             )}
-            <input
-              {...field}
-              type={isPasswordVisible ? "text" : "password"}
-              id={id}
-              placeholder={placeholder}
-              className="focus-visible:outline-none w-full"
-              height={`${inputHeight}px`}
-              spellCheck={false}
-            />
+            <div className="flex gap-1">
+              {type === "currency" && <p>$</p>}
+              <input
+                {...field}
+                type={isPasswordVisible ? "text" : "password"}
+                id={id}
+                placeholder={placeholder}
+                className="focus-visible:outline-none w-full"
+                height={`${inputHeight}px`}
+                spellCheck={false}
+              />
+            </div>
           </div>
           {type === "password" && (
             <button onClick={handlePasswordVisibility}>

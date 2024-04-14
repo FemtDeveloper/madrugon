@@ -1,7 +1,7 @@
 // Interface for when creating a new product, without the 'id'
 interface CreateProductDTO {
   brand: string | null;
-  category: string | null;
+  category: Category | null;
   created_at: string; // Date string since it's timestamp with time zone
   description: string | null;
   discount_percentage: number | null;
@@ -29,3 +29,5 @@ interface UserFavorite extends UserFavoriteDto {
 }
 
 type Gender = "Hombre" | "Mujer" | "Niños/as" | "Remates";
+
+type Category = "Jeans" | "Camisetas" | "Blusas" | "Camisas" | "Shorts";

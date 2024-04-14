@@ -1,4 +1,4 @@
-export const GENDERS: Gender[] = ["Hombre", "Mujer", "Niños/as", "Remates"];
+export const GENDERS: Gender[] = ["Hombre", "Mujer", "Niños/as"];
 
 export const genderMapping: Record<Gender, string> = {
   Hombre: "Hombre",
@@ -7,4 +7,10 @@ export const genderMapping: Record<Gender, string> = {
   Remates: "Remates",
 };
 
-export const CATEGORIES = ["Jeans", "Camisetas", "Blusas", "Camisas", "Shorts"];
+export const CATEGORIES: Category[] = [
+  "Jeans",
+  "Camisetas",
+  "Blusas",
+  "Camisas",
+  "Shorts",
+];

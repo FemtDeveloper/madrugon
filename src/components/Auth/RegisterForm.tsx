@@ -35,7 +35,7 @@ const RegisterForm = () => {
       password: data.password,
     });
 
-    await supabase.from("user").insert({
+    await supabase.from("users").insert({
       email: data.email,
       id: user?.id,
       name: `${data.name} ${data.lastName}`,
@@ -83,7 +83,7 @@ const RegisterForm = () => {
           type="text"
           id="emailSignup"
           control={control}
-          hasLabel
+          label="Correo electrónico"
         />
         <RHFCustomInput
           placeholder="Contraseña"

@@ -7,7 +7,7 @@ interface Props {
   label: string;
 }
 
-const RHFRadioButtons = ({ options, control, name, label }: Props) => {
+const RHFCheckboxes = ({ options, control, name, label }: Props) => {
   return (
     <div className="flex flex-col gap-2">
       <label htmlFor={label} className="font-bold">
@@ -19,16 +19,22 @@ const RHFRadioButtons = ({ options, control, name, label }: Props) => {
             key={option}
             name={name}
             control={control}
-            render={({ field }) => (
+            render={({ field: { onChange, value } }) => (
               <div className="flex gap-2 items-center">
-                <div className="border flex justify-center items-center rounded-full w-5 h-5">
+                <div className="border flex justify-center items-center  w-5 h-5">
                   <input
-                    {...field}
-                    type="radio"
+                    type="checkbox"
                     id={option}
                     value={option}
-                    checked={field.value === option}
-                    className="appearance-none rounded-full   bg-white checked:bg-black w-3 h-3"
+                    checked={value?.includes(option)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        onChange([...value, option]);
+                      } else {
+                        onChange(value.filter((v: string) => v !== option));
+                      }
+                    }}
+                    className="appearance-none  rounded-sm  bg-white checked:bg-black w-4 h-4"
                   />
                 </div>
                 <label htmlFor={option} className="b1">
@@ -43,4 +49,4 @@ const RHFRadioButtons = ({ options, control, name, label }: Props) => {
   );
 };
 
-export default RHFRadioButtons;
+export default RHFCheckboxes;

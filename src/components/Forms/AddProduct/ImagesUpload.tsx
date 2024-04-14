@@ -2,13 +2,13 @@
 
 import { uploadImages } from "@/app/actions";
 import { PlusIcon } from "@/components/Icons";
-import { useImageStore } from "@/stores/useImageStore";
+import { useProductStore } from "@/stores/useProductStore";
 import Image from "next/image";
 import { useRef, useState } from "react";
 
 const ImagesUpload = () => {
   const [imagesToUpload, setImagesToUpload] = useState<File[]>([]);
-  const setImages = useImageStore((state) => state.setImages);
+  const setImages = useProductStore((state) => state.setImages);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const onFilesSelected = (event: React.ChangeEvent<HTMLInputElement>) => {

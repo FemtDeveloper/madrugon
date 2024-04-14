@@ -12,7 +12,7 @@ export type Database = {
       products: {
         Row: {
           brand: string | null;
-          category: string | null;
+          category: Category | null;
           created_at: string;
           description: string | null;
           discount_percentage: number | null;
@@ -28,7 +28,7 @@ export type Database = {
         };
         Insert: {
           brand?: string | null;
-          category?: string | null;
+          category?: Category | null;
           created_at?: string;
           description?: string | null;
           discount_percentage?: number | null;
@@ -43,7 +43,7 @@ export type Database = {
         };
         Update: {
           brand?: string | null;
-          category?: string | null;
+          category?: Category | null;
           created_at?: string;
           description?: string | null;
           discount_percentage?: number | null;

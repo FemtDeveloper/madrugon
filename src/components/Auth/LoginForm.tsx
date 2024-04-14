@@ -31,7 +31,7 @@ const LoginForm = () => {
             type="text"
             id="emailLogin"
             control={control}
-            hasLabel
+            label="Correo eletrónico"
           />
           <RHFCustomInput
             placeholder="Ingrese su contraseña"
@@ -39,7 +39,7 @@ const LoginForm = () => {
             id="passwordLogin"
             type="password"
             control={control}
-            hasLabel
+            label="Contraseña"
           />
         </div>
         <div className="flex justify-between text-[14px] w-full">
