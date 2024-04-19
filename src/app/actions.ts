@@ -32,3 +32,31 @@ export const uploadImages = async (files: File[]) => {
 
   return uploadedUrls;
 };
+
+export const uploadImage = async (file: File, userId: string) => {
+  const supabase = createClient();
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${file.name
+    .split(".")
+    .shift()}-${Math.random()}.${fileExt}`;
+  const { error } = await supabase.storage
+    .from("avatars")
+    .upload(fileName, file, {
+      cacheControl: "3600",
+    });
+
+  const { data } = supabase.storage.from("avatars").getPublicUrl(fileName);
+  console.log("updating", userId);
+
+  const {
+    error: errorUpdate,
+    data: dataUpdate,
+    statusText,
+  } = await supabase
+    .from("users")
+    .update({ avatar: data.publicUrl })
+    .eq("id", userId);
+  console.log({ errorUpdate, dataUpdate, statusText });
+
+  return data.publicUrl;
+};

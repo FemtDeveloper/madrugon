@@ -33,7 +33,7 @@ const BannerComponent = ({ content }: Props) => {
               {subtitleDescription}
             </h6>
           </div>
-          <CustomLink btnTitle={btnTitle} path={path} variant="large" />
+          <CustomLink btnTitle={btnTitle} path={path} size="large" />
         </div>
         <div className="rightContent flex flex-col justify-end items-center gap-2 lg:gap-10 ">
           <div className="subtitle flex flex-col justify-center gap-1 text-white rounded-3xl max-h-52 lg:p-4 lg:bg-blur">

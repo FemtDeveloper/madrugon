@@ -41,14 +41,6 @@ const AddProductForm = () => {
   const price = watch("price");
   const regular_price = watch("regular_price");
 
-  // console.log({
-  //   selectedGender,
-  //   selectedSizes,
-  //   selectedCategory,
-  //   price,
-  //   regular_price,
-  // });
-
   console.log({ errors });
 
   const onSubmit: SubmitHandler<Product> = async (data, e) => {

@@ -8,10 +8,27 @@ import SidebarMenuButton from "./SidebarMenuButton";
 import { IsoIcon } from "../Icons";
 import { useUserStore } from "@/stores";
 import { useEffect } from "react";
-import { cookies } from "next/headers";
+import Cookies from "js-cookie";
 
-const Navbar = () => {
+interface Props {
+  isAuthenticated: boolean;
+}
+
+const Navbar = ({ isAuthenticated }: Props) => {
   const { isMobile } = useResponsive();
+  const setIsAuthenticated = useUserStore((state) => state.setIsAuthenticated);
+  const setUser = useUserStore((state) => state.setUser);
+
+  useEffect(() => {
+    const user = Cookies.get("user");
+    if (user) {
+      setUser(JSON.parse(user) as User);
+    }
+  }, [setUser]);
+
+  useEffect(() => {
+    setIsAuthenticated(isAuthenticated);
+  }, [isAuthenticated, setIsAuthenticated]);
 
   return (
     <header className="w-full flex justify-center px-4 bg-white shadow-sm">

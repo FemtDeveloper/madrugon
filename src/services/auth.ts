@@ -8,13 +8,11 @@ type SignupResponse = {
 
 export const signUpNewUser = async ({
   email,
-  //   captchaToken,
   password,
 }: SigninParams): Promise<SignupResponse> => {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    // options: { captchaToken },
   });
   console.log({ data, error: error?.message });
 

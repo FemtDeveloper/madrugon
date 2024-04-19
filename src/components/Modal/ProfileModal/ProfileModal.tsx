@@ -1,16 +1,19 @@
 import { Dispatch, useEffect, useState } from "react";
 import Link from "next/link";
-import Cookies from "js-cookie";
+
 import { useUserStore } from "@/stores";
 import { logout } from "@/app/auth/actions";
+import { useShallow } from "zustand/react/shallow";
 
 interface Props {
   setisModalOpen: Dispatch<boolean>;
 }
 
 const ProfileModal = ({ setisModalOpen }: Props) => {
-  const user = useUserStore((state) => state.user);
-  const setUser = useUserStore((state) => state.setUser);
+  const { user, setUser } = useUserStore(
+    useShallow((state) => ({ user: state.user, setUser: state.setUser }))
+  );
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -20,13 +23,6 @@ const ProfileModal = ({ setisModalOpen }: Props) => {
       console.error("Error logging out:", error);
     }
   };
-
-  useEffect(() => {
-    const user = Cookies.get("user");
-    if (user) {
-      setUser(JSON.parse(user) as User);
-    }
-  }, [setUser]);
 
   return (
     <div className="md:flex flex-col gap-3 rounded-2xl p-3 bg-white absolute top-15 md:-left-52 2xl:-left-full shadow-2xl w-56">
@@ -43,12 +39,22 @@ const ProfileModal = ({ setisModalOpen }: Props) => {
           </Link>
           <Link
             href="/mis-favoritos"
-            aria-label="Enlace a mi perfil"
+            aria-label="Enlace a mis favoritos"
             className="b1 text-nowrap font-semibold bottom-2"
             onClick={() => setisModalOpen(false)}
           >
             Mis favoritos
           </Link>
+          {user.isSeller && (
+            <Link
+              href="/mis-productos"
+              aria-label="Enlace a mis productos"
+              className="b1 text-nowrap font-semibold bottom-2"
+              onClick={() => setisModalOpen(false)}
+            >
+              Mis productos
+            </Link>
+          )}
           <Link
             href="/vender"
             aria-label="Enlace a mi perfil"
@@ -61,7 +67,7 @@ const ProfileModal = ({ setisModalOpen }: Props) => {
       )}
       {user ? (
         <button
-          className="b1 text-nowrap font-semibold bottom-2 text-[#ff0000]"
+          className="b1 text-nowrap font-semibold bottom-2 text-error"
           onClick={handleLogout}
         >
           Cerrar sesión

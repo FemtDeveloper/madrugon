@@ -35,7 +35,7 @@ const ProductInfo = ({ product }: Props) => {
       <CustomLink
         path={`https://wa.me/57${3507107300}`}
         btnTitle="Contactar al vendedor"
-        variant="xLarge"
+        size="xLarge"
         otherTab
       />
       <div className="flex flex-col justify-between gap-7">

@@ -5,7 +5,8 @@ import LoadingDots from "./LoadingDots";
 interface Props {
   path?: string;
   btnTitle: string;
-  variant?: "xLarge" | "large" | "medium" | "small";
+  size?: "xLarge" | "large" | "medium" | "small";
+  variant?: "transparent" | "filled";
   type?: "button" | "link";
   btnType?: "button" | "submit" | "reset" | undefined;
   otherTab?: boolean;
@@ -16,17 +17,18 @@ interface Props {
 const CustomLink = ({
   path,
   btnTitle,
-  variant = "medium",
+  size = "medium",
   otherTab = false,
   type = "link",
   btnType = "button",
   onClick = () => null,
   loading = false,
+  variant = "filled",
 }: Props) => {
   const getWidth = () => {
-    if (variant === "xLarge") return "w-[310px]";
-    if (variant === "large") return "w-[270px]";
-    if (variant === "medium") return "w-[197px]";
+    if (size === "xLarge") return "w-[310px]";
+    if (size === "large") return "w-[270px]";
+    if (size === "medium") return "w-[197px]";
     return "w-[140px]";
   };
 
@@ -38,9 +40,12 @@ const CustomLink = ({
         type={btnType}
         onClick={onClick}
         className={clsx(
-          "rounded-full bg-title text-white py-3 lg:py-4 z-10 flex justify-center items-center px-10",
+          "rounded-full py-3 lg:py-4 z-10 flex justify-center items-center px-10",
           getWidth(),
-          variant === "large" && "b1"
+          size === "large" && "b1",
+          variant === "filled"
+            ? " bg-title text-white"
+            : "bg-white text-black border"
         )}
       >
         {loading ? <LoadingDots /> : btnTitle}
@@ -55,7 +60,10 @@ const CustomLink = ({
       className={clsx(
         "rounded-full bg-title text-white py-3 lg:py-4 z-10 flex justify-center items-center px-10",
         getWidth(),
-        variant === "large" && "b1"
+        size === "large" && "b1",
+        variant === "filled"
+          ? " bg-title text-white"
+          : "bg-white text-black border font-bold"
       )}
     >
       {btnTitle}

@@ -10,7 +10,7 @@ const MainGrid = () => {
         title="Artículos más vendidos"
       />
       <ProductGrid />
-      <CustomLink btnTitle="Ver todo" path="/todo" variant="large" />
+      <CustomLink btnTitle="Ver todo" path="/todo" size="large" />
     </section>
   );
 };

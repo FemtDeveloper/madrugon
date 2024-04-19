@@ -22,7 +22,7 @@ const MainCategoryCard = ({ content }: Props) => {
         <CustomLink
           path={`/categorias/${path}`}
           btnTitle={btnTitle}
-          variant="small"
+          size="small"
         />
       </div>
     </article>

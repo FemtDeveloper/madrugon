@@ -117,7 +117,7 @@ const RegisterForm = () => {
         type="button"
         btnType="submit"
         btnTitle="Crear cuenta"
-        variant="xLarge"
+        size="xLarge"
       />
     </form>
   );

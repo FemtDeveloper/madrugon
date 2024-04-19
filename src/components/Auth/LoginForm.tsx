@@ -59,7 +59,7 @@ const LoginForm = () => {
           type="button"
           btnType="submit"
           btnTitle="Iniciar sesíon"
-          variant="xLarge"
+          size="xLarge"
         />
         <div className="flex gap-2 text-[14px]">
           <p className="text-p-2">¿No tienes una cuenta?</p>
