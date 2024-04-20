@@ -98,6 +98,7 @@ export type Database = {
           isSeller: boolean | null;
           name: string | null;
           email: string | null;
+          phone_number: string | null;
         };
         Insert: {
           age?: number | null;
@@ -109,17 +110,17 @@ export type Database = {
           isSeller?: boolean | null;
           name?: string | null;
           email: string | null;
+          phone_number: string | null;
         };
         Update: {
           age?: number | null;
           avatar?: string | null;
           brand?: string | null;
           city?: string | null;
-          created_at?: string;
           id?: string;
           isSeller?: boolean | null;
           name?: string | null;
-          email: string | null;
+          phone_number: string | null;
         };
         Relationships: [];
       };

@@ -4,23 +4,17 @@ import Link from "next/link";
 import LoadingDots from "./LoadingDots";
 
 interface Props {
-  path?: string;
   btnTitle: string;
   size?: "xLarge" | "large" | "medium" | "small";
   variant?: "transparent" | "filled";
-  type?: "button" | "link";
   btnType?: "button" | "submit" | "reset" | undefined;
-  otherTab?: boolean;
   onClick?: () => void;
   loading?: boolean;
 }
 
-const CustomLink = ({
-  path,
+const CustomButton = ({
   btnTitle,
   size = "medium",
-  otherTab = false,
-  type = "link",
   btnType = "button",
   onClick = () => null,
   loading = false,
@@ -33,34 +27,14 @@ const CustomLink = ({
     return "w-[140px]";
   };
 
-  if (type === "button")
-    return (
-      <button
-        aria-label={`Botón que dirige a la sección ${btnTitle}`}
-        name="Botón"
-        type={btnType}
-        onClick={onClick}
-        className={clsx(
-          "rounded-full py-3 lg:py-4 z-10 flex justify-center items-center px-10 font-bold",
-          getWidth(),
-          size === "large" && "b1",
-          variant === "filled"
-            ? " bg-title text-white"
-            : "bg-white text-black border"
-        )}
-      >
-        {loading ? <LoadingDots /> : btnTitle}
-      </button>
-    );
-
   return (
-    <Link
-      href={path ?? "/"}
-      target={otherTab ? "blank_" : "_self"}
+    <button
       aria-label={`Botón que dirige a la sección ${btnTitle}`}
+      name="Botón"
+      type={btnType}
       onClick={onClick}
       className={clsx(
-        "rounded-full bg-title py-3 lg:py-4 z-10 flex justify-center items-center px-10 font-bold",
+        "rounded-full py-3 lg:py-4 z-10 flex justify-center items-center px-10 font-bold",
         getWidth(),
         size === "large" && "b1",
         variant === "filled"
@@ -68,9 +42,9 @@ const CustomLink = ({
           : "bg-white text-black border"
       )}
     >
-      {btnTitle}
-    </Link>
+      {loading ? <LoadingDots /> : btnTitle}
+    </button>
   );
 };
 
-export default CustomLink;
+export default CustomButton;

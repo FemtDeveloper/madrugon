@@ -15,7 +15,7 @@ const Modal = () => {
     <div
       className={clsx(
         " bg-blur w-dvw h-dvh z-50 top-0 flex ",
-        isModalOpen ? "absolute" : "hidden"
+        isModalOpen ? "fixed" : "hidden"
       )}
     >
       <div className="h-full flex flex-col gap-3  items-center justify-center md:gap-6 w-full md:h-1/2 md:w-1/2 bg-white rounded-2xl">

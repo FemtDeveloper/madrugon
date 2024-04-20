@@ -1,13 +1,10 @@
 "use client";
-import { useState } from "react";
 import Link from "next/link";
-import { ProfileIcon } from "../Icons";
-import { ProfileModal } from "../Modal/ProfileModal";
+import { ProfileFilledIcon, ProfileIcon } from "../Icons";
 import { useSidebarStore, useUserStore } from "@/stores";
 import { useShallow } from "zustand/react/shallow";
 
 const Profile = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const isAuthenticated = useUserStore((state) => state.isAuthenticated);
   const { setIsProfileSidebarOpen, setSidebarType } = useSidebarStore(
     useShallow((state) => ({
@@ -16,37 +13,26 @@ const Profile = () => {
     }))
   );
 
+  console.log(isAuthenticated);
+
   return (
     <div className="relative flex items-center">
       {isAuthenticated ? (
         <button
           aria-label="botón de perfil"
-          className="md:hidden"
+          className=""
           onClick={() => {
             setIsProfileSidebarOpen(true);
             setSidebarType("profile");
           }}
         >
-          <ProfileIcon />
+          <ProfileFilledIcon />
         </button>
       ) : (
-        <Link
-          aria-label="botón de perfil"
-          href="/auth/login"
-          className="md:hidden"
-        >
+        <Link aria-label="botón de perfil" href="/auth/login">
           <ProfileIcon />
         </Link>
       )}
-
-      <button
-        aria-label="botón de perfil"
-        className="hidden md:flex"
-        onClick={() => setIsModalOpen(!isModalOpen)}
-      >
-        <ProfileIcon />
-      </button>
-      {isModalOpen && <ProfileModal setisModalOpen={setIsModalOpen} />}
     </div>
   );
 };

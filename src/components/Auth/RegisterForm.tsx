@@ -4,10 +4,10 @@ import { useShallow } from "zustand/react/shallow";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { CustomLink } from "../Ui";
 import { signUpNewUser } from "@/services/auth";
-import LoginHeader from "./LoginHeader";
 import { supabase } from "@/lib/supabase/client";
 import { useModalStore } from "@/stores";
 import { RHFCustomInput } from "../Inputs";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
   const { openModal, closeModal } = useModalStore(
@@ -17,6 +17,7 @@ const RegisterForm = () => {
     }))
   );
   const [isLoading, setIsLoading] = useState(false);
+  const { replace } = useRouter();
   const { control, handleSubmit } = useForm<SignupParams>({
     defaultValues: {
       email: "",
@@ -34,20 +35,26 @@ const RegisterForm = () => {
       email: data.email,
       password: data.password,
     });
+    console.log("user auth created");
 
-    await supabase.from("users").insert({
+    const { data: dataTAble, error } = await supabase.from("users").insert({
       email: data.email,
       id: user?.id,
       name: `${data.name} ${data.lastName}`,
+      phone_number: data.phoneNumber,
     });
-    setIsLoading(false);
+
+    console.log({ dataTAble, error });
+
     openModal({
       description: "Has sido registrado exitosamente",
       title: "Registro exitoso",
     });
+    setIsLoading(false);
     setTimeout(() => {
       closeModal();
     }, 2000);
+    replace("/");
   };
 
   return (

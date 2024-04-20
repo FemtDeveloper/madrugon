@@ -2,7 +2,7 @@
 import { uploadImage } from "@/app/actions";
 import { EditImageIcon } from "@/components/Icons";
 import { useUserStore } from "@/stores";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
@@ -12,7 +12,6 @@ const Avatar = () => {
   const [avatarUrl, setAvatarUrl] = useState(
     user?.avatar ?? "/images/isoicon.png"
   );
-  console.log({ user });
 
   const handleAvatarChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && user) {

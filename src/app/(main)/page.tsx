@@ -20,7 +20,6 @@ export default function Home() {
         <MainGrid />
         <Banner content={BANNER_CONTENT} />
       </div>
-      <Modal />
     </main>
   );
 }

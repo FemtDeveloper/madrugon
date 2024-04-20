@@ -9,7 +9,7 @@ type InputType = "text" | "password" | "currency";
 interface Props {
   name: string;
   control: any;
-  placeholder: string;
+  placeholder?: string;
   type?: InputType;
   id?: string;
   label?: string;
@@ -59,7 +59,10 @@ const RHFCustomInput = ({
             </div>
           </div>
           {type === "password" && (
-            <button onClick={handlePasswordVisibility}>
+            <button
+              onClick={handlePasswordVisibility}
+              type={type === "password" ? "button" : type}
+            >
               {isPasswordVisible ? <EyeClosedIcon /> : <EyeOpenededIcon />}
             </button>
           )}
