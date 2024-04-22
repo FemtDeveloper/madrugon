@@ -13,8 +13,6 @@ const Profile = () => {
     }))
   );
 
-  console.log(isAuthenticated);
-
   return (
     <div className="relative flex items-center">
       {isAuthenticated ? (

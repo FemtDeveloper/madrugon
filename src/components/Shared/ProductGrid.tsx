@@ -3,13 +3,13 @@ import ProductCard from "./ProductCard";
 
 interface Props {
   filterWord?: string;
+  products: Product[];
 }
 
-const ProductGrid = ({ filterWord = "all" }: Props) => {
-  const productArray = Array.from({ length: 40 }, () => MOCK_PRODUCT);
+const ProductGrid = ({ filterWord = "all", products }: Props) => {
   return (
     <div className="w-full max-w-wrapper flex items-center justify-center h-full flex-wrap gap-3 lg:gap-6">
-      {productArray.map((product, index) => (
+      {products.map((product, index) => (
         <ProductCard key={index} product={product} />
       ))}
     </div>

@@ -10,7 +10,6 @@ import { useProductStore } from "@/stores/useProductStore";
 import { CATEGORIES, GENDERS } from "@/utils/menu";
 import { createClient } from "@/utils/supabase/client";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AVAILABLE_SIZES } from "../../../mocks/options";
 import { getSizes } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addProductSchema } from "./schema";
@@ -46,15 +45,15 @@ const AddProductForm = () => {
   const onSubmit: SubmitHandler<Product> = async (data, e) => {
     console.log({ data, errors });
 
-    // const supabase = createClient();
-    // e?.preventDefault();
-    // const { data: uploadDataResponse, error } = await supabase
-    //   .from("products")
-    //   .insert({ ...data, images });
-    // if (error) {
-    //   throw new Error(error.message);
-    // }
-    // console.log({ uploadDataResponse });
+    const supabase = createClient();
+    e?.preventDefault();
+    const { data: uploadDataResponse, error } = await supabase
+      .from("products")
+      .insert({ ...data, images });
+    if (error) {
+      throw new Error(error.message);
+    }
+    console.log({ uploadDataResponse });
   };
   return (
     <form
