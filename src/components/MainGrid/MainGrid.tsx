@@ -1,5 +1,4 @@
 import { MOCK_PRODUCT } from "@/mocks";
-import { StarIcon } from "../Icons";
 import { GridTitle, ProductGrid } from "../Shared";
 import { CustomLink } from "../Ui";
 

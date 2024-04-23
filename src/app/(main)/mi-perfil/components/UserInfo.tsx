@@ -17,8 +17,6 @@ const UserInfo = () => {
   );
   const [isEditing, setIsEditing] = useState(false);
 
-  console.log({ user });
-
   const {
     formState: { errors },
     handleSubmit,
@@ -36,13 +34,15 @@ const UserInfo = () => {
 
   const onSubmit = async (data: any, e: any) => {
     e.preventDefault();
+    console.log({ data });
+
     const { data: dataTAble, error } = await supabase
       .from("users")
       .update({
-        name: `${data.name} `,
+        name: `${data.name.trim()}`,
         phone_number: data.phone_number,
         brand: data.brand ?? "",
-        age: Number(data.age ?? ""),
+        age: Number(data.age),
         city: data.city ?? "",
       })
       .eq("id", user!.id);

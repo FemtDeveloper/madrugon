@@ -17,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} w-full flex justify-center`}>
+      <body
+        className={`${inter.className} w-full flex justify-center min-h-screen`}
+      >
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>

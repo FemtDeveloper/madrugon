@@ -5,15 +5,22 @@ import { CustomLink } from "../Ui";
 import LoginHeader from "./LoginHeader";
 import { login } from "@/app/auth/actions";
 import { RHFCustomInput } from "../Inputs";
+import { useMutation } from "@tanstack/react-query";
 
 const LoginForm = () => {
   const { control, handleSubmit } = useForm<SigninParams>({
     defaultValues: { email: "", password: "" },
   });
 
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["login"],
+    mutationFn: login,
+  });
+
   const onSubmit: SubmitHandler<SigninParams> = async (data) => {
-    login(data);
+    mutate(data);
   };
+  console.log({ isPending });
 
   return (
     <div className="h-full flex items-center justify-center w-full">
@@ -58,6 +65,7 @@ const LoginForm = () => {
           btnType="submit"
           btnTitle="Iniciar sesíon"
           size="xLarge"
+          loading={isPending}
         />
         <div className="flex gap-2 text-[14px]">
           <p className="text-p-2">¿No tienes una cuenta?</p>

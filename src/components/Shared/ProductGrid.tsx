@@ -1,4 +1,3 @@
-import { MOCK_PRODUCT } from "@/mocks/products";
 import ProductCard from "./ProductCard";
 
 interface Props {

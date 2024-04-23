@@ -25,7 +25,6 @@ export const addFavorite = async (productId: string, userId: string) => {
   if (error) {
     throw new Error(error.message);
   }
-  console.log({ data });
 
   return data;
 };
@@ -49,4 +48,17 @@ export const getFavoriteProducts = async (
   }
 
   return data as unknown as FavoriteProduct[];
+};
+
+export const getProductByGender = async (gender: Gender) => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .filter("gender", "eq", gender);
+
+  if (error) {
+    return null;
+  }
+  return data;
 };

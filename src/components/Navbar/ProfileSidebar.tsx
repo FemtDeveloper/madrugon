@@ -46,7 +46,7 @@ const ProfileSidebar = () => {
     >
       <div
         className={clsx(
-          "sidebar h-dvh w-full max-w-96 bg-white  top-0 z-30 p-6"
+          "sidebar h-dvh w-full max-w-[400px] bg-white  top-0 z-30 p-6"
         )}
       >
         <div className="relative h-full w-full   flex flex-col items-center gap-8">

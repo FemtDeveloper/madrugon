@@ -17,7 +17,7 @@ const FavoritosPage = async () => {
   // console.log(favoriteProducts);
 
   return (
-    <section className="flex flex-col w-full max-w-wrapper py-4">
+    <section className="flex flex-col h-full w-full max-w-wrapper py-4 gap-8">
       <h1 className="h2_bold text-start font-semibold">Mis favoritos</h1>
       {favoriteProducts ? (
         <ProductGrid

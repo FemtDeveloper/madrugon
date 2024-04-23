@@ -42,7 +42,7 @@ const ProductDetail = async ({ params }: { params: { slug: string } }) => {
           subtitle="Favoritos de la temporada"
           title="Productos recomendados"
         />
-        <ProductGrid />
+        {/* <ProductGrid /> */}
       </section>
       <Banner content={BANNER_CONTENT} />
     </div>
