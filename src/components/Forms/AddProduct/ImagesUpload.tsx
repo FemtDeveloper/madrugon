@@ -2,7 +2,9 @@
 
 import { uploadImages } from "@/app/actions";
 import { PlusIcon } from "@/components/Icons";
+import { CustomButton } from "@/components/Ui";
 import { useProductStore } from "@/stores/useProductStore";
+import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
 
@@ -10,6 +12,12 @@ const ImagesUpload = () => {
   const [imagesToUpload, setImagesToUpload] = useState<File[]>([]);
   const setImages = useProductStore((state) => state.setImages);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const handleImagesUpload = async () => {
+    const imagesUrlArray = await uploadImages(imagesToUpload);
+    setImages(imagesUrlArray);
+  };
+
+  const { mutate, isPending } = useMutation({ mutationFn: handleImagesUpload });
 
   const onFilesSelected = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -18,10 +26,6 @@ const ImagesUpload = () => {
     }
   };
 
-  const handleImagesUpload = async () => {
-    const imagesUrlArray = await uploadImages(imagesToUpload);
-    setImages(imagesUrlArray);
-  };
   return (
     <div className="flex-1 flex gap-8 flex-col">
       <button
@@ -51,7 +55,12 @@ const ImagesUpload = () => {
           />
         ))}
       </div>
-      <button onClick={handleImagesUpload}>Guardar</button>
+      <CustomButton
+        btnTitle="Guardar imágenes"
+        size="xLarge"
+        onClick={mutate}
+        loading={isPending}
+      />
     </div>
   );
 };

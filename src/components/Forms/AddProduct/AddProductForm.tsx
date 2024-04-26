@@ -13,15 +13,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { getSizes } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addProductSchema } from "./schema";
+import { useState } from "react";
 
 const AddProductForm = () => {
   const images = useProductStore((state) => state.images);
-  const {
-    control,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Product>({
+  const [isLoading, setIsLoading] = useState(false);
+  const { control, handleSubmit, watch } = useForm<Product>({
     defaultValues: {
       description: "",
       brand: "",
@@ -35,26 +32,24 @@ const AddProductForm = () => {
     resolver: zodResolver(addProductSchema),
   });
   const selectedGender = watch("gender");
-  const selectedSizes = watch("sizes");
   const selectedCategory = watch("category");
-  const price = watch("price");
-  const regular_price = watch("regular_price");
-
-  console.log({ errors });
 
   const onSubmit: SubmitHandler<Product> = async (data, e) => {
-    console.log({ data, errors });
-
+    setIsLoading(true);
     const supabase = createClient();
     e?.preventDefault();
-    const { data: uploadDataResponse, error } = await supabase
-      .from("products")
-      .insert({ ...data, images });
+    const { error } = await supabase.from("products").insert({
+      ...data,
+      images,
+      slug: data.name!.trim().toLowerCase().replaceAll(" ", "-"),
+    });
     if (error) {
       throw new Error(error.message);
     }
-    console.log({ uploadDataResponse });
+    setIsLoading(false);
   };
+  console.log({ selectedGender });
+
   return (
     <form
       className="flex flex-col gap-4 flex-1"
@@ -111,7 +106,12 @@ const AddProductForm = () => {
         )}
         label="Tallas"
       />
-      <CustomLink btnTitle="Guardar" btnType="submit" type="button" />
+      <CustomLink
+        btnTitle="Guardar"
+        btnType="submit"
+        type="button"
+        loading={isLoading}
+      />
     </form>
   );
 };

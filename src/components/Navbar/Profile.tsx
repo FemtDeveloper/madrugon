@@ -22,6 +22,7 @@ const Profile = () => {
           onClick={() => {
             setIsProfileSidebarOpen(true);
             setSidebarType("profile");
+            console.log("opening");
           }}
         >
           <ProfileFilledIcon />

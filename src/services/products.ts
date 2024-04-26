@@ -52,10 +52,25 @@ export const getFavoriteProducts = async (
 
 export const getProductByGender = async (gender: Gender) => {
   const supabase = createClient();
+  console.log({ gender });
+
   const { data, error } = await supabase
     .from("products")
     .select("*")
     .filter("gender", "eq", gender);
+
+  if (error) {
+    return null;
+  }
+  return data;
+};
+
+export const getProductsBySearch = async (searchTerm: string) => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .textSearch("name", searchTerm.split(" ").join(" or ").trim());
 
   if (error) {
     return null;

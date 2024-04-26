@@ -21,10 +21,6 @@ const ProfileSidebar = () => {
     useShallow((state) => ({ user: state.user, setUser: state.setUser }))
   );
 
-  useEffect(() => {
-    document.body.style.overflow = isProfileSidebarOpen ? "hidden" : "auto";
-  }, [isProfileSidebarOpen]);
-
   const handleLogout = async () => {
     console.log("logging out");
 
@@ -40,16 +36,17 @@ const ProfileSidebar = () => {
   return (
     <div
       className={clsx(
-        "w-screen h-screen fixed flex justify-end z-30  transition-transform  duration-300",
-        isProfileSidebarOpen ? "translate-x-0" : "translate-x-full"
+        "w-full absolute h-screen flex justify-end",
+        !isProfileSidebarOpen && "hidden"
       )}
     >
       <div
         className={clsx(
-          "sidebar h-dvh w-full max-w-[400px] bg-white  top-0 z-30 p-6"
+          "sidebar h-dvh w-full fixed max-w-[500px] bg-white transition-transform  duration-300 top-0 z-30 p-6",
+          isProfileSidebarOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
-        <div className="relative h-full w-full   flex flex-col items-center gap-8">
+        <div className="relative h-full w-full flex flex-col items-center gap-8">
           <button
             className="bg-title absolute top-0 left-0 rounded-full p-1"
             onClick={() => {
@@ -71,9 +68,21 @@ const ProfileSidebar = () => {
             <p className="h3_bold">{user?.name}</p>
             <p className="b1">{user?.brand}</p>
             {user?.isSeller && (
-              <p className="b3 bg-success py-1 px-2 rounded-xl text-white">
-                Soy vendedor
-              </p>
+              <div className="flex flex-col items-center gap-2">
+                <p className="b3 bg-success py-1 px-2 rounded-xl text-white">
+                  Soy vendedor
+                </p>
+                {user?.isSeller && (
+                  <Link
+                    href="/vender"
+                    aria-label="boton a vender"
+                    className="b1 underline font-semibold"
+                    onClick={() => setIsProfileSidebarOpen(false)}
+                  >
+                    Vender
+                  </Link>
+                )}
+              </div>
             )}
           </div>
           <div className="flex flex-col grow items-center pt-7 gap-4">
@@ -84,12 +93,14 @@ const ProfileSidebar = () => {
                 onClick={() => setIsProfileSidebarOpen(false)}
               />
             )}
+
             <CustomLink
               btnTitle="Mis favoritos"
               path="/mis-favoritos"
               variant="transparent"
               onClick={() => setIsProfileSidebarOpen(false)}
             />
+
             <Link
               href="/mi-perfil"
               aria-label="boton a mi perfil"
@@ -107,7 +118,10 @@ const ProfileSidebar = () => {
         </div>
       </div>
       <div
-        className="-z-10 absolute top-0 bg-blur w-screen h-screen opacity-50"
+        className={clsx(
+          "z-20 top-0 w-screen bg-blur h-screen transition-opacity duration-1000",
+          isProfileSidebarOpen ? "opacity-70 absolute" : "opacity-0 hidden"
+        )}
         onClick={() => setIsProfileSidebarOpen(false)}
       />
     </div>

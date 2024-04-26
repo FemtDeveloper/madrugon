@@ -48,16 +48,6 @@ const LoginForm = () => {
           />
         </div>
         <div className="flex justify-between text-[14px] w-full">
-          <div className="flex gap-2">
-            <input
-              type="checkbox"
-              id="remember"
-              className="appearance-none border-2  border-blue-500 rounded-md  bg-white checked:bg-title w-6 h-6"
-            />
-            <label htmlFor="remember" className="text-p-1">
-              Recuerdame
-            </label>
-          </div>
           <button className="underline ">Olvidé mi contraseña</button>
         </div>
         <CustomLink

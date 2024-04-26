@@ -1,5 +1,5 @@
 const ProfileFilledIcon = ({
-  size = 24,
+  size = 32,
   color = "currentCOlor",
 }: IconProps) => {
   return (
