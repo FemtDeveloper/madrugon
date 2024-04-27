@@ -1,14 +1,20 @@
 "use client";
-import Link from "next/link";
-import NavbarLinks from "./NavbarLinks";
-import { useResponsive } from "@/hooks";
-import Searchbar from "./Searchbar";
-import Profile from "./Profile";
-import SidebarMenuButton from "./SidebarMenuButton";
-import { IsoIcon } from "../Icons";
-import { useUserStore } from "@/stores";
-import { useEffect } from "react";
 import Cookies from "js-cookie";
+import Link from "next/link";
+import { useEffect } from "react";
+
+import { useResponsive } from "@/hooks";
+import { useUserStore } from "@/stores";
+
+import { IsoIcon } from "../Icons";
+
+import NavbarLinks from "./NavbarLinks";
+import Profile from "./Profile";
+import Searchbar from "./Searchbar";
+import SidebarMenuButton from "./SidebarMenuButton";
+
+
+
 
 interface Props {
   isAuthenticated: boolean;

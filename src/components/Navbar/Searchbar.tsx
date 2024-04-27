@@ -1,11 +1,15 @@
 "use client";
-import { useState, useEffect, useCallback, useMemo, ChangeEvent } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { getProductsBySearchNavbar } from "@/services/products";
 import { debounce } from "lodash";
-import { SearchIcon } from "../Icons";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { useState, useEffect, useCallback, useMemo, ChangeEvent } from "react";
+
+import { getProductsBySearchNavbar } from "@/services/products";
+
+
+import { SearchIcon } from "../Icons";
+
 
 const Searchbar = () => {
   const [searchTerm, setSearchTerm] = useState("");

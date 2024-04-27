@@ -9,7 +9,6 @@ export const uploadImages = async (files: File[]) => {
     const fileName = `${file.name
       .split(".")
       .shift()}-${Math.random()}.${fileExt}`;
-    console.log({ fileName });
 
     const { error } = await supabase.storage
       .from("products")
@@ -18,7 +17,7 @@ export const uploadImages = async (files: File[]) => {
       });
 
     if (error) {
-      console.log(error.message);
+      console.error(error.message);
 
       throw new Error("Error uploading image: " + error.message);
     }
@@ -28,7 +27,6 @@ export const uploadImages = async (files: File[]) => {
   });
 
   await Promise.all(uploadPromises);
-  console.log({ uploadedUrls });
 
   return uploadedUrls;
 };
@@ -39,11 +37,9 @@ export const uploadImage = async (file: File, userId: string) => {
   const fileName = `${file.name
     .split(".")
     .shift()}-${Math.random()}.${fileExt}`;
-  const { error } = await supabase.storage
-    .from("avatars")
-    .upload(fileName, file, {
-      cacheControl: "3600",
-    });
+  await supabase.storage.from("avatars").upload(fileName, file, {
+    cacheControl: "3600",
+  });
 
   const { data } = supabase.storage.from("avatars").getPublicUrl(fileName);
   console.log("updating", userId);

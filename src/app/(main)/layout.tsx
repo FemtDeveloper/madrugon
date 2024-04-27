@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
+
 import { Footer } from "@/components/Footer";
 import { Navbar, ProfileSidebar, PromoBanner } from "@/components/Navbar";
 import Sidebar from "@/components/Navbar/Sidebar";
 import { createClient } from "@/utils/supabase/server";
-import { Modal } from "@/components/Modal";
 
 const layout = async ({ children }: { children: ReactNode }) => {
   const supabase = createClient();

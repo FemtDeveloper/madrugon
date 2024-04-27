@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import { CustomLink } from "../Ui";
 
 interface Props {

@@ -1,6 +1,7 @@
-import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import React from "react";
+
+import { createClient } from "@/utils/supabase/server";
 
 const MisProductosPage = async () => {
   const supabase = createClient();

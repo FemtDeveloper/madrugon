@@ -1,5 +1,6 @@
-import { LoginHeader, RegisterForm } from "@/components/Auth";
 import Link from "next/link";
+
+import { LoginHeader, RegisterForm } from "@/components/Auth";
 
 const RegisterPage = () => {
   return (

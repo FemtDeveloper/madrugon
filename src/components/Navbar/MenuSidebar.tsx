@@ -1,6 +1,8 @@
-import { genderMapping, GENDERS } from "@/utils/menu";
-import { ChevronLeftIcon, ChevronRightIcon } from "../Icons";
 import { SetStateAction } from "react";
+
+import { genderMapping, GENDERS } from "@/utils/menu";
+
+import { ChevronLeftIcon, ChevronRightIcon } from "../Icons";
 
 interface Props {
   setIsSidebarOpen: () => void;

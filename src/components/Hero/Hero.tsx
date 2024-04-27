@@ -1,6 +1,7 @@
 "use client";
 import { Autoplay, EffectFade } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+
 import HeroSlide from "./HeroSlide";
 
 interface Props {

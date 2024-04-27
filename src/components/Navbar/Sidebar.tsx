@@ -1,11 +1,14 @@
 "use client";
 import clsx from "clsx";
-import { useSidebarStore } from "@/stores";
 import { useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
+
+import { useSidebarStore } from "@/stores";
+
+import { AuthMobile } from "../Auth";
+
 import CategorySidebar from "./CategorySidebar";
 import MenuSidebar from "./MenuSidebar";
-import { AuthMobile } from "../Auth";
 
 const Sidebar = () => {
   const { isSidebarOpen, sidebarType, setIsSidebarOpen } = useSidebarStore(

@@ -1,10 +1,11 @@
 "use client";
-import { uploadImage } from "@/app/actions";
-import { EditImageIcon } from "@/components/Icons";
-import { useUserStore } from "@/stores";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+
+import { uploadImage } from "@/app/actions";
+import { EditImageIcon } from "@/components/Icons";
+import { useUserStore } from "@/stores";
 
 const Avatar = () => {
   const user = useUserStore((state) => state.user);
@@ -15,10 +16,7 @@ const Avatar = () => {
 
   const handleAvatarChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && user) {
-      console.log("uploading");
-
       const url = await uploadImage(e.target.files[0], user?.id);
-      console.log({ url });
 
       setAvatarUrl(url);
     }

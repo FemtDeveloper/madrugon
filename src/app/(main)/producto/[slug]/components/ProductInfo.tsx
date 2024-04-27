@@ -1,7 +1,8 @@
-import Sizes from "./Sizes";
-import Prices from "./Prices";
 import { CustomLink } from "@/components/Ui";
+
 import Categories from "./Categories";
+import Prices from "./Prices";
+import Sizes from "./Sizes";
 
 interface Props {
   product: Product;

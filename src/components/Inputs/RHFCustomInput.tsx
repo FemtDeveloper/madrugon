@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Controller } from "react-hook-form";
+
 import { EyeClosedIcon, EyeOpenededIcon } from "../Icons";
 
 type InputType = "text" | "password" | "currency";

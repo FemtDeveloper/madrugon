@@ -1,11 +1,11 @@
 import Image from "next/image";
-import FavoriteStar from "./FavoriteStar";
-import { formatCurrency } from "@/utils";
 import Link from "next/link";
-import { CustomLabel, CustomLink } from "../Ui";
-import { createClient } from "@/utils/supabase/server";
-import { useUserStore } from "@/stores";
-import { addFavorite } from "@/services/products";
+
+import { formatCurrency } from "@/utils";
+
+import { CustomLabel } from "../Ui";
+
+import FavoriteStar from "./FavoriteStar";
 
 interface Props {
   product: Product;
@@ -14,12 +14,12 @@ interface Props {
 const ProductCard = async ({ product }: Props) => {
   const {
     brand,
-    category,
+    // category,
     name,
     images,
     price,
     regular_price,
-    discount_percentage,
+    // discount_percentage,
     slug,
     id,
   } = product;

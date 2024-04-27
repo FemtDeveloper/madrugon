@@ -1,7 +1,9 @@
 "use client";
 import { useShallow } from "zustand/react/shallow";
-import { MenuIcon } from "../Icons";
+
 import { useSidebarStore } from "@/stores";
+
+import { MenuIcon } from "../Icons";
 
 const SidebarMenuButton = () => {
   const { setIsSidebarOpen, setSidebarType } = useSidebarStore(

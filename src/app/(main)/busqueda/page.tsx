@@ -1,4 +1,5 @@
 import { getProductsByGenderAndCategory } from "@/services/products";
+
 import SearchResults from "./SearchResults";
 
 export interface SearchParams {

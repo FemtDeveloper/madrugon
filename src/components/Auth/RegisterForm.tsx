@@ -1,13 +1,15 @@
 "use client";
-import { useState } from "react";
-import { useShallow } from "zustand/react/shallow";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { CustomLink } from "../Ui";
-import { signUpNewUser } from "@/services/auth";
-import { supabase } from "@/lib/supabase/client";
-import { useModalStore } from "@/stores";
-import { RHFCustomInput } from "../Inputs";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useShallow } from "zustand/react/shallow";
+
+import { supabase } from "@/lib/supabase/client";
+import { signUpNewUser } from "@/services/auth";
+import { useModalStore } from "@/stores";
+
+import { RHFCustomInput } from "../Inputs";
+import { CustomButton } from "../Ui";
 
 const RegisterForm = () => {
   const { openModal, closeModal } = useModalStore(
@@ -119,9 +121,8 @@ const RegisterForm = () => {
           </label>
         </div>
       </div>
-      <CustomLink
+      <CustomButton
         loading={isLoading}
-        type="button"
         btnType="submit"
         btnTitle="Crear cuenta"
         size="xLarge"

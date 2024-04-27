@@ -1,8 +1,11 @@
 "use client";
 import Link from "next/link";
-import { ProfileFilledIcon, ProfileIcon } from "../Icons";
-import { useSidebarStore, useUserStore } from "@/stores";
 import { useShallow } from "zustand/react/shallow";
+
+import { useSidebarStore, useUserStore } from "@/stores";
+
+import { ProfileFilledIcon, ProfileIcon } from "../Icons";
+
 
 const Profile = () => {
   const isAuthenticated = useUserStore((state) => state.isAuthenticated);

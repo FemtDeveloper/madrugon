@@ -1,5 +1,7 @@
-import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+
+import { createClient } from "@/utils/supabase/server";
+
 import Avatar from "./components/Avatar";
 import UserInfo from "./components/UserInfo";
 

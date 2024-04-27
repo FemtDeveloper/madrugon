@@ -1,6 +1,8 @@
-import { ImageCard } from "@/interfaces/cards";
 import Image from "next/image";
 import React from "react";
+
+import { ImageCard } from "@/interfaces/cards";
+
 import { CustomLink } from "../Ui";
 
 interface Props {

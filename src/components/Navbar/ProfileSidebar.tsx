@@ -1,13 +1,14 @@
 "use client";
 import clsx from "clsx";
-import { useSidebarStore, useUserStore } from "@/stores";
-import { useEffect } from "react";
-import { useShallow } from "zustand/react/shallow";
-import { ChevronLeftIcon } from "../Icons";
 import Image from "next/image";
-import { logout } from "@/app/auth/actions";
-import { CustomLink } from "../Ui";
 import Link from "next/link";
+import { useShallow } from "zustand/react/shallow";
+
+import { logout } from "@/app/auth/actions";
+import { useSidebarStore, useUserStore } from "@/stores";
+
+import { ChevronLeftIcon } from "../Icons";
+import { CustomLink } from "../Ui";
 
 const ProfileSidebar = () => {
   const { isProfileSidebarOpen, setIsProfileSidebarOpen } = useSidebarStore(

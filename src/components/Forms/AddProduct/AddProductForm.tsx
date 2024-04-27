@@ -1,19 +1,21 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+
 import {
   RHFCheckboxes,
   RHFCustomInput,
   RHFCustomNumericInput,
   RHFRadioButtons,
 } from "@/components/Inputs";
-import { CustomLink } from "@/components/Ui";
+import { CustomButton } from "@/components/Ui";
 import { useProductStore } from "@/stores/useProductStore";
+import { getSizes } from "@/utils";
 import { CATEGORIES, GENDERS } from "@/utils/menu";
 import { createClient } from "@/utils/supabase/client";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { getSizes } from "@/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import { addProductSchema } from "./schema";
-import { useState } from "react";
 
 const AddProductForm = () => {
   const images = useProductStore((state) => state.images);
@@ -107,12 +109,7 @@ const AddProductForm = () => {
         )}
         label="Tallas"
       />
-      <CustomLink
-        btnTitle="Guardar"
-        btnType="submit"
-        type="button"
-        loading={isLoading}
-      />
+      <CustomButton btnTitle="Guardar" btnType="submit" loading={isLoading} />
     </form>
   );
 };

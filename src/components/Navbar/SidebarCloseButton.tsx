@@ -1,6 +1,8 @@
 "use client";
-import { MenuIcon } from "../Icons";
 import { useSidebarStore } from "@/stores";
+
+import { MenuIcon } from "../Icons";
+
 
 const SidebarCloseButton = () => {
   const setSidebarOpen = useSidebarStore((state) => state.setIsSidebarOpen);

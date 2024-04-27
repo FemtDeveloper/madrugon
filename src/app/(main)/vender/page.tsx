@@ -1,6 +1,7 @@
+import { redirect } from "next/navigation";
+
 import { AddProductForm, ImagesUpload } from "@/components/Forms";
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 
 const SellingPage = async () => {
   const supabase = createClient();

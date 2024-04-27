@@ -1,11 +1,12 @@
 "use client";
-import { RHFCustomInput } from "@/components/Inputs";
-import { CustomButton, CustomLink } from "@/components/Ui";
-import { supabase } from "@/lib/supabase/client";
-import { useModalStore, useUserStore } from "@/stores";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useShallow } from "zustand/react/shallow";
+
+import { RHFCustomInput } from "@/components/Inputs";
+import { CustomButton } from "@/components/Ui";
+import { supabase } from "@/lib/supabase/client";
+import { useModalStore, useUserStore } from "@/stores";
 
 const UserInfo = () => {
   const user = useUserStore((state) => state.user);
@@ -30,9 +31,8 @@ const UserInfo = () => {
 
   const onSubmit = async (data: any, e: any) => {
     e.preventDefault();
-    console.log({ data });
 
-    const { data: dataTAble, error } = await supabase
+    await supabase
       .from("users")
       .update({
         name: `${data.name.trim()}`,

@@ -1,6 +1,7 @@
 "use client";
-import { IsoIcon } from "../Icons";
 import { useResponsive } from "@/hooks";
+
+import { IsoIcon } from "../Icons";
 
 interface Props {
   title: string;

@@ -1,9 +1,9 @@
-import { Dispatch, useEffect, useState } from "react";
 import Link from "next/link";
-
-import { useUserStore } from "@/stores";
-import { logout } from "@/app/auth/actions";
+import { Dispatch } from "react";
 import { useShallow } from "zustand/react/shallow";
+
+import { logout } from "@/app/auth/actions";
+import { useUserStore } from "@/stores";
 
 interface Props {
   setisModalOpen: Dispatch<boolean>;

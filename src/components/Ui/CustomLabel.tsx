@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import Link from "next/link";
 
 interface Props {
   title: string;

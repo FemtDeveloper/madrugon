@@ -1,12 +1,13 @@
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
+import Image from "next/image";
+import { ChangeEvent, useRef, useState } from "react";
+
 import { uploadImages } from "@/app/actions";
 import { PlusIcon } from "@/components/Icons";
 import { CustomButton } from "@/components/Ui";
 import { useProductStore } from "@/stores/useProductStore";
-import { useMutation } from "@tanstack/react-query";
-import Image from "next/image";
-import { ChangeEvent, useRef, useState } from "react";
 
 const ImagesUpload = () => {
   const [imagesToUpload, setImagesToUpload] = useState<File[]>([]);

@@ -1,6 +1,6 @@
-import { Modal } from "@/components/Modal";
-import { GoBackButton } from "@/components/Ui";
 import { ReactNode } from "react";
+
+import { GoBackButton } from "@/components/Ui";
 
 const layout = ({ children }: { children: ReactNode }) => {
   return (

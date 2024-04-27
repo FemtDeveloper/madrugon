@@ -19,7 +19,7 @@ const CategoryPage = async ({ params }: { params: { category: Category } }) => {
         <ProductGrid products={products} />
       ) : (
         <div className="justify-center items-center flex">
-          <h2 className="h2">No tienes favoritos en este momento</h2>
+          <h2 className="h2">No tienes {params.category} en este momento</h2>
         </div>
       )}
     </div>

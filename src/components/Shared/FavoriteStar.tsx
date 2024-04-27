@@ -1,8 +1,11 @@
 "use client";
 import { useState } from "react";
-import { HeartIcon, HeartIconFilled } from "../Icons";
-import { useUserStore } from "@/stores";
+
 import { addFavorite } from "@/services/products";
+import { useUserStore } from "@/stores";
+
+import { HeartIcon, HeartIconFilled } from "../Icons";
+
 
 interface Props {
   productId: string;

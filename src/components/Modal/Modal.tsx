@@ -1,7 +1,10 @@
 "use client";
-import { useModalStore } from "@/stores";
+
 import clsx from "clsx";
 import { useShallow } from "zustand/react/shallow";
+
+import { useModalStore } from "@/stores";
+
 import { CustomButton } from "../Ui";
 
 const Modal = () => {

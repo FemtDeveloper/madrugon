@@ -1,11 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
-import { useModalStore } from "@/stores";
 
 export async function login(formData: SigninParams) {
   const supabase = createClient();

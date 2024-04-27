@@ -1,7 +1,6 @@
 "use client";
 import clsx from "clsx";
 import Link from "next/link";
-import LoadingDots from "./LoadingDots";
 
 interface Props {
   path?: string;
@@ -12,7 +11,6 @@ interface Props {
   btnType?: "button" | "submit" | "reset" | undefined;
   otherTab?: boolean;
   onClick?: () => void;
-  loading?: boolean;
 }
 
 const CustomLink = ({
@@ -21,7 +19,6 @@ const CustomLink = ({
   size = "medium",
   otherTab = false,
   onClick = () => null,
-  loading = false,
   variant = "filled",
 }: Props) => {
   const getWidth = () => {

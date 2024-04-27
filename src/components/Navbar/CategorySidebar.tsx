@@ -1,11 +1,13 @@
 "use client";
-import { Dispatch, useState } from "react";
-import { ChevronLeftIcon } from "../Icons";
 import clsx from "clsx";
-import { CATEGORIES } from "@/utils/menu";
-import { CustomLink } from "../Ui";
-import { useSidebarStore } from "@/stores";
 import { useRouter } from "next/navigation";
+import { Dispatch, useState } from "react";
+
+import { useSidebarStore } from "@/stores";
+import { CATEGORIES } from "@/utils/menu";
+
+import { ChevronLeftIcon } from "../Icons";
+import { CustomLink } from "../Ui";
 
 interface Props {
   isOpen: boolean;

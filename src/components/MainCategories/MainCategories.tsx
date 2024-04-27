@@ -1,8 +1,10 @@
 "use client";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import MainCategoryCard from "./MainCategoryCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+
 import { ImageCard } from "@/interfaces/cards";
+
+import MainCategoryCard from "./MainCategoryCard";
 
 const BREAKPOINTS = {
   768: {

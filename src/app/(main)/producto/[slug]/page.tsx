@@ -1,9 +1,11 @@
-import { supabase } from "@/lib/supabase/client";
-import { Gallery, ProductInfo } from "./components";
-import { getProductBySlug } from "@/services/products";
-import { GridTitle, ProductGrid } from "@/components/Shared";
 import { Banner } from "@/components/Banner";
+import { GridTitle } from "@/components/Shared";
+import { supabase } from "@/lib/supabase/client";
 import { BANNER_CONTENT } from "@/mocks";
+import { getProductBySlug } from "@/services/products";
+
+import { Gallery, ProductInfo } from "./components";
+
 
 export const revalidate = 3600;
 
