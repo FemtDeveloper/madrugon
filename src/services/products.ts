@@ -64,13 +64,44 @@ export const getProductByGender = async (gender: Gender) => {
   }
   return data;
 };
+export const getProductByCategory = async (category: Category) => {
+  const supabase = createClient();
+  console.log({ category });
 
-export const getProductsBySearch = async (searchTerm: string) => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .filter("category", "eq", category.toLowerCase());
+
+  if (error) {
+    return null;
+  }
+  return data;
+};
+
+export const getProductsBySearchNavbar = async (searchTerm: string) => {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("products")
     .select("*")
     .textSearch("name", searchTerm.split(" ").join(" or ").trim());
+
+  if (error) {
+    return null;
+  }
+  return data;
+};
+export const getProductsByGenderAndCategory = async (
+  gender: Gender,
+  categories: Category[]
+) => {
+  console.log({ categories });
+
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .in("category", categories)
+    .match({ gender });
 
   if (error) {
     return null;

@@ -19,7 +19,7 @@ const layout = async ({ children }: { children: ReactNode }) => {
       <Footer />
       <Sidebar />
       <ProfileSidebar />
-      <Modal />
+      {/* <Modal /> */}
     </div>
   );
 };

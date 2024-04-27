@@ -36,19 +36,18 @@ const ProfileSidebar = () => {
   return (
     <div
       className={clsx(
-        "w-full absolute h-screen flex justify-end",
-        !isProfileSidebarOpen && "hidden"
+        "w-full fixed h-screen flex justify-end transition-transform duration-300 z-50",
+        isProfileSidebarOpen ? "translate-x-0" : "translate-x-full"
       )}
     >
       <div
         className={clsx(
-          "sidebar h-dvh w-full fixed max-w-[500px] bg-white transition-transform  duration-300 top-0 z-30 p-6",
-          isProfileSidebarOpen ? "translate-x-0" : "translate-x-full"
+          "sidebar h-dvh w-full max-w-[500px] bg-white top-0 z-30 p-6"
         )}
       >
         <div className="relative h-full w-full flex flex-col items-center gap-8">
           <button
-            className="bg-title absolute top-0 left-0 rounded-full p-1"
+            className="bg-title absolute top-0 left-0 rounded-full p-1 hover:shadow-sm hover:shadow-black hover:-translate-y-[2px] transition duration-300"
             onClick={() => {
               console.log("logging");
 
@@ -85,11 +84,12 @@ const ProfileSidebar = () => {
               </div>
             )}
           </div>
-          <div className="flex flex-col grow items-center pt-7 gap-4">
+          <div className="flex flex-col grow items-center pt-7 gap-4 w-full">
             {user?.isSeller && (
               <CustomLink
                 btnTitle="Mis productos"
                 path="/mis-productos"
+                size="large"
                 onClick={() => setIsProfileSidebarOpen(false)}
               />
             )}
@@ -98,6 +98,7 @@ const ProfileSidebar = () => {
               btnTitle="Mis favoritos"
               path="/mis-favoritos"
               variant="transparent"
+              size="large"
               onClick={() => setIsProfileSidebarOpen(false)}
             />
 
@@ -119,7 +120,7 @@ const ProfileSidebar = () => {
       </div>
       <div
         className={clsx(
-          "z-20 top-0 w-screen bg-blur h-screen transition-opacity duration-1000",
+          "z-20 top-0 w-screen bg-blur h-screen transition duration-1000",
           isProfileSidebarOpen ? "opacity-70 absolute" : "opacity-0 hidden"
         )}
         onClick={() => setIsProfileSidebarOpen(false)}

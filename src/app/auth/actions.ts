@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
+import { useModalStore } from "@/stores";
 
 export async function login(formData: SigninParams) {
   const supabase = createClient();
@@ -14,18 +15,18 @@ export async function login(formData: SigninParams) {
     password: formData.password,
   };
 
-  const { error, data: userData } = await supabase.auth.signInWithPassword(
+  const { error, data: loginData } = await supabase.auth.signInWithPassword(
     data
   );
 
   if (error) {
-    redirect("/error");
+    throw new Error("Usuario no existe");
   }
 
   const { data: user } = await supabase
     .from("users")
     .select("*")
-    .eq("id", userData.user.id);
+    .eq("id", loginData.user!.id);
 
   if (user) {
     cookies().set("user", JSON.stringify(user[0]));

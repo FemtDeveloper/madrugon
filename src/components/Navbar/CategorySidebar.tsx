@@ -21,21 +21,28 @@ const CategorySidebar = ({ isOpen, setIsOpen, gender }: Props) => {
 
   const handleSelect = (category: string) => {
     setSelectedCategories((prevSelected) =>
-      prevSelected.includes(category)
-        ? prevSelected.filter((c) => c !== category)
-        : [...prevSelected, category]
+      prevSelected.includes(category.toLowerCase())
+        ? prevSelected.filter((c) => c !== category.toLowerCase())
+        : [...prevSelected, category.toLowerCase()]
     );
   };
 
-  const handleApply = () => {
+  const handleApply = async () => {
     setIsSidebarOpen();
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
     setIsOpen(false);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    const urlToGO = `/busqueda?genero=${gender.toLowerCase()}&categorias=${selectedCategories.join(
+      ","
+    )}`;
+
+    push(urlToGO);
+
     setSelectedCategories([]);
-    push(
-      `/busqueda?genero=${gender.toLowerCase()}&categorias=${selectedCategories.join(
-        ","
-      )}`
-    );
   };
 
   return (
@@ -59,9 +66,9 @@ const CategorySidebar = ({ isOpen, setIsOpen, gender }: Props) => {
               <p>{category}</p>
               <input
                 type="checkbox"
-                value={category}
-                checked={selectedCategories.includes(category)}
-                onChange={() => handleSelect(category)}
+                value={category.toLowerCase()}
+                checked={selectedCategories.includes(category.toLowerCase())}
+                onChange={() => handleSelect(category.toLowerCase())}
                 className="appearance-none w-4 h-4 border-2 border-blue-500 rounded-sm bg-white checked:bg-title"
               />
             </div>

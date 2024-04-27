@@ -40,6 +40,7 @@ const AddProductForm = () => {
     e?.preventDefault();
     const { error } = await supabase.from("products").insert({
       ...data,
+      category: data.category?.toLowerCase(),
       images,
       slug: data.name!.trim().toLowerCase().replaceAll(" ", "-"),
     });

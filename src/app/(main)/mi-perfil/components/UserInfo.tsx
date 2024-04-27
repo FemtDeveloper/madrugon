@@ -17,11 +17,7 @@ const UserInfo = () => {
   );
   const [isEditing, setIsEditing] = useState(false);
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    control,
-  } = useForm({
+  const { handleSubmit, control } = useForm({
     defaultValues: {
       name: user?.name ?? "",
       phone_number: user?.phone_number ?? "",
@@ -51,6 +47,7 @@ const UserInfo = () => {
     openModal({
       description: "Has Actualizado tus datos exitosamente",
       title: "Actualización exitosa",
+      onConfirm: closeModal,
     });
     setIsEditing(false);
     setTimeout(() => {
@@ -136,18 +133,10 @@ const UserInfo = () => {
               btnTitle="Cancelar"
               variant="transparent"
             />
-            <CustomButton
-              btnTitle="Guardar"
-              btnType="submit"
-              // onClick={() => setIsEditing(false)}
-            />
+            <CustomButton btnTitle="Guardar" btnType="submit" />
           </>
         ) : (
-          <CustomLink
-            onClick={() => setIsEditing(true)}
-            btnTitle="Editar"
-            type="button"
-          />
+          <CustomButton onClick={() => setIsEditing(true)} btnTitle="Editar" />
         )}
       </div>
     </form>

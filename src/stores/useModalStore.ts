@@ -3,6 +3,8 @@ import { create } from "zustand";
 interface ModalContentProps {
   title: string;
   description: string;
+  onConfirm?: Function;
+  onCancel?: Function;
 }
 
 interface ModalProps {

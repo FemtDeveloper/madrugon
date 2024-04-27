@@ -39,7 +39,7 @@ const ProductCard = async ({ product }: Props) => {
             alt={name!}
             width={286}
             height={354}
-            className="rounded-2xl lg:rounded-3xl group-hover:scale-110 object-cover transition-transform h-[420px]"
+            className="rounded-2xl lg:rounded-3xl group-hover:scale-110 object-cover transition-transform h-[240px] md:h-[420px]"
           />
 
           <div className="favorite_container absolute z-10 top-1/2 right-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">

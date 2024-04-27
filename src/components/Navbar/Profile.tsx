@@ -18,7 +18,7 @@ const Profile = () => {
       {isAuthenticated ? (
         <button
           aria-label="botón de perfil"
-          className=""
+          className="hover:shadow-sm hover:shadow-blur hover:-translate-y-[1px] transition duration-300 rounded-full"
           onClick={() => {
             setIsProfileSidebarOpen(true);
             setSidebarType("profile");
@@ -28,7 +28,11 @@ const Profile = () => {
           <ProfileFilledIcon />
         </button>
       ) : (
-        <Link aria-label="botón de perfil" href="/auth/login">
+        <Link
+          aria-label="botón de perfil"
+          href="/auth/login"
+          className="hover:shadow-sm hover:shadow-blur hover:-translate-y-[1px] transition duration-300 rounded-full"
+        >
           <ProfileIcon />
         </Link>
       )}

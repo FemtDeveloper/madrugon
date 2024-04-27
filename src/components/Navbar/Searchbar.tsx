@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback, useMemo, ChangeEvent } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { getProductsBySearch } from "@/services/products";
+import { getProductsBySearchNavbar } from "@/services/products";
 import { debounce } from "lodash";
 import { SearchIcon } from "../Icons";
 import Link from "next/link";
@@ -15,7 +15,7 @@ const Searchbar = () => {
     isError,
     error,
   } = useMutation({
-    mutationFn: () => getProductsBySearch(searchTerm),
+    mutationFn: () => getProductsBySearchNavbar(searchTerm),
   });
 
   const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {

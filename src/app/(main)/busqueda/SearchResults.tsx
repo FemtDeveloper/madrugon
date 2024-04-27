@@ -1,12 +1,21 @@
-import { useSearchParams } from "next/navigation";
+import { ProductGrid } from "@/components/Shared";
 
-const SearchResults = () => {
-  const searchParams = useSearchParams();
+interface Props {
+  products: Product[];
+}
 
-  const categories = searchParams.get("categorias")?.split(",");
-  const gender = searchParams.get("genero");
-  console.log({ categories, gender });
-  return <div></div>;
+const SearchResults = ({ products }: Props) => {
+  return (
+    <div>
+      {products?.length ? (
+        <ProductGrid products={products} />
+      ) : (
+        <div className="justify-center items-center flex">
+          <h2 className="h2">No tienes favoritos en este momento</h2>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default SearchResults;

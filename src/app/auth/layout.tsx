@@ -1,4 +1,4 @@
-import { ChevronLeftIcon } from "@/components/Icons";
+import { Modal } from "@/components/Modal";
 import { GoBackButton } from "@/components/Ui";
 import { ReactNode } from "react";
 
@@ -9,6 +9,7 @@ const layout = ({ children }: { children: ReactNode }) => {
         <GoBackButton />
         {children}
       </div>
+
       <figure className="hidden md:flex bg-primaryOrange md:w-3/5"></figure>
     </div>
   );

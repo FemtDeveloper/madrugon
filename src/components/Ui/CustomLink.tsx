@@ -20,38 +20,16 @@ const CustomLink = ({
   btnTitle,
   size = "medium",
   otherTab = false,
-  type = "link",
-  btnType = "button",
   onClick = () => null,
   loading = false,
   variant = "filled",
 }: Props) => {
   const getWidth = () => {
-    if (size === "xLarge") return "w-[310px]";
-    if (size === "large") return "w-[270px]";
-    if (size === "medium") return "w-[197px]";
+    if (size === "xLarge") return "w-[310px] py-3 px-4";
+    if (size === "large") return "w-[270px]  py-3 px-4";
+    if (size === "medium") return "w-[197px]  py-3 px-4";
     return "w-[140px]";
   };
-
-  if (type === "button")
-    return (
-      <button
-        aria-label={`Botón que dirige a la sección ${btnTitle}`}
-        name="Botón"
-        type={btnType}
-        onClick={onClick}
-        className={clsx(
-          "rounded-full py-3 lg:py-4 z-10 flex justify-center items-center px-10 font-bold",
-          getWidth(),
-          size === "large" && "b1",
-          variant === "filled"
-            ? " bg-title text-white"
-            : "bg-white text-black border"
-        )}
-      >
-        {loading ? <LoadingDots /> : btnTitle}
-      </button>
-    );
 
   return (
     <Link
@@ -60,7 +38,7 @@ const CustomLink = ({
       aria-label={`Botón que dirige a la sección ${btnTitle}`}
       onClick={onClick}
       className={clsx(
-        "rounded-full bg-title py-3 lg:py-4 z-10 flex justify-center items-center px-10 font-bold",
+        "rounded-full max-w-[310px] z-10 flex justify-center items-center px-10 font-medium hover:shadow-sm hover:shadow-black hover:-translate-y-[2px] transition duration-300",
         getWidth(),
         size === "large" && "b1",
         variant === "filled"

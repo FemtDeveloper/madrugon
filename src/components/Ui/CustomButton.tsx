@@ -1,6 +1,5 @@
 "use client";
 import clsx from "clsx";
-import Link from "next/link";
 import LoadingDots from "./LoadingDots";
 
 interface Props {
@@ -21,10 +20,10 @@ const CustomButton = ({
   variant = "filled",
 }: Props) => {
   const getWidth = () => {
-    if (size === "xLarge") return "w-[310px]";
-    if (size === "large") return "w-[270px]";
-    if (size === "medium") return "w-[197px]";
-    return "w-[140px]";
+    if (size === "xLarge") return "w-[310px] py-3 lg:py-4";
+    if (size === "large") return "w-[270px] py-3 lg:py-4";
+    if (size === "medium") return "w-[197px] py-3 lg:py-4";
+    return "w-[140px] py-2 px-3";
   };
 
   return (
@@ -34,9 +33,9 @@ const CustomButton = ({
       type={btnType}
       onClick={onClick}
       className={clsx(
-        "rounded-full py-3 lg:py-4 z-10 flex justify-center items-center px-10 font-bold",
+        "rounded-full z-10 flex justify-center items-center px-10 font-medium hover:shadow-sm hover:shadow-black hover:-translate-y-[2px] transition duration-300",
         getWidth(),
-        size === "large" && "b1",
+        (size === "large" || size === "xLarge") && "b1",
         variant === "filled"
           ? " bg-title text-white"
           : "bg-white text-black border"

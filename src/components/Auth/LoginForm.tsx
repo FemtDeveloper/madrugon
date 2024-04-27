@@ -1,18 +1,28 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-import { CustomLink } from "../Ui";
+import { CustomButton, CustomLink } from "../Ui";
 import LoginHeader from "./LoginHeader";
 import { login } from "@/app/auth/actions";
 import { RHFCustomInput } from "../Inputs";
 import { useMutation } from "@tanstack/react-query";
+import { useShallow } from "zustand/react/shallow";
+import { useModalStore } from "@/stores";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const router = useRouter();
+  const { openModal, closeModal } = useModalStore(
+    useShallow((state) => ({
+      openModal: state.openModal,
+      closeModal: state.closeModal,
+    }))
+  );
   const { control, handleSubmit } = useForm<SigninParams>({
     defaultValues: { email: "", password: "" },
   });
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, error } = useMutation({
     mutationKey: ["login"],
     mutationFn: login,
   });
@@ -20,7 +30,15 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<SigninParams> = async (data) => {
     mutate(data);
   };
-  console.log({ isPending });
+
+  if (error) {
+    openModal({
+      title: error.message,
+      description: "¡Registrate para disfrutar de nuestros beneficios!",
+      onConfirm: () => router.push("/auth/register"),
+      onCancel: closeModal,
+    });
+  }
 
   return (
     <div className="h-full flex items-center justify-center w-full">
@@ -50,8 +68,7 @@ const LoginForm = () => {
         <div className="flex justify-between text-[14px] w-full">
           <button className="underline ">Olvidé mi contraseña</button>
         </div>
-        <CustomLink
-          type="button"
+        <CustomButton
           btnType="submit"
           btnTitle="Iniciar sesíon"
           size="xLarge"
