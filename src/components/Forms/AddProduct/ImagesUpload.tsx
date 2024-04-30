@@ -9,7 +9,11 @@ import { PlusIcon } from "@/components/Icons";
 import { CustomButton } from "@/components/Ui";
 import { useProductStore } from "@/stores/useProductStore";
 
-const ImagesUpload = () => {
+interface Props {
+  images?: string[];
+}
+
+const ImagesUpload = ({ images }: Props) => {
   const [imagesToUpload, setImagesToUpload] = useState<File[]>([]);
   const setImages = useProductStore((state) => state.setImages);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -28,7 +32,7 @@ const ImagesUpload = () => {
   };
 
   return (
-    <div className="flex-1 flex gap-8 flex-col">
+    <div className="flex-1 flex gap-8 flex-col justify-between w-full">
       <button
         onClick={() => fileInputRef.current?.click()}
         className="flex justify-center items-center relative rounded-2xl border-2 p-2 max-w-52  leading-none font-semibold"

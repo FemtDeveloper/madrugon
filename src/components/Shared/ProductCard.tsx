@@ -3,10 +3,10 @@ import Link from "next/link";
 
 import { formatCurrency } from "@/utils";
 
-import { EditIcon } from "../Icons";
 import { CustomLabel } from "../Ui";
 
 import FavoriteStar from "./FavoriteStar";
+import RedirectButton from "./RedirectButton";
 
 interface Props {
   product: Product;
@@ -48,12 +48,7 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
             <CustomLabel title="Ver producto" variant="small" />
           </div>
           {isEditable && (
-            <Link
-              href={`/producto/edit/${product.id}`}
-              className="favorite_container text-xs flex gap-1 absolute z-10 top-2 left-2 opacity-100 transition-opacity duration-500 text-white font-semibold bg-black rounded-full py-1 px-2"
-            >
-              Editar <EditIcon size={16} />
-            </Link>
+            <RedirectButton url={`/producto/edit/${product.id}`} />
           )}
         </Link>
       </figure>

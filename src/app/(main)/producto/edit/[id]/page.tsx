@@ -1,3 +1,4 @@
+import { AddProductForm, ImagesUpload } from "@/components/Forms";
 import { getProductBy } from "@/services/products";
 
 const EditarProductoPorIdPage = async ({
@@ -7,7 +8,16 @@ const EditarProductoPorIdPage = async ({
 }) => {
   const product = await getProductBy("id", params.id);
 
-  return <div></div>;
+  if (!product) {
+    return null;
+  }
+
+  return (
+    <div className="w-full max-w-wrapper flex py-12">
+      <ImagesUpload />
+      <AddProductForm product={product} />
+    </div>
+  );
 };
 
 export default EditarProductoPorIdPage;

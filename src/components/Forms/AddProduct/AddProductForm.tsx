@@ -11,25 +11,29 @@ import {
 } from "@/components/Inputs";
 import { CustomButton } from "@/components/Ui";
 import { useProductStore } from "@/stores/useProductStore";
-import { getSizes } from "@/utils";
+import { capitalize, getSizes } from "@/utils";
 import { CATEGORIES, GENDERS } from "@/utils/menu";
 import { createClient } from "@/utils/supabase/client";
 
 import { addProductSchema } from "./schema";
 
-const AddProductForm = () => {
+interface Props {
+  product?: Product;
+}
+
+const AddProductForm = ({ product }: Props) => {
   const images = useProductStore((state) => state.images);
   const [isLoading, setIsLoading] = useState(false);
   const { control, handleSubmit, watch } = useForm<Product>({
     defaultValues: {
-      description: "",
-      brand: "",
-      name: "",
-      gender: "Hombre",
-      sizes: [],
-      price: null,
-      regular_price: null,
-      category: "Jeans",
+      description: product?.description ?? "",
+      brand: product?.brand ?? "",
+      name: product?.name ?? "",
+      gender: (capitalize(product?.gender ?? "") ?? "Hombre") as Gender,
+      sizes: product?.sizes ?? [],
+      price: product?.price ?? null,
+      regular_price: product?.regular_price ?? null,
+      category: (capitalize(product?.category ?? "") ?? "Jeans") as Category,
     },
     resolver: zodResolver(addProductSchema),
   });
@@ -51,7 +55,7 @@ const AddProductForm = () => {
     }
     setIsLoading(false);
   };
-  console.log({ selectedGender });
+  console.log({ selectedGender, product });
 
   return (
     <form
@@ -103,10 +107,10 @@ const AddProductForm = () => {
       <RHFCheckboxes
         control={control}
         name="sizes"
-        options={getSizes(
-          selectedGender as Gender,
-          selectedCategory as Category
-        )}
+        options={
+          product?.sizes ??
+          getSizes(selectedGender as Gender, selectedCategory as Category)
+        }
         label="Tallas"
       />
       <CustomButton btnTitle="Guardar" btnType="submit" loading={isLoading} />
