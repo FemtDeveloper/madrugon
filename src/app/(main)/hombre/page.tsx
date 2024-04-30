@@ -1,8 +1,8 @@
 import { ProductGrid } from "@/components/Shared";
-import { getProductByGender } from "@/services/products";
+import { getProductsByGender } from "@/services/products";
 
 const MenPage = async () => {
-  const products = await getProductByGender("Hombre");
+  const products = await getProductsByGender("Hombre");
 
   return (
     <section className="flex flex-col w-full gap-8 h-full max-w-wrapper p-4 xl:px-0">

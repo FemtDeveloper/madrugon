@@ -3,15 +3,17 @@ import Link from "next/link";
 
 import { formatCurrency } from "@/utils";
 
+import { EditIcon } from "../Icons";
 import { CustomLabel } from "../Ui";
 
 import FavoriteStar from "./FavoriteStar";
 
 interface Props {
   product: Product;
+  isEditable?: boolean;
 }
 
-const ProductCard = async ({ product }: Props) => {
+const ProductCard = async ({ product, isEditable = false }: Props) => {
   const {
     brand,
     // category,
@@ -45,6 +47,14 @@ const ProductCard = async ({ product }: Props) => {
           <div className="favorite_container absolute z-10 top-1/2 right-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
             <CustomLabel title="Ver producto" variant="small" />
           </div>
+          {isEditable && (
+            <Link
+              href={`/producto/edit/${product.id}`}
+              className="favorite_container text-xs flex gap-1 absolute z-10 top-2 left-2 opacity-100 transition-opacity duration-500 text-white font-semibold bg-black rounded-full py-1 px-2"
+            >
+              Editar <EditIcon size={16} />
+            </Link>
+          )}
         </Link>
       </figure>
       <div className="info_product flex flex-col items-center ">

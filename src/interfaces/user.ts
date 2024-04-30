@@ -10,3 +10,11 @@ interface User {
   email: string | null;
   phone_number: string | null;
 }
+
+interface userUpdateDTO {
+  name: string;
+  phone_number: string;
+  brand: string;
+  age: number;
+  city: string;
+}

@@ -1,11 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useShallow } from "zustand/react/shallow";
 
+import { updateUser } from "@/app/auth/actions";
 import { RHFCustomInput } from "@/components/Inputs";
 import { CustomButton } from "@/components/Ui";
-import { supabase } from "@/lib/supabase/client";
 import { useModalStore, useUserStore } from "@/stores";
 
 const UserInfo = () => {
@@ -16,9 +16,12 @@ const UserInfo = () => {
       closeModal: state.closeModal,
     }))
   );
+
+  console.log({ user });
+
   const [isEditing, setIsEditing] = useState(false);
 
-  const { handleSubmit, control } = useForm({
+  const { handleSubmit, control, reset } = useForm({
     defaultValues: {
       name: user?.name ?? "",
       phone_number: user?.phone_number ?? "",
@@ -31,18 +34,8 @@ const UserInfo = () => {
 
   const onSubmit = async (data: any, e: any) => {
     e.preventDefault();
-
-    await supabase
-      .from("users")
-      .update({
-        name: `${data.name.trim()}`,
-        phone_number: data.phone_number,
-        brand: data.brand ?? "",
-        age: Number(data.age),
-        city: data.city ?? "",
-      })
-      .eq("id", user!.id);
-    console.log("actualización exitosa");
+    if (!user) return null;
+    await updateUser(data, user?.id);
 
     openModal({
       description: "Has Actualizado tus datos exitosamente",
@@ -54,6 +47,19 @@ const UserInfo = () => {
       closeModal();
     }, 2000);
   };
+
+  useEffect(() => {
+    if (user) {
+      reset({
+        name: user.name ?? "",
+        phone_number: user.phone_number ?? "",
+        brand: user.brand ?? "",
+        age: user.age ?? "",
+        city: user.city ?? "",
+        isSeller: user.isSeller,
+      });
+    }
+  }, [user, reset]);
   return (
     <form
       className="flex flex-col gap-3 w-full"

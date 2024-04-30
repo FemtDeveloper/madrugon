@@ -1,6 +1,14 @@
 import { supabase } from "@/lib/supabase/client";
 import { createClient } from "@/utils";
 
+export const getAllProducts = async (): Promise<Product[] | null> => {
+  const { data, error } = await supabase.from("products").select("*");
+
+  if (error) {
+    return null;
+  }
+  return data;
+};
 export const getProductBySlug = async (
   slug: string
 ): Promise<Product | null> => {
@@ -8,6 +16,20 @@ export const getProductBySlug = async (
     .from("products")
     .select("*")
     .filter("slug", "eq", slug);
+
+  if (error) {
+    return null;
+  }
+  return data[0];
+};
+export const getProductBy = async (
+  term: "id" | "slug",
+  identifier: string
+): Promise<Product | null> => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .filter(term, "eq", identifier);
 
   if (error) {
     return null;
@@ -50,23 +72,21 @@ export const getFavoriteProducts = async (
   return data as unknown as FavoriteProduct[];
 };
 
-export const getProductByGender = async (gender: Gender) => {
+export const getProductsByGender = async (gender: Gender) => {
   const supabase = createClient();
-  console.log({ gender });
 
   const { data, error } = await supabase
     .from("products")
     .select("*")
-    .filter("gender", "eq", gender);
+    .filter("gender", "eq", gender.toLowerCase());
 
   if (error) {
     return null;
   }
   return data;
 };
-export const getProductByCategory = async (category: Category) => {
+export const getProductsByCategory = async (category: Category) => {
   const supabase = createClient();
-  console.log({ category });
 
   const { data, error } = await supabase
     .from("products")
@@ -95,13 +115,22 @@ export const getProductsByGenderAndCategory = async (
   gender: Gender,
   categories: Category[]
 ) => {
-  console.log({ categories });
-
   const { data, error } = await supabase
     .from("products")
     .select("*")
     .in("category", categories)
     .match({ gender });
+
+  if (error) {
+    return null;
+  }
+  return data;
+};
+export const getMyProducts = async (userId: string) => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .filter("user_id", "eq", userId);
 
   if (error) {
     return null;

@@ -1,6 +1,6 @@
 import { ProductGrid } from "@/components/Shared";
 import { supabase } from "@/lib/supabase/client";
-import { getProductByCategory } from "@/services/products";
+import { getProductsByCategory } from "@/services/products";
 
 export async function generateStaticParams() {
   const { data: products } = await supabase.from("products").select("*");
@@ -10,7 +10,7 @@ export async function generateStaticParams() {
 }
 
 const CategoryPage = async ({ params }: { params: { category: Category } }) => {
-  const products = await getProductByCategory(params.category);
+  const products = await getProductsByCategory(params.category);
 
   return (
     <div className="hfull w-full max-w-wrapper">

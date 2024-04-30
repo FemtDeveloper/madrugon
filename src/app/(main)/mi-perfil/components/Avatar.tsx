@@ -36,7 +36,7 @@ const Avatar = () => {
       <figure className="relative">
         <Image
           src={avatarUrl}
-          className="rounded-full w-40 h-40 object-cover border border-black "
+          className="rounded-full w-40 md:w-80 h-40 md:h-80 object-cover border border-black "
           alt="avatar"
           width={240}
           height={240}

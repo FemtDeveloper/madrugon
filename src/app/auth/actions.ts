@@ -4,7 +4,10 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { useUserStore } from "@/stores";
 import { createClient } from "@/utils/supabase/server";
+
+const setUser = useUserStore.getState().setUser;
 
 export async function login(formData: SigninParams) {
   const supabase = createClient();
@@ -63,3 +66,27 @@ export async function logout() {
   cookies().delete("user");
   redirect("/");
 }
+
+export const updateUser = async (userData: userUpdateDTO, userId: string) => {
+  const supabase = createClient();
+
+  const { data: userDataUpdate, error } = await supabase
+    .from("users")
+    .update({
+      name: `${userData.name.trim()}`,
+      phone_number: userData.phone_number,
+      brand: userData.brand ?? "",
+      age: Number(userData.age),
+      city: userData.city ?? "",
+    })
+    .eq("id", userId)
+    .select("*");
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  if (userDataUpdate) {
+    setUser(userDataUpdate as unknown as User);
+    cookies().set("user", JSON.stringify(userDataUpdate[0]));
+  }
+};
