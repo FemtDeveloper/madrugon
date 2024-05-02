@@ -14,7 +14,7 @@ const EditarProductoPorIdPage = async ({
 
   return (
     <div className="w-full max-w-wrapper flex py-12">
-      <ImagesUpload />
+      <ImagesUpload images={product.images ?? []} />
       <AddProductForm product={product} />
     </div>
   );

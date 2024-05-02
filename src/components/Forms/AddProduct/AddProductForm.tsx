@@ -1,7 +1,9 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useShallow } from "zustand/react/shallow";
 
 import {
   RHFCheckboxes,
@@ -10,10 +12,11 @@ import {
   RHFRadioButtons,
 } from "@/components/Inputs";
 import { CustomButton } from "@/components/Ui";
+import { addProduct, updateProduct } from "@/services/products";
+import { useModalStore } from "@/stores";
 import { useProductStore } from "@/stores/useProductStore";
 import { capitalize, getSizes } from "@/utils";
 import { CATEGORIES, GENDERS } from "@/utils/menu";
-import { createClient } from "@/utils/supabase/client";
 
 import { addProductSchema } from "./schema";
 
@@ -23,7 +26,15 @@ interface Props {
 
 const AddProductForm = ({ product }: Props) => {
   const images = useProductStore((state) => state.images);
+  const { openModal, closeModal } = useModalStore(
+    useShallow((state) => ({
+      closeModal: state.closeModal,
+      openModal: state.openModal,
+    }))
+  );
+  const pathName = usePathname();
   const [isLoading, setIsLoading] = useState(false);
+
   const { control, handleSubmit, watch } = useForm<Product>({
     defaultValues: {
       description: product?.description ?? "",
@@ -42,20 +53,19 @@ const AddProductForm = ({ product }: Props) => {
 
   const onSubmit: SubmitHandler<Product> = async (data, e) => {
     setIsLoading(true);
-    const supabase = createClient();
+
     e?.preventDefault();
-    const { error } = await supabase.from("products").insert({
-      ...data,
-      category: data.category?.toLowerCase(),
-      images,
-      slug: data.name!.trim().toLowerCase().replaceAll(" ", "-"),
-    });
-    if (error) {
-      throw new Error(error.message);
-    }
+    pathName.includes("edit")
+      ? await updateProduct(data, images, product?.id)
+      : await addProduct(data, images);
+
     setIsLoading(false);
+    openModal({
+      title: "Actualización exitosa",
+      description: "Tu producto ha sido actualizado exitosamente",
+      onConfirm: closeModal,
+    });
   };
-  console.log({ selectedGender, product });
 
   return (
     <form

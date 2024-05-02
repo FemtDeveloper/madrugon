@@ -1,5 +1,5 @@
+import CurrencyInput from "react-currency-input-field";
 import { Controller } from "react-hook-form";
-
 
 type InputType = "number" | "currency";
 
@@ -16,7 +16,6 @@ const RHFCustomNumericInput = ({
   name,
   control,
   placeholder,
-  type = "number",
   id,
   label,
 }: Props) => {
@@ -32,20 +31,17 @@ const RHFCustomNumericInput = ({
             </label>
           )}
           <div className="flex gap-1">
-            {type === "currency" && <p>$</p>}
-            <input
-              {...field}
-              type="text"
-              id={id}
+            <CurrencyInput
+              prefix="$"
+              id="validation-example-2-field"
               placeholder={placeholder}
+              allowDecimals={false}
+              value={field.value}
+              onBlur={field.onBlur}
               className="focus-visible:outline-none w-full"
-              spellCheck={false}
-              onKeyDown={(event) => {
-                if (!/[0-9,]/.test(event.key)) {
-                  event.preventDefault();
-                }
-              }}
-              // value={formatNumber(field.value)}
+              onValueChange={field.onChange}
+              groupSeparator="."
+              step={10}
             />
           </div>
         </div>

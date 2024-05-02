@@ -32,6 +32,11 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
         <div className="favorite_container absolute z-10 top-3 right-3 lg:top-4 lg:right-4">
           <FavoriteStar productId={String(id)} />
         </div>
+        {isEditable && (
+          <div className="absolute z-10 top-2 left-2">
+            <RedirectButton url={`/producto/edit/${product.id}`} />
+          </div>
+        )}
         <Link
           href={`/producto/${slug}`}
           aria-label="Enlace que dirige al producto"
@@ -47,9 +52,6 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
           <div className="favorite_container absolute z-10 top-1/2 right-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
             <CustomLabel title="Ver producto" variant="small" />
           </div>
-          {isEditable && (
-            <RedirectButton url={`/producto/edit/${product.id}`} />
-          )}
         </Link>
       </figure>
       <div className="info_product flex flex-col items-center ">

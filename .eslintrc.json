@@ -16,7 +16,7 @@
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "no-redeclare": "warn",
     "no-undef": "off",
-    "no-unused-vars": "warn",
+    "no-unused-vars": "off",
     "no-use-before-define": "off",
     "no-useless-catch": "off",
     "react-native/no-color-literals": "off",

@@ -42,17 +42,27 @@ export const uploadImage = async (file: File, userId: string) => {
   });
 
   const { data } = supabase.storage.from("avatars").getPublicUrl(fileName);
-  console.log("updating", userId);
 
-  const {
-    error: errorUpdate,
-    data: dataUpdate,
-    statusText,
-  } = await supabase
+  await supabase
     .from("users")
     .update({ avatar: data.publicUrl })
     .eq("id", userId);
-  console.log({ errorUpdate, dataUpdate, statusText });
 
   return data.publicUrl;
+};
+
+export const deleteImages = async (
+  images: string[],
+  bucket: "avatars" | "products"
+) => {
+  const supabase = createClient();
+
+  const imagesPath = images.map((image) => `${image.split("/").slice(-1)}`);
+
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .remove(imagesPath);
+
+  if (error) throw new Error(error.message);
+  return data;
 };

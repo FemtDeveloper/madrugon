@@ -15,6 +15,7 @@ interface userUpdateDTO {
   name: string;
   phone_number: string;
   brand: string;
-  age: number;
+  age: number | string;
   city: string;
+  isSeller: boolean;
 }

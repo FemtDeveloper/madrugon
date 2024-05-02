@@ -11,8 +11,12 @@ const RedirectButton = ({ url }: Props) => {
   const { push } = useRouter();
   return (
     <button
-      onClick={() => push(url)}
-      className="favorite_container text-xs flex gap-1 absolute z-10 top-2 left-2 opacity-100 transition-opacity duration-500 text-white font-semibold bg-black rounded-full py-1 px-2"
+      onClick={(e) => {
+        console.log("Redirect button clicked");
+        e.stopPropagation();
+        push(url);
+      }}
+      className="favorite_container text-xs flex gap-1 absolute  opacity-100 transition-opacity duration-500 text-white font-semibold bg-black rounded-full py-1 px-2"
     >
       Editar <EditIcon size={16} />
     </button>

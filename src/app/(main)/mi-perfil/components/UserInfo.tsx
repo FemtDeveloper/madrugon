@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useShallow } from "zustand/react/shallow";
 
 import { updateUser } from "@/app/auth/actions";
-import { RHFCustomInput } from "@/components/Inputs";
+import { RHFCustomInput, RHFRadioButtons } from "@/components/Inputs";
 import { CustomButton } from "@/components/Ui";
 import { useModalStore, useUserStore } from "@/stores";
 
@@ -17,23 +17,23 @@ const UserInfo = () => {
     }))
   );
 
-  console.log({ user });
-
   const [isEditing, setIsEditing] = useState(false);
 
-  const { handleSubmit, control, reset } = useForm({
+  const { handleSubmit, control, reset } = useForm<userUpdateDTO>({
     defaultValues: {
       name: user?.name ?? "",
       phone_number: user?.phone_number ?? "",
       brand: user?.brand ?? "",
       age: user?.age ?? "",
       city: user?.city ?? "",
-      isSeller: user?.isSeller,
+      isSeller: user?.isSeller ?? false,
     },
   });
 
-  const onSubmit = async (data: any, e: any) => {
+  const onSubmit = async (data: userUpdateDTO, e: any) => {
     e.preventDefault();
+    console.log({ data });
+
     if (!user) return null;
     await updateUser(data, user?.id);
 
@@ -56,7 +56,7 @@ const UserInfo = () => {
         brand: user.brand ?? "",
         age: user.age ?? "",
         city: user.city ?? "",
-        isSeller: user.isSeller,
+        isSeller: user.isSeller ?? false,
       });
     }
   }, [user, reset]);
@@ -125,11 +125,21 @@ const UserInfo = () => {
         </label>
         <p className="b1_bold">{user?.email ? user.email : "No informa"}</p>
       </div>
-      {user?.isSeller && (
-        <div className="flex flex-col rounded-xl">
-          <p className="b1_bold "> Soy vendedor </p>
-        </div>
-      )}
+      <div className="flex flex-col rounded-xl">
+        {isEditing ? (
+          <RHFRadioButtons
+            control={control}
+            name="isSeller"
+            options={["Soy vendedor", "No soy vendedor"]}
+            label="Soy vendedor"
+            variant="small"
+          />
+        ) : (
+          <p className="b1_bold ">
+            {user?.isSeller ? "Soy vendedor" : "No soy vendedor"}{" "}
+          </p>
+        )}
+      </div>
 
       <div className="flex w-full gap-4 my-10">
         {isEditing ? (

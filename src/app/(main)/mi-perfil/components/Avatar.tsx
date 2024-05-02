@@ -3,8 +3,8 @@ import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
-import { uploadImage } from "@/app/actions";
 import { EditImageIcon } from "@/components/Icons";
+import { uploadImage } from "@/services/images";
 import { useUserStore } from "@/stores";
 
 const Avatar = () => {
@@ -32,7 +32,7 @@ const Avatar = () => {
   }, [user]);
 
   return (
-    <div className="flex items-center justify-center w-full">
+    <div className="flex items-start justify-center w-full">
       <figure className="relative">
         <Image
           src={avatarUrl}

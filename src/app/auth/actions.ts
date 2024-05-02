@@ -78,6 +78,7 @@ export const updateUser = async (userData: userUpdateDTO, userId: string) => {
       brand: userData.brand ?? "",
       age: Number(userData.age),
       city: userData.city ?? "",
+      isSeller: userData.isSeller === ("Soy vendedor" as unknown as boolean),
     })
     .eq("id", userId)
     .select("*");

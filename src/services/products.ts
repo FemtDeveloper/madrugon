@@ -137,3 +137,37 @@ export const getMyProducts = async (userId: string) => {
   }
   return data;
 };
+
+export const addProduct = async (product: Product, images: string[]) => {
+  const supabase = createClient();
+  const { error } = await supabase.from("products").insert({
+    ...product,
+    category: product.category?.toLowerCase(),
+    images,
+    slug: product.name!.trim().toLowerCase().replaceAll(" ", "-"),
+  });
+  if (error) {
+    throw new Error(error.message);
+  }
+};
+export const updateProduct = async (
+  product: Product,
+  images: string[],
+  id?: number
+) => {
+  const supabase = createClient();
+  const { error, data } = await supabase
+    .from("products")
+    .update({
+      ...product,
+      category: product.category?.toLowerCase(),
+      slug: product.name!.trim().toLowerCase().replaceAll(" ", "-"),
+      ...(images.length > 0 && { images }),
+    })
+    .eq("id", id);
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
