@@ -17,7 +17,6 @@ const ImagesUpload = ({ images = [] }: Props) => {
   const [imagesToUpload, setImagesToUpload] = useState<File[]>([]);
   const setImages = useProductStore((state) => state.setImages);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  console.log({ images });
 
   const handleImagesUpload = async () => {
     const imagesUrlArray = await uploadImages(imagesToUpload);
@@ -42,7 +41,6 @@ const ImagesUpload = ({ images = [] }: Props) => {
   const handleRemoveImages = (index: number) => {
     setImagesToUpload((prev) => prev.filter((_, i) => i !== index));
   };
-  console.log({ imagesToUpload });
 
   return (
     <div className="flex-1 flex gap-8 flex-col justify-between w-full">

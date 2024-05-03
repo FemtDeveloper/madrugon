@@ -1,4 +1,4 @@
-const EditIcon = ({ size = 24, color = "currentCOlor" }: IconProps) => {
+const EditIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

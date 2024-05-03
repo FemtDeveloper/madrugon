@@ -23,8 +23,6 @@ const ProfileSidebar = () => {
   );
 
   const handleLogout = async () => {
-    console.log("logging out");
-
     try {
       await logout();
       setUser(null);
@@ -50,8 +48,6 @@ const ProfileSidebar = () => {
           <button
             className="bg-title absolute top-0 left-0 rounded-full p-1 hover:shadow-sm hover:shadow-black hover:-translate-y-[2px] transition duration-300"
             onClick={() => {
-              console.log("logging");
-
               setIsProfileSidebarOpen(false);
             }}
           >
@@ -65,7 +61,7 @@ const ProfileSidebar = () => {
             height={80}
           />
           <div className="flex flex-col items-center gap-2">
-            <p className="h3_bold">{user?.name}</p>
+            <p className="h3_bold text-center">{user?.name}</p>
             <p className="b1">{user?.brand}</p>
             {user?.isSeller && (
               <div className="flex flex-col items-center gap-2">

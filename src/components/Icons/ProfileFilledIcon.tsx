@@ -1,6 +1,6 @@
 const ProfileFilledIcon = ({
   size = 32,
-  color = "currentCOlor",
+  color = "currentColor",
 }: IconProps) => {
   return (
     <svg

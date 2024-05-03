@@ -1,4 +1,4 @@
-const EyeClosedIcon = ({ size = 24, color = "currentCOlor" }: IconProps) => {
+const EyeClosedIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
   return (
     <svg
       width={size}

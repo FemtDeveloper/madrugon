@@ -1,4 +1,4 @@
-const ChevronRightIcon = ({ size = 24, color = "currentCOlor" }: IconProps) => {
+const ChevronRightIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
   return (
     <svg width={size} height={size} viewBox="0 0 24 25" fill="none">
       <path

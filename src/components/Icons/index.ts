@@ -1,3 +1,4 @@
+export { default as BagIcon } from "./BagIcon";
 export { default as ChevronLeftIcon } from "./ChevronLeftIcon";
 export { default as ChevronRightIcon } from "./ChevronRightIcon";
 export { default as CloseIcon } from "./CloseIcon";
@@ -13,5 +14,7 @@ export { default as MenuIcon } from "./MenuIcon";
 export { default as PlusIcon } from "./PlusIcon";
 export { default as ProfileFilledIcon } from "./ProfileFilledIcon";
 export { default as ProfileIcon } from "./ProfileIcon";
+export { default as PromoIcon } from "./PromoIcon";
 export { default as SearchIcon } from "./SearchIcon";
 export { default as StarIcon } from "./StarIcon";
+export { default as UsersIcon } from "./UsersIcon";

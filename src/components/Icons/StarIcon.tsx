@@ -1,4 +1,4 @@
-const StarIcon = ({ size = 20, color = "currentCOlor" }: IconProps) => {
+const StarIcon = ({ size = 20, color = "currentColor" }: IconProps) => {
   return (
     <svg
       width={size}

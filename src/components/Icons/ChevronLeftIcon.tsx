@@ -1,4 +1,4 @@
-const ChevronLeftIcon = ({ size = 24, color = "currentCOlor" }: IconProps) => {
+const ChevronLeftIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
   return (
     <svg
       width={size}
