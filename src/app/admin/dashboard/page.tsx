@@ -1,5 +1,5 @@
 const page = () => {
-  return <div></div>;
+  return <div>{/* <ImageUploader /> */}</div>;
 };
 
 export default page;

@@ -100,6 +100,8 @@ export const getProductsByCategory = async (category: Category) => {
 };
 
 export const getProductsBySearchNavbar = async (searchTerm: string) => {
+  console.log({ searchTerm });
+
   const supabase = createClient();
   const { data, error } = await supabase
     .from("products")
