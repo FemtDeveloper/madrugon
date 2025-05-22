@@ -1,4 +1,5 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -11,6 +12,8 @@ import { useModalStore } from "@/stores";
 import { RHFCustomInput } from "../Inputs";
 import { CustomButton } from "../Ui";
 
+import { RegisterFormType, RegisterSchema } from "./schema";
+
 const RegisterForm = () => {
   const { openModal, closeModal } = useModalStore(
     useShallow((state) => ({
@@ -20,7 +23,8 @@ const RegisterForm = () => {
   );
   const [isLoading, setIsLoading] = useState(false);
   const { replace } = useRouter();
-  const { control, handleSubmit } = useForm<SignupParams>({
+  const { control, handleSubmit } = useForm<RegisterFormType>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -39,14 +43,14 @@ const RegisterForm = () => {
     });
     console.log("user auth created");
 
-    const { data: dataTAble, error } = await supabase.from("users").insert({
+    const { data: dataTable, error } = await supabase.from("users").insert({
       email: data.email,
       id: user?.id,
       name: `${data.name} ${data.lastName}`,
       phone_number: data.phoneNumber,
     });
 
-    console.log({ dataTAble, error });
+    console.log({ dataTable, error });
 
     openModal({
       description: "Has sido registrado exitosamente",

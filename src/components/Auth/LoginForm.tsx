@@ -69,7 +69,9 @@ const LoginForm = () => {
           />
         </div>
         <div className="flex justify-between text-[14px] w-full">
-          <button className="underline ">Olvidé mi contraseña</button>
+          <button className="underline" type="button">
+            Olvidé mi contraseña
+          </button>
         </div>
         <CustomButton
           btnType="submit"
