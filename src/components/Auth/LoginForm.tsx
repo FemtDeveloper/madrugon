@@ -1,16 +1,18 @@
 "use client";
 
-import { SubmitHandler, useForm } from "react-hook-form";
-
-import { CustomButton } from "../Ui";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
-import LoginHeader from "./LoginHeader";
-import { RHFCustomInput } from "../Inputs";
+import { useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useShallow } from "zustand/react/shallow";
+
 import { loginUser } from "@/services/auth/login";
 import { useModalStore } from "@/stores";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useShallow } from "zustand/react/shallow";
+
+import { RHFCustomInput } from "../Inputs";
+import { CustomButton } from "../Ui";
+
+import LoginHeader from "./LoginHeader";
 
 const LoginForm = () => {
   const router = useRouter();

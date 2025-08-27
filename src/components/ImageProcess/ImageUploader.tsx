@@ -1,8 +1,5 @@
 "use client";
-
 import { FC, useState } from "react";
-
-import Image from "next/image";
 
 const ImageUploader: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -45,12 +42,8 @@ const ImageUploader: FC = () => {
       {processedImage && (
         <div>
           <h2>Processed Image</h2>
-          <Image
-            src={processedImage}
-            alt="Processed"
-            width={400}
-            height={300}
-          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={processedImage} alt="Processed" />
         </div>
       )}
     </div>

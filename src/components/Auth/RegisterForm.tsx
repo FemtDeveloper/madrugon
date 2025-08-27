@@ -1,16 +1,18 @@
 "use client";
 
-import { RegisterFormType, RegisterSchema } from "./schema";
-
-import { CustomButton } from "../Ui";
-import { RHFCustomInput } from "../Inputs";
-import { signUpNewUser } from "@/services/auth";
-import { useForm } from "react-hook-form";
-import { useModalStore } from "@/stores";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { useShallow } from "zustand/react/shallow";
-import { zodResolver } from "@hookform/resolvers/zod";
+
+import { signUpNewUser } from "@/services/auth";
+import { useModalStore } from "@/stores";
+
+import { RHFCustomInput } from "../Inputs";
+import { CustomButton } from "../Ui";
+
+import { RegisterFormType, RegisterSchema } from "./schema";
 
 const RegisterForm = () => {
   const { openModal, closeModal } = useModalStore(
