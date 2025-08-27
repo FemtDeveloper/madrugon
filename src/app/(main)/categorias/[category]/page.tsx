@@ -1,16 +1,24 @@
 import { ProductGrid } from "@/components/Shared";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { getProductsByCategory } from "@/services/products";
+import type { Database } from "../../../../../database.types";
 
-export async function generateStaticParams() {
+type CategoryParam = { category: string };
+
+export async function generateStaticParams(): Promise<CategoryParam[]> {
   try {
     const supabase = createSupabaseClient();
-    const { data: categories } = await supabase
+    const { data } = await supabase
       .from("categories")
       .select("slug")
       .eq("is_active", true);
 
-    if (!categories) return [];
+    // Ensure strong typing of the selected shape to avoid `never` inference
+    const categories = (data ?? []) as Array<
+      Pick<Database["public"]["Tables"]["categories"]["Row"], "slug">
+    >;
+
+    if (!categories?.length) return [];
     return categories.map((c) => ({ category: c.slug }));
   } catch (err) {
     // Log and return empty list so build can continue when fetch fails
@@ -22,12 +30,10 @@ export async function generateStaticParams() {
 const CategoryPage = async ({
   params,
 }: {
-  params: Promise<{ category: Category }>;
+  params: Promise<{ category: string }>;
 }) => {
-  // Next's generated PageProps expects `params` to be a Promise when the page
-  // component is async. Await it here and use the resolved value.
   const resolved = await params;
-  const products = await getProductsByCategory(resolved.category);
+  const products = await getProductsByCategory(resolved.category as Category);
 
   return (
     <div className="hfull w-full max-w-wrapper">
