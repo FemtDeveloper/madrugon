@@ -1,31 +1,31 @@
+import { Gallery, ProductInfo } from "./components";
 
-import { BANNER_CONTENT } from "@/mocks";
 import { Banner } from "@/components/Banner";
 import { GridTitle } from "@/components/Shared";
 import { createSupabaseClient } from "@/lib/supabase/client";
+import { BANNER_CONTENT } from "@/mocks";
 import { getProductBySlug } from "@/services/products";
-
-import { Gallery, ProductInfo } from "./components";
+import type { Database } from "../../../../../database.types";
 
 export const revalidate = 3600;
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
   try {
     const supabase = createSupabaseClient();
-    const { data, error } = await supabase.from("products").select("*");
+    const { data, error } = await supabase.from("products").select("slug");
 
     if (error) {
       console.error("Error fetching products:", error);
       return [];
     }
 
-    if (!data) {
-      return [];
-    }
+    const products = (data ?? []) as Array<
+      Pick<Database["public"]["Tables"]["products"]["Row"], "slug">
+    >;
 
-    return data.map((product) => ({
-      slug: product.slug,
-    }));
+    if (!products.length) return [];
+
+    return products.map((p) => ({ slug: p.slug }));
   } catch (err) {
     console.error("generateStaticParams (products) failed:", err);
     return [];
