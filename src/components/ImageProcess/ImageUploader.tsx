@@ -1,5 +1,8 @@
 "use client";
+
 import { FC, useState } from "react";
+
+import Image from "next/image";
 
 const ImageUploader: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -42,7 +45,12 @@ const ImageUploader: FC = () => {
       {processedImage && (
         <div>
           <h2>Processed Image</h2>
-          <img src={processedImage} alt="Processed" />
+          <Image
+            src={processedImage}
+            alt="Processed"
+            width={400}
+            height={300}
+          />
         </div>
       )}
     </div>

@@ -24,7 +24,11 @@ const LoginForm = () => {
     defaultValues: { email: "", password: "" },
   });
 
-  const { mutate, isPending, error } = useMutation({
+  const {
+    mutate,
+    isPending,
+    error: _error,
+  } = useMutation({
     mutationKey: ["login"],
     mutationFn: async (data: SigninParams) => {
       const { user, error: loginError } = await loginUser(data);

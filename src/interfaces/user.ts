@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 interface User {
   age: number | null;
   avatar: string | null;
@@ -19,3 +20,4 @@ interface userUpdateDTO {
   city: string;
   isSeller: boolean;
 }
+/* eslint-enable unused-imports/no-unused-vars */

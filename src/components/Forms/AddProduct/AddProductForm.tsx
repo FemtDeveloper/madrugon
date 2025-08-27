@@ -1,5 +1,12 @@
 "use client";
 
+import { SubmitHandler, useForm } from "react-hook-form";
+import { usePathname } from "next/navigation";
+import { useShallow } from "zustand/react/shallow";
+import { useState } from "react";
+import type { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { CATEGORIES, GENDERS } from "@/utils/menu";
 import {
   RHFCheckboxes,
@@ -7,19 +14,15 @@ import {
   RHFCustomNumericInput,
   RHFRadioButtons,
 } from "@/components/Inputs";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { addProduct, updateProduct } from "@/services/products";
 import { capitalize, getSizes } from "@/utils";
-
 import { CustomButton } from "@/components/Ui";
-import { addProductSchema } from "./schema";
 import { useModalStore } from "@/stores";
-import { usePathname } from "next/navigation";
 import { useProductStore } from "@/stores/useProductStore";
-import { useShallow } from "zustand/react/shallow";
-import { useState } from "react";
-import type { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+
+import { addProductSchema } from "./schema";
+
+
 
 type FormData = z.infer<typeof addProductSchema>;
 

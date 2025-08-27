@@ -1,7 +1,8 @@
+import { redirect } from "next/navigation";
+
 import { ProductGrid } from "@/components/Shared";
 import { createClient } from "@/utils/supabase/server";
 import { getFavoriteProducts } from "@/services/products";
-import { redirect } from "next/navigation";
 
 const FavoritosPage = async () => {
   const supabase = await createClient();

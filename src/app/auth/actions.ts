@@ -1,9 +1,10 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+
+import { createClient } from "@/utils/supabase/server";
 import { useUserStore } from "@/stores";
 
 const setUser = useUserStore.getState().setUser;

@@ -1,6 +1,8 @@
-import { AdminNavbar } from "./components/Navbar";
-import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+
+import { createClient } from "@/utils/supabase/server";
+
+import { AdminNavbar } from "./components/Navbar";
 
 const layout = async ({
   children,

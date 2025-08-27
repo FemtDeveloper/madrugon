@@ -23,7 +23,7 @@ const RegisterForm = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: _errors },
   } = useForm<RegisterFormType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -36,7 +36,11 @@ const RegisterForm = () => {
   });
   // errors available in formState.errors if needed during development
 
-  const { mutate, isPending, error } = useMutation({
+  const {
+    mutate,
+    isPending,
+    error: _error,
+  } = useMutation({
     mutationKey: ["register"],
     mutationFn: async (data: RegisterFormType) => {
       const { user, error: registerError } = await signUpNewUser({

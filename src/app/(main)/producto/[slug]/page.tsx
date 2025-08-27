@@ -1,10 +1,11 @@
-import { Gallery, ProductInfo } from "./components";
 
 import { BANNER_CONTENT } from "@/mocks";
 import { Banner } from "@/components/Banner";
 import { GridTitle } from "@/components/Shared";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { getProductBySlug } from "@/services/products";
+
+import { Gallery, ProductInfo } from "./components";
 
 export const revalidate = 3600;
 

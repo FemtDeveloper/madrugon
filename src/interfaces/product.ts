@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 // Interface for when creating a new product, without the 'id'
 interface CreateProductDTO {
   brand: string | null;
@@ -36,3 +37,4 @@ interface UserFavorite extends UserFavoriteDto {
 type Gender = "Hombre" | "Mujer" | "Niños/as" | "Remates";
 
 type Category = "Jeans" | "Camisetas" | "Blusas" | "Camisas" | "Shorts";
+/* eslint-enable unused-imports/no-unused-vars */

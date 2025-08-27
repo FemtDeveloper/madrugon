@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 interface IconProps {
     color?: string
     size?: number | string
@@ -5,3 +6,4 @@ interface IconProps {
     height?: number | string
     isHovered?: boolean
 }
+/* eslint-enable unused-imports/no-unused-vars */

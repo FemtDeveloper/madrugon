@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 interface SignupParams {
   email: string;
   password: string;
@@ -9,3 +10,4 @@ interface SigninParams {
   email: string;
   password: string;
 }
+/* eslint-enable unused-imports/no-unused-vars */

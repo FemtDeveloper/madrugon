@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "fix:imports": "eslint --ext .ts,.tsx src --config .eslintrc.cjs --fix || true",
+    "prebuild": "yarn fix:imports",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

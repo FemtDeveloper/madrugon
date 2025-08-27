@@ -1,13 +1,14 @@
 "use client";
 
-import { RHFCustomInput, RHFRadioButtons } from "@/components/Inputs";
 import { useEffect, useState } from "react";
-import { useModalStore, useUserStore } from "@/stores";
-
-import { CustomButton } from "@/components/Ui";
-import { updateUser } from "@/app/auth/actions";
 import { useForm } from "react-hook-form";
 import { useShallow } from "zustand/react/shallow";
+
+import { RHFCustomInput, RHFRadioButtons } from "@/components/Inputs";
+import { useModalStore, useUserStore } from "@/stores";
+import { CustomButton } from "@/components/Ui";
+import { updateUser } from "@/app/auth/actions";
+
 
 const UserInfo = () => {
   const user = useUserStore((state) => state.user);
