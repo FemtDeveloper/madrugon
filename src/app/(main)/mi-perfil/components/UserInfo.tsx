@@ -1,12 +1,13 @@
 "use client";
+
+import { RHFCustomInput, RHFRadioButtons } from "@/components/Inputs";
 import { useEffect, useState } from "react";
+import { useModalStore, useUserStore } from "@/stores";
+
+import { CustomButton } from "@/components/Ui";
+import { updateUser } from "@/app/auth/actions";
 import { useForm } from "react-hook-form";
 import { useShallow } from "zustand/react/shallow";
-
-import { updateUser } from "@/app/auth/actions";
-import { RHFCustomInput, RHFRadioButtons } from "@/components/Inputs";
-import { CustomButton } from "@/components/Ui";
-import { useModalStore, useUserStore } from "@/stores";
 
 const UserInfo = () => {
   const user = useUserStore((state) => state.user);
@@ -16,6 +17,9 @@ const UserInfo = () => {
       closeModal: state.closeModal,
     }))
   );
+
+  // user state available for form; avoid logging in production
+  // ...existing code...
 
   const [isEditing, setIsEditing] = useState(false);
 

@@ -1,16 +1,15 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-
-import { useUserStore } from "@/stores";
 import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { useUserStore } from "@/stores";
 
 const setUser = useUserStore.getState().setUser;
 
 export async function login(formData: SigninParams) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const data = {
     email: formData.email,
@@ -31,7 +30,8 @@ export async function login(formData: SigninParams) {
     .eq("id", loginData.user!.id);
 
   if (user) {
-    cookies().set("user", JSON.stringify(user[0]));
+    const cookieStore = await cookies();
+    cookieStore.set("user", JSON.stringify(user[0]));
   }
 
   revalidatePath("/", "layout");
@@ -39,7 +39,7 @@ export async function login(formData: SigninParams) {
 }
 
 export async function signup(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
@@ -56,19 +56,20 @@ export async function signup(formData: FormData) {
 }
 
 export async function logout() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { error } = await supabase.auth.signOut();
   if (error) {
     redirect("/error");
   }
 
   revalidatePath("/", "layout");
-  cookies().delete("user");
+  const cookieStore = await cookies();
+  cookieStore.delete("user");
   redirect("/");
 }
 
 export const updateUser = async (userData: userUpdateDTO, userId: string) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: userDataUpdate, error } = await supabase
     .from("users")
@@ -88,6 +89,7 @@ export const updateUser = async (userData: userUpdateDTO, userId: string) => {
   }
   if (userDataUpdate) {
     setUser(userDataUpdate as unknown as User);
-    cookies().set("user", JSON.stringify(userDataUpdate[0]));
+    const cookieStore2 = await cookies();
+    cookieStore2.set("user", JSON.stringify(userDataUpdate[0]));
   }
 };

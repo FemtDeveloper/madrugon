@@ -6,8 +6,7 @@ import Sidebar from "@/components/Navbar/Sidebar";
 import { createClient } from "@/utils/supabase/server";
 
 const layout = async ({ children }: { children: ReactNode }) => {
-  const supabase = createClient();
-
+  const supabase = await createClient();
   const user = await supabase.auth.getUser();
   return (
     <div className="w-full flex flex-col min-h-screen items-center justify-between">

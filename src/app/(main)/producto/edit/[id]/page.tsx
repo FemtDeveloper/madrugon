@@ -1,12 +1,14 @@
 import { AddProductForm, ImagesUpload } from "@/components/Forms";
+
 import { getProductBy } from "@/services/products";
 
 const EditarProductoPorIdPage = async ({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) => {
-  const product = await getProductBy("id", params.id);
+  const resolved = await params;
+  const product = await getProductBy("id", resolved.id);
 
   if (!product) {
     return null;

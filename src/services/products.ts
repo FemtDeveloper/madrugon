@@ -1,7 +1,7 @@
-import { supabase } from "@/lib/supabase/client";
 import { createClient } from "@/utils";
 
 export const getAllProducts = async (): Promise<Product[] | null> => {
+    const supabase = createClient();
   const { data, error } = await supabase.from("products").select("*");
 
   if (error) {
@@ -12,6 +12,7 @@ export const getAllProducts = async (): Promise<Product[] | null> => {
 export const getProductBySlug = async (
   slug: string
 ): Promise<Product | null> => {
+    const supabase = createClient();
   const { data, error } = await supabase
     .from("products")
     .select("*")
@@ -26,6 +27,7 @@ export const getProductBy = async (
   term: "id" | "slug",
   identifier: string
 ): Promise<Product | null> => {
+    const supabase = createClient();
   const { data, error } = await supabase
     .from("products")
     .select("*")
@@ -117,6 +119,7 @@ export const getProductsByGenderAndCategory = async (
   gender: Gender,
   categories: Category[]
 ) => {
+    const supabase = createClient();
   const { data, error } = await supabase
     .from("products")
     .select("*")
@@ -129,6 +132,7 @@ export const getProductsByGenderAndCategory = async (
   return data;
 };
 export const getMyProducts = async (userId: string) => {
+    const supabase = createClient();
   const { data, error } = await supabase
     .from("products")
     .select("*")

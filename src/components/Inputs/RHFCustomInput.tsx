@@ -38,7 +38,8 @@ const RHFCustomInput = ({
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field, fieldState:{error} }) => (
+        <div className="flex flex-col gap-1 items-end">
         <div className="border-neutral-400 border py-2 px-4 flex justify-between items-center rounded-xl h-14 w-full">
           <div className="flex flex-col gap-[2px] w-full">
             {label && (
@@ -67,6 +68,8 @@ const RHFCustomInput = ({
               {isPasswordVisible ? <EyeClosedIcon /> : <EyeOpenededIcon />}
             </button>
           )}
+        </div>
+          {error && <span className="text-error text-xs">{error.message}</span>}
         </div>
       )}
     />

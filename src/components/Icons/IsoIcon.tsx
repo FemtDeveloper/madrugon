@@ -1,7 +1,7 @@
 const IsoIcon = ({
   width = 43,
   height = 32,
-  color = "currentColor",
+  color: _color = "currentColor",
 }: IconProps) => {
   return (
     <svg

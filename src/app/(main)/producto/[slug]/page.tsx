@@ -1,33 +1,43 @@
-import { Banner } from "@/components/Banner";
-import { GridTitle } from "@/components/Shared";
-import { supabase } from "@/lib/supabase/client";
-import { BANNER_CONTENT } from "@/mocks";
-import { getProductBySlug } from "@/services/products";
-
 import { Gallery, ProductInfo } from "./components";
 
+import { BANNER_CONTENT } from "@/mocks";
+import { Banner } from "@/components/Banner";
+import { GridTitle } from "@/components/Shared";
+import { createSupabaseClient } from "@/lib/supabase/client";
+import { getProductBySlug } from "@/services/products";
 
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const { data, error } = await supabase.from("products").select("*");
+  try {
+    const supabase = createSupabaseClient();
+    const { data, error } = await supabase.from("products").select("*");
 
-  if (error) {
-    console.error("Error fetching products:", error);
+    if (error) {
+      console.error("Error fetching products:", error);
+      return [];
+    }
+
+    if (!data) {
+      return [];
+    }
+
+    return data.map((product) => ({
+      slug: product.slug,
+    }));
+  } catch (err) {
+    console.error("generateStaticParams (products) failed:", err);
     return [];
   }
-
-  if (!data) {
-    return [];
-  }
-
-  return data.map((product) => ({
-    slug: product.slug,
-  }));
 }
 
-const ProductDetail = async ({ params }: { params: { slug: string } }) => {
-  const product = await getProductBySlug(params.slug);
+const ProductDetail = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
+  const resolved = await params;
+  const product = await getProductBySlug(resolved.slug);
 
   if (!product) return <h1>Loading</h1>;
 

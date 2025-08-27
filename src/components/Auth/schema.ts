@@ -21,7 +21,7 @@ export const RegisterSchema = z.object({
     .min(8, { message: "La contraseña debe tener al menos 8 caracteres" })
     .max(20, { message: "La contraseña debe tener menos de 20 caracteres" }),
   confirmPassword: z
-    .string()
+    .string({ message: "Este campo es requerido" })
     .min(1, { message: "Confirmar contraseña es requerido" }),
 });
 

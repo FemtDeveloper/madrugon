@@ -1,17 +1,16 @@
 "use client";
-import { useMutation } from "@tanstack/react-query";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useShallow } from "zustand/react/shallow";
 
-import { login } from "@/app/auth/actions";
-import { useModalStore } from "@/stores";
-
-import { RHFCustomInput } from "../Inputs";
 import { CustomButton } from "../Ui";
-
+import Link from "next/link";
 import LoginHeader from "./LoginHeader";
+import { RHFCustomInput } from "../Inputs";
+import { loginUser } from "@/services/auth/login";
+import { useModalStore } from "@/stores";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useShallow } from "zustand/react/shallow";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -27,21 +26,29 @@ const LoginForm = () => {
 
   const { mutate, isPending, error } = useMutation({
     mutationKey: ["login"],
-    mutationFn: login,
+    mutationFn: async (data: SigninParams) => {
+      const { user, error: loginError } = await loginUser(data);
+      if (loginError || !user)
+        throw new Error(loginError?.message || "Credenciales inválidas");
+      // Optionally, set user in zustand store or cookies here
+      return user;
+    },
+    onSuccess: () => {
+      router.replace("/");
+    },
+    onError: (err: any) => {
+      openModal({
+        title: err.message || "Error al iniciar sesión",
+        description: "¡Registrate para disfrutar de nuestros beneficios!",
+        onConfirm: () => router.push("/auth/register"),
+        onCancel: closeModal,
+      });
+    },
   });
 
-  const onSubmit: SubmitHandler<SigninParams> = async (data) => {
+  const onSubmit: SubmitHandler<SigninParams> = (data) => {
     mutate(data);
   };
-
-  if (error) {
-    openModal({
-      title: error.message,
-      description: "¡Registrate para disfrutar de nuestros beneficios!",
-      onConfirm: () => router.push("/auth/register"),
-      onCancel: closeModal,
-    });
-  }
 
   return (
     <div className="h-full flex items-center justify-center w-full">

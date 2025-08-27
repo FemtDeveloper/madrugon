@@ -1,10 +1,10 @@
+import { AddProductForm, ImagesUpload } from "@/components/Forms";
+
+import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
-import { AddProductForm, ImagesUpload } from "@/components/Forms";
-import { createClient } from "@/utils/supabase/server";
-
 const SellingPage = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase.auth.getUser();
 

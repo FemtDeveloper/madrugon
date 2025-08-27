@@ -1,11 +1,10 @@
+import { ProductGrid } from "@/components/Shared";
+import { createClient } from "@/utils/supabase/server";
+import { getMyProducts } from "@/services/products";
 import { redirect } from "next/navigation";
 
-import { ProductGrid } from "@/components/Shared";
-import { getMyProducts } from "@/services/products";
-import { createClient } from "@/utils/supabase/server";
-
 const MisProductosPage = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase.auth.getUser();
 

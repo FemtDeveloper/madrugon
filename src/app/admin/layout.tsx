@@ -1,15 +1,13 @@
-import { redirect } from "next/navigation";
-
-import { createClient } from "@/utils/supabase/server";
-
 import { AdminNavbar } from "./components/Navbar";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 const layout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

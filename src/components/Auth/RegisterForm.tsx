@@ -1,18 +1,16 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useShallow } from "zustand/react/shallow";
-
-import { supabase } from "@/lib/supabase/client";
-import { signUpNewUser } from "@/services/auth";
-import { useModalStore } from "@/stores";
-
-import { RHFCustomInput } from "../Inputs";
-import { CustomButton } from "../Ui";
 
 import { RegisterFormType, RegisterSchema } from "./schema";
+
+import { CustomButton } from "../Ui";
+import { RHFCustomInput } from "../Inputs";
+import { signUpNewUser } from "@/services/auth";
+import { useForm } from "react-hook-form";
+import { useModalStore } from "@/stores";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useShallow } from "zustand/react/shallow";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const RegisterForm = () => {
   const { openModal, closeModal } = useModalStore(
@@ -21,9 +19,12 @@ const RegisterForm = () => {
       closeModal: state.closeModal,
     }))
   );
-  const [isLoading, setIsLoading] = useState(false);
   const { replace } = useRouter();
-  const { control, handleSubmit } = useForm<RegisterFormType>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
@@ -33,34 +34,47 @@ const RegisterForm = () => {
       phoneNumber: "",
     },
   });
+  // errors available in formState.errors if needed during development
 
-  const onSubmit: SubmitHandler<SignupParams> = async (data) => {
-    setIsLoading(true);
+  const { mutate, isPending, error } = useMutation({
+    mutationKey: ["register"],
+    mutationFn: async (data: RegisterFormType) => {
+      const { user, error: registerError } = await signUpNewUser({
+        email: data.email,
+        password: data.password,
+        name: data.name,
+        lastName: data.lastName,
+        phoneNumber: data.phoneNumber,
+      });
 
-    const { user } = await signUpNewUser({
-      email: data.email,
-      password: data.password,
-    });
-    console.log("user auth created");
+      if (registerError || !user) {
+        throw new Error(
+          registerError?.message || "No se pudo crear el usuario"
+        );
+      }
 
-    const { data: dataTable, error } = await supabase.from("users").insert({
-      email: data.email,
-      id: user?.id,
-      name: `${data.name} ${data.lastName}`,
-      phone_number: data.phoneNumber,
-    });
+      return user;
+    },
+    onSuccess: () => {
+      openModal({
+        description: "Has sido registrado exitosamente",
+        title: "Registro exitoso",
+      });
+      setTimeout(() => {
+        closeModal();
+        replace("/");
+      }, 2000);
+    },
+    onError: (err: any) => {
+      openModal({
+        description: err.message || "Error al registrar usuario",
+        title: "Error",
+      });
+    },
+  });
 
-    console.log({ dataTable, error });
-
-    openModal({
-      description: "Has sido registrado exitosamente",
-      title: "Registro exitoso",
-    });
-    setIsLoading(false);
-    setTimeout(() => {
-      closeModal();
-    }, 2000);
-    replace("/");
+  const onSubmit = (data: RegisterFormType) => {
+    mutate(data);
   };
 
   return (
@@ -126,7 +140,7 @@ const RegisterForm = () => {
         </div>
       </div>
       <CustomButton
-        loading={isLoading}
+        loading={isPending}
         btnType="submit"
         btnTitle="Crear cuenta"
         size="xLarge"

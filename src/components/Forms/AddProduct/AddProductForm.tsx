@@ -1,24 +1,27 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useShallow } from "zustand/react/shallow";
 
+import { CATEGORIES, GENDERS } from "@/utils/menu";
 import {
   RHFCheckboxes,
   RHFCustomInput,
   RHFCustomNumericInput,
   RHFRadioButtons,
 } from "@/components/Inputs";
-import { CustomButton } from "@/components/Ui";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { addProduct, updateProduct } from "@/services/products";
-import { useModalStore } from "@/stores";
-import { useProductStore } from "@/stores/useProductStore";
 import { capitalize, getSizes } from "@/utils";
-import { CATEGORIES, GENDERS } from "@/utils/menu";
 
+import { CustomButton } from "@/components/Ui";
 import { addProductSchema } from "./schema";
+import { useModalStore } from "@/stores";
+import { usePathname } from "next/navigation";
+import { useProductStore } from "@/stores/useProductStore";
+import { useShallow } from "zustand/react/shallow";
+import { useState } from "react";
+import type { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+type FormData = z.infer<typeof addProductSchema>;
 
 interface Props {
   product?: Product;
@@ -35,15 +38,15 @@ const AddProductForm = ({ product }: Props) => {
   const pathName = usePathname();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { control, handleSubmit, watch } = useForm<Product>({
+  const { control, handleSubmit, watch } = useForm<FormData>({
     defaultValues: {
       description: product?.description ?? "",
       brand: product?.brand ?? "",
       name: product?.name ?? "",
       gender: (capitalize(product?.gender ?? "") ?? "Hombre") as Gender,
       sizes: product?.sizes ?? [],
-      price: product?.price ?? null,
-      regular_price: product?.regular_price ?? null,
+      price: product?.price ?? 0,
+      regular_price: product?.regular_price ?? 0,
       category: (capitalize(product?.category ?? "") ?? "Jeans") as Category,
     },
     resolver: zodResolver(addProductSchema),
@@ -51,13 +54,14 @@ const AddProductForm = ({ product }: Props) => {
   const selectedGender = watch("gender");
   const selectedCategory = watch("category");
 
-  const onSubmit: SubmitHandler<Product> = async (data, e) => {
+  const onSubmit: SubmitHandler<FormData> = async (data, e) => {
     setIsLoading(true);
 
     e?.preventDefault();
+    const payload = data as unknown as Product;
     pathName.includes("edit")
-      ? await updateProduct(data, images, product?.id)
-      : await addProduct(data, images);
+      ? await updateProduct(payload, images, product?.id)
+      : await addProduct(payload, images);
 
     setIsLoading(false);
     openModal({

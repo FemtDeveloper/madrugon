@@ -1,20 +1,25 @@
-import { getProductsByGenderAndCategory } from "@/services/products";
-
 import SearchResults from "./SearchResults";
+import { getProductsByGenderAndCategory } from "@/services/products";
 
 export interface SearchParams {
   genero: string;
   categorias: string;
 }
-interface Params {
-  searchParams: SearchParams;
+
+// Use Next.js built-in PageProps type
+interface PageProps {
+  searchParams: Promise<SearchParams>;
 }
 
-const BusquedaPage = async ({ searchParams }: Params) => {
+const BusquedaPage = async ({ searchParams }: PageProps) => {
+  // Await searchParams since it's always a Promise in Next.js 15
+  const resolvedSearchParams = await searchParams;
+
   const products = await getProductsByGenderAndCategory(
-    searchParams.genero as Gender,
-    searchParams.categorias.split(",") as Category[]
+    resolvedSearchParams.genero as Gender,
+    resolvedSearchParams.categorias.split(",") as Category[]
   );
+
   return (
     <div>
       <SearchResults products={products as Product[]} />

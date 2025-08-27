@@ -1,4 +1,7 @@
-const HeartIcon = ({ size = 16, color = "currentColor" }: IconProps) => {
+const HeartIcon = ({
+  size = 16,
+  color: _color = "currentColor",
+}: IconProps) => {
   return (
     <svg
       width={size}
