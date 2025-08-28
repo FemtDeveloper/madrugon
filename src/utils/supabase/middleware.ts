@@ -38,14 +38,30 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth')
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
+  // Allow unauthenticated access by default; only guard protected areas
+  const pathname = request.nextUrl.pathname
+  const protectedPrefixes = [
+    '/mi-perfil',
+    '/mis-favoritos',
+    '/mis-productos',
+    '/vender',
+    '/admin',
+    '/producto/edit',
+  ]
+  const isAuthArea = pathname.startsWith('/auth')
+  const isProtected = protectedPrefixes.some((p) => pathname.startsWith(p))
+
+  // If not logged in and accessing protected routes, redirect to auth/login
+  if (!user && isProtected && !isAuthArea) {
     const url = request.nextUrl.clone()
-    url.pathname = '/login'
+    url.pathname = '/auth/login'
+    return NextResponse.redirect(url)
+  }
+
+  // Optional UX: if logged in and trying to access auth pages, send home
+  if (user && isAuthArea) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/'
     return NextResponse.redirect(url)
   }
 
