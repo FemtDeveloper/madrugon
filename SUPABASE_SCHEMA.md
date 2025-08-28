@@ -1,4 +1,3 @@
-
 # Supabase Database Schema (public)
 
 Last generated: 2025-08-27
@@ -425,4 +424,3 @@ Notes
 - Many tables include `created_at` and `updated_at` with `now()` defaults.
 - RLS is enabled on user-scoped tables — mind auth when querying.
 - The schema centers on `users`, `products`, `product_variants`, `orders`, `stores`, `categories`, `brands`.
-

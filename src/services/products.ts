@@ -144,30 +144,55 @@ export const getMyProducts = async (userId: string) => {
   return data;
 };
 
-export const addProduct = async (product: Product, images: string[]) => {
+export const addProduct = async (
+  product: Product & { category_id?: string; store_id?: string },
+  images: string[]
+) => {
   const supabase = createClient();
+
+  if (!product.category_id) {
+    throw new Error("category_id is required");
+  }
+  if (!product.store_id) {
+    throw new Error("store_id is required");
+  }
+
+  const slug = product.name!.trim().toLowerCase().replaceAll(" ", "-");
+
   const { error } = await supabase.from("products").insert({
     ...product,
-    category: product.category?.toLowerCase(),
+    category_id: product.category_id,
+    store_id: product.store_id,
     images,
-    slug: product.name!.trim().toLowerCase().replaceAll(" ", "-"),
+    slug,
   });
   if (error) {
     throw new Error(error.message);
   }
 };
 export const updateProduct = async (
-  product: Product,
+  product: Product & { category_id?: string; store_id?: string },
   images: string[],
   id?: number
 ) => {
   const supabase = createClient();
+
+  if (product.category_id === undefined) {
+    throw new Error("category_id is required");
+  }
+  if (product.store_id === undefined) {
+    throw new Error("store_id is required");
+  }
+
+  const slug = product.name!.trim().toLowerCase().replaceAll(" ", "-");
+
   const { error, data } = await supabase
     .from("products")
     .update({
       ...product,
-      category: product.category?.toLowerCase(),
-      slug: product.name!.trim().toLowerCase().replaceAll(" ", "-"),
+      category_id: product.category_id,
+      store_id: product.store_id,
+      slug,
       ...(images.length > 0 && { images }),
     })
     .eq("id", id);
