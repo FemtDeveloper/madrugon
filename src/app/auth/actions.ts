@@ -1,11 +1,10 @@
 "use server";
 
+import { useUserStore } from "@/stores";
+import { createClient } from "@/utils/supabase/server";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
-
-import { createClient } from "@/utils/supabase/server";
-import { useUserStore } from "@/stores";
 
 const setUser = useUserStore.getState().setUser;
 
@@ -72,25 +71,28 @@ export async function logout() {
 export const updateUser = async (userData: userUpdateDTO, userId: string) => {
   const supabase = await createClient();
 
-  const { data: userDataUpdate, error } = await supabase
+  const payload: Record<string, unknown> = {
+    first_name: userData.first_name?.trim() ?? null,
+    last_name: userData.last_name?.trim() ?? null,
+    phone: userData.phone ?? null,
+    date_of_birth: userData.date_of_birth ?? null,
+    gender: userData.gender ?? null,
+    is_seller: typeof userData.is_seller === "boolean" ? userData.is_seller : null,
+  };
+
+  const { data: updatedUserRows, error } = await supabase
     .from("users")
-    .update({
-      name: `${userData.name.trim()}`,
-      phone_number: userData.phone_number,
-      brand: userData.brand ?? "",
-      age: Number(userData.age),
-      city: userData.city ?? "",
-      is_seller: Boolean(userData.is_seller),
-    })
+    .update(payload)
     .eq("id", userId)
     .select("*");
 
   if (error) {
     throw new Error(error.message);
   }
-  if (userDataUpdate) {
-    setUser(userDataUpdate as unknown as User);
+
+  if (updatedUserRows && updatedUserRows.length > 0) {
+    setUser(updatedUserRows[0] as unknown as User);
     const cookieStore2 = await cookies();
-    cookieStore2.set("user", JSON.stringify(userDataUpdate[0]));
+    cookieStore2.set("user", JSON.stringify(updatedUserRows[0]));
   }
 };

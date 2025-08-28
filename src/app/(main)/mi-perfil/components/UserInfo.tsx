@@ -1,16 +1,22 @@
 "use client";
 
-import { RHFCustomInput, RHFRadioButtons } from "@/components/Inputs";
+import {
+  RHFCustomInput,
+  RHFCustomSelect,
+  RHFRadioButtons,
+} from "@/components/Inputs";
 import { useLoaderStore, useModalStore, useUserStore } from "@/stores";
 import { Check, LogOut, Pencil, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { updateUser } from "@/app/auth/actions";
-import CreateBrandForm from "./CreateBrandForm";
-import CreateStoreForm from "./CreateStoreForm";
+import { getBrandsByOwner } from "@/services/brands";
+import { getStoresByOwner } from "@/services/stores";
 import { getMyProfile } from "@/utils/getMyProfile";
 import { useForm } from "react-hook-form";
 import { useShallow } from "zustand/react/shallow";
+import CreateBrandForm from "./CreateBrandForm";
+import CreateStoreForm from "./CreateStoreForm";
 
 export function UserInfo() {
   const user = useUserStore((state) => state.user);
@@ -30,14 +36,17 @@ export function UserInfo() {
   const [isEditing, setIsEditing] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
   const { openLoader, closeLoader } = useLoaderStore();
+  const [stores, setStores] = useState<any[]>([]);
+  const [brands, setBrands] = useState<any[]>([]);
+  const [loadingRelations, setLoadingRelations] = useState(false);
   const { handleSubmit, control, reset } = useForm<userUpdateDTO>({
     defaultValues: {
-      name: user?.name ?? "",
-      phone_number: user?.phone ?? "",
-      brand: user?.brand ?? "",
-      age: user?.age ?? "",
-      city: user?.city ?? "",
-          is_seller: user?.is_seller ?? false,
+      first_name: user?.first_name ?? "",
+      last_name: user?.last_name ?? "",
+      phone: user?.phone ?? "",
+      date_of_birth: user?.date_of_birth ?? "",
+      gender: user?.gender ?? "",
+      is_seller: user?.is_seller ?? false,
     },
   });
   const onSubmit = async (data: userUpdateDTO, e: any) => {
@@ -50,8 +59,8 @@ export function UserInfo() {
     openLoader({ size: "md", title: "Guardando perfil..." });
     try {
       await updateUser(data, user?.id);
-  // Refresh profile after update
-  await getMyProfile();
+      // Refresh profile after update
+      await getMyProfile();
       openModal({
         description: "Has Actualizado tus datos exitosamente",
         title: "Actualización exitosa",
@@ -68,13 +77,29 @@ export function UserInfo() {
   useEffect(() => {
     if (user) {
       reset({
-        name: user.name ?? "",
-        phone_number: user.phone ?? "",
-        brand: user.brand ?? "",
-        age: user.age ?? "",
-        city: user.city ?? "",
-          is_seller: user.is_seller ?? false,
+        first_name: user.first_name ?? "",
+        last_name: user.last_name ?? "",
+        phone: user.phone ?? "",
+        date_of_birth: user.date_of_birth ?? "",
+        gender: user.gender ?? "",
+        is_seller: user.is_seller ?? false,
       });
+      // fetch user's stores and brands
+      (async () => {
+        setLoadingRelations(true);
+        try {
+          const [fetchedStores, fetchedBrands] = await Promise.all([
+            getStoresByOwner(user.id),
+            getBrandsByOwner(user.id),
+          ]);
+          setStores(fetchedStores || []);
+          setBrands(fetchedBrands || []);
+        } catch (e) {
+          console.error("UserInfo: error loading relations", e);
+        } finally {
+          setLoadingRelations(false);
+        }
+      })();
     }
   }, [user, reset]);
   return (
@@ -126,13 +151,31 @@ export function UserInfo() {
         className="grid grid-cols-1 md:grid-cols-2 gap-6"
         onSubmit={handleSubmit(onSubmit)}
       >
-        {/* Name */}
+        {/* First Name */}
         <div className="relative group">
           {isEditing ? (
-            <RHFCustomInput name="name" control={control} label="Nombre" />
+            <RHFCustomInput
+              name="first_name"
+              control={control}
+              label="Nombre"
+            />
           ) : (
             <p className="mt-6 text-base font-medium text-gray-900 bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
-              {user?.name || "No informa"}
+              {user?.first_name || "No informa"}
+            </p>
+          )}
+        </div>
+        {/* Last Name */}
+        <div className="relative group">
+          {isEditing ? (
+            <RHFCustomInput
+              name="last_name"
+              control={control}
+              label="Apellido"
+            />
+          ) : (
+            <p className="mt-6 text-base font-medium text-gray-900 bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
+              {user?.last_name || "No informa"}
             </p>
           )}
         </div>
@@ -150,33 +193,43 @@ export function UserInfo() {
             </p>
           )}
         </div>
-        {/* Brand */}
+
+        {/* Date of birth */}
         <div className="relative group">
           {isEditing ? (
-            <RHFCustomInput name="brand" control={control} label="Marca" />
+            <RHFCustomInput
+              name="date_of_birth"
+              control={control}
+              label="Fecha de nacimiento"
+              type="date"
+            />
           ) : (
             <p className="mt-6 text-base font-medium text-gray-900 bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
-              {user?.brand || "No informa"}
+              {user?.date_of_birth
+                ? new Date(user.date_of_birth).toLocaleDateString()
+                : "No informa"}
             </p>
           )}
         </div>
-        {/* Age */}
+
+        {/* Gender */}
         <div className="relative group">
           {isEditing ? (
-            <RHFCustomInput name="age" control={control} label="Edad" />
+            <RHFCustomSelect
+              name="gender"
+              control={control}
+              label="Género"
+              placeholder="Seleccionar género"
+              options={[
+                { label: "Masculino", value: "M" },
+                { label: "Femenino", value: "F" },
+                { label: "Otro", value: "O" },
+                { label: "Prefiero no decirlo", value: "" },
+              ]}
+            />
           ) : (
             <p className="mt-6 text-base font-medium text-gray-900 bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
-              {user?.age ? `${user.age} años` : "No informa"}
-            </p>
-          )}
-        </div>
-        {/* City */}
-        <div className="relative group">
-          {isEditing ? (
-            <RHFCustomInput name="city" control={control} label="Ciudad" />
-          ) : (
-            <p className="mt-6 text-base font-medium text-gray-900 bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
-              {user?.city || "No informa"}
+              {user?.gender || "No informa"}
             </p>
           )}
         </div>
@@ -189,7 +242,10 @@ export function UserInfo() {
             <RHFRadioButtons
               control={control}
               name="is_seller"
-              options={[{ label: "Soy vendedor", value: true }, { label: "No soy vendedor", value: false }]}
+              options={[
+                { label: "Soy vendedor", value: true },
+                { label: "No soy vendedor", value: false },
+              ]}
               label=""
               variant="small"
             />
@@ -224,11 +280,69 @@ export function UserInfo() {
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="p-4 border rounded-lg">
           <h3 className="font-semibold mb-2">Crear Marca</h3>
-          <CreateBrandForm user={user} onCreated={async () => await getMyProfile()} />
+          <CreateBrandForm
+            user={user}
+            onCreated={async () => await getMyProfile()}
+          />
         </div>
         <div className="p-4 border rounded-lg">
           <h3 className="font-semibold mb-2">Crear Tienda</h3>
-          <CreateStoreForm user={user} onCreated={async () => await getMyProfile()} />
+          <CreateStoreForm
+            user={user}
+            onCreated={async () => await getMyProfile()}
+          />
+        </div>
+      </div>
+      {/* Owned stores & brands */}
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="p-4 border rounded-lg">
+          <h3 className="font-semibold mb-2">Mis Tiendas</h3>
+          {loadingRelations ? (
+            <p>Cargando...</p>
+          ) : stores.length ? (
+            <ul className="space-y-2">
+              {stores.map((s) => (
+                <li key={s.id} className="flex items-center justify-between">
+                  <span>{s.name}</span>
+                  <div className="flex gap-2">
+                    <a
+                      href={`/store/${s.slug}`}
+                      className="text-sm text-primary"
+                    >
+                      Ver
+                    </a>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-gray-500">No tienes tiendas</p>
+          )}
+        </div>
+
+        <div className="p-4 border rounded-lg">
+          <h3 className="font-semibold mb-2">Mis Marcas</h3>
+          {loadingRelations ? (
+            <p>Cargando...</p>
+          ) : brands.length ? (
+            <ul className="space-y-2">
+              {brands.map((b) => (
+                <li key={b.id} className="flex items-center justify-between">
+                  <span>{b.name}</span>
+                  <div className="flex gap-2">
+                    <a
+                      href={`/brand/${b.slug}`}
+                      className="text-sm text-primary"
+                    >
+                      Ver
+                    </a>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-gray-500">No tienes marcas</p>
+          )}
         </div>
       </div>
       {/* Account Info */}

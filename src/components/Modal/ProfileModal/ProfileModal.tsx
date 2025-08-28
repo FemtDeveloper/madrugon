@@ -1,9 +1,8 @@
+import { logout } from "@/app/auth/actions";
+import { useUserStore } from "@/stores";
 import Link from "next/link";
 import { Dispatch } from "react";
 import { useShallow } from "zustand/react/shallow";
-
-import { logout } from "@/app/auth/actions";
-import { useUserStore } from "@/stores";
 
 interface Props {
   setisModalOpen: Dispatch<boolean>;
@@ -45,7 +44,7 @@ const ProfileModal = ({ setisModalOpen }: Props) => {
           >
             Mis favoritos
           </Link>
-            {user.is_seller && (
+          {user.is_seller && (
             <Link
               href="/mis-productos"
               aria-label="Enlace a mis productos"

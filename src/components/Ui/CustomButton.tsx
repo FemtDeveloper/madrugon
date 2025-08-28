@@ -1,6 +1,6 @@
 "use client";
-import clsx from "clsx";
 
+import clsx from "clsx";
 import LoadingDots from "./LoadingDots";
 
 interface Props {
@@ -34,7 +34,7 @@ const CustomButton = ({
       type={btnType}
       onClick={onClick}
       className={clsx(
-        "rounded-full z-10 flex justify-center items-center px-10 font-medium hover:shadow-sm hover:shadow-black hover:-translate-y-[2px] transition duration-300",
+        "rounded-lg z-10 flex justify-center items-center px-10 font-medium hover:shadow-xs hover:shadow-black hover:-translate-y-[2px] transition duration-300",
         getWidth(),
         (size === "large" || size === "xLarge") && "b1",
         variant === "filled"

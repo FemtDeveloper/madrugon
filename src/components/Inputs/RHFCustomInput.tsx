@@ -5,7 +5,7 @@ import { EyeClosedIcon, EyeOpenededIcon } from "../Icons";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 
-type InputType = "text" | "password" | "currency";
+type InputType = "text" | "password" | "currency" | "date";
 
 interface Props {
   name: string;
@@ -51,7 +51,13 @@ const RHFCustomInput = ({
                 {type === "currency" && <p>$</p>}
                 <input
                   {...field}
-                  type={isPasswordVisible ? "text" : "password"}
+                  type={
+                    type === "password"
+                      ? isPasswordVisible
+                        ? "text"
+                        : "password"
+                      : type
+                  }
                   id={id}
                   placeholder={placeholder}
                   className="focus-visible:outline-none w-full"

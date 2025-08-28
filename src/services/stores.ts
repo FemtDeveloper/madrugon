@@ -11,15 +11,24 @@ export const createStore = async (store: {
   website_url?: string | null;
 }) => {
   const supabase = createClient();
-  const user = (supabase.auth as any)?.user?.() || null;
+  // Try to fetch the authenticated user using the client auth helper.
+  // Use getUser() which returns a promise and is compatible with Supabase JS v2
+  let ownerId: string | null = null;
+  try {
+    const getUserRes = await (supabase.auth as any).getUser?.();
+    const authUser = (getUserRes as any)?.data?.user ?? null;
+    ownerId = authUser?.id ?? null;
+    console.log("createStore: authUser:", authUser);
+  } catch {
+    // ignore - ownerId stays null
+  }
 
-  const { data, error } = await supabase
-    .from("stores")
-    .insert({
-      ...store,
-      owner_id: user?.id ?? null,
-    })
-    .select("*");
+  console.log("createStore: inserting store", { store, ownerId });
+
+  const { data, error } = await supabase.from("stores").insert({
+    ...store,
+    owner_id: ownerId,
+  }).select("*");
 
   if (error) {
     throw new Error(error.message);

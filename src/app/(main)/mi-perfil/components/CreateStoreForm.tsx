@@ -1,20 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import RHFCustomInput from "@/components/Inputs/RHFCustomInput";
+import { CustomButton } from "@/components/Ui";
 import { createStore } from "@/services/stores";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function CreateStoreForm({ _user, onCreated }: any) {
-  const [name, setName] = useState("");
-  const [slug, setSlug] = useState("");
+  const { handleSubmit, control, reset } = useForm<{
+    name: string;
+    slug?: string;
+  }>({
+    defaultValues: { name: "", slug: "" },
+  });
   const [loading, setLoading] = useState(false);
 
-  const handleCreate = async (e: any) => {
-    e.preventDefault();
+  const handleCreate = async (data: { name: string; slug?: string }) => {
     setLoading(true);
     try {
-      await createStore({ name, slug: slug || name.toLowerCase().replaceAll(" ", "-") });
-      setName("");
-      setSlug("");
+      await createStore({
+        name: data.name,
+        slug: data.slug || data.name.toLowerCase().replaceAll(" ", "-"),
+      });
+      reset();
       if (onCreated) await onCreated();
       alert("Tienda creada");
     } catch (err: any) {
@@ -25,23 +33,19 @@ export default function CreateStoreForm({ _user, onCreated }: any) {
   };
 
   return (
-    <form onSubmit={handleCreate} className="flex flex-col gap-2">
-      <input
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Nombre de la tienda"
-        className="input"
-        required
+    <form onSubmit={handleSubmit(handleCreate)} className="flex flex-col gap-2">
+      <RHFCustomInput
+        name="name"
+        control={control}
+        label="Nombre de la tienda"
       />
-      <input
-        value={slug}
-        onChange={(e) => setSlug(e.target.value)}
-        placeholder="Slug (opcional)"
-        className="input"
+      <RHFCustomInput name="slug" control={control} label="Slug (opcional)" />
+      <CustomButton
+        loading={loading}
+        btnTitle="Crear Tienda"
+        btnType="submit"
+        size="small"
       />
-      <button className="btn-primary" disabled={loading}>
-        {loading ? "Creando..." : "Crear Tienda"}
-      </button>
     </form>
   );
 }

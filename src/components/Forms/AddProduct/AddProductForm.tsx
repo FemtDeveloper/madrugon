@@ -1,16 +1,5 @@
 "use client";
 
-import { SubmitHandler, useForm } from "react-hook-form";
-import { usePathname } from "next/navigation";
-import { useShallow } from "zustand/react/shallow";
-import { useState, useEffect } from "react";
-import type { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { GENDERS } from "@/utils/menu";
-import { getAllCategories } from "@/services/categories";
-import { getStoresByOwner } from "@/services/stores";
-import { useUserStore } from "@/stores";
 import {
   RHFCheckboxes,
   RHFCustomInput,
@@ -19,13 +8,20 @@ import {
 } from "@/components/Inputs";
 import { addProduct, updateProduct } from "@/services/products";
 import { capitalize, getSizes } from "@/utils";
+import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+
 import { CustomButton } from "@/components/Ui";
-import { useModalStore } from "@/stores";
+import { getAllCategories } from "@/services/categories";
+import { getStoresByOwner } from "@/services/stores";
+import { useModalStore, useUserStore } from "@/stores";
 import { useProductStore } from "@/stores/useProductStore";
-
+import { GENDERS } from "@/utils/menu";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname } from "next/navigation";
+import type { z } from "zod";
+import { useShallow } from "zustand/react/shallow";
 import { addProductSchema } from "./schema";
-
-
 
 type FormData = z.infer<typeof addProductSchema>;
 
@@ -49,12 +45,12 @@ const AddProductForm = ({ product }: Props) => {
       description: product?.description ?? "",
       brand: product?.brand ?? "",
       name: product?.name ?? "",
-    gender: (capitalize(product?.gender ?? "") ?? "Hombre") as Gender,
-    sizes: product?.sizes ?? [],
-    price: product?.price ?? 0,
-    regular_price: product?.regular_price ?? 0,
-    category_id: product?.category_id ?? "",
-    store_id: product?.store_id ?? "",
+      gender: (capitalize(product?.gender ?? "") ?? "Hombre") as Gender,
+      sizes: product?.sizes ?? [],
+      price: product?.price ?? 0,
+      regular_price: product?.regular_price ?? 0,
+      category_id: product?.category_id ?? "",
+      store_id: product?.store_id ?? "",
     },
     resolver: zodResolver(addProductSchema),
   });
@@ -64,7 +60,7 @@ const AddProductForm = ({ product }: Props) => {
   const user = useUserStore((s) => s.user);
   const [categories, setCategories] = useState<Array<any>>([]);
   const [stores, setStores] = useState<Array<any>>([]);
-  
+
   useEffect(() => {
     (async () => {
       try {
@@ -85,7 +81,7 @@ const AddProductForm = ({ product }: Props) => {
 
     e?.preventDefault();
     const payload = {
-      ...((data as unknown) as Product),
+      ...(data as unknown as Product),
       category_id: data.category_id,
       store_id: data.store_id,
     } as Product & { category_id: string; store_id: string };

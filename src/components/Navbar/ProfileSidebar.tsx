@@ -1,12 +1,12 @@
 "use client";
+
+import { useSidebarStore, useUserStore } from "@/stores";
+
+import { logout } from "@/app/auth/actions";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { useShallow } from "zustand/react/shallow";
-
-import { logout } from "@/app/auth/actions";
-import { useSidebarStore, useUserStore } from "@/stores";
-
 import { ChevronLeftIcon } from "../Icons";
 import { CustomLink } from "../Ui";
 
@@ -63,12 +63,12 @@ const ProfileSidebar = () => {
           <div className="flex flex-col items-center gap-2">
             <p className="h3_bold text-center">{user?.name}</p>
             <p className="b1">{user?.brand}</p>
-      {user?.is_seller && (
+            {user?.is_seller && (
               <div className="flex flex-col items-center gap-2">
                 <p className="b3 bg-success py-1 px-2 rounded-xl text-white">
                   Soy vendedor
                 </p>
-        {user?.is_seller && (
+                {user?.is_seller && (
                   <Link
                     href="/vender"
                     aria-label="boton a vender"

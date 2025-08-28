@@ -7,11 +7,27 @@ export const createBrand = async (brand: {
   logo_url?: string | null;
 }) => {
   const supabase = createClient();
-  const user = (supabase.auth as any)?.user?.() || null;
+
+  let ownerId: string | null = null;
+  try {
+    const getUserRes = await (supabase.auth as any).getUser?.();
+    const authUser = (getUserRes as any)?.data?.user ?? null;
+    ownerId = authUser?.id ?? null;
+    console.log("createBrand: authUser:", authUser);
+  } catch {
+    // ignore
+  }
+
+  if (!ownerId) {
+    // Give a clear error instead of allowing an RLS violation to bubble up
+    throw new Error("No authenticated user found. You must be signed in to create a brand.");
+  }
+
+  console.log("createBrand: inserting brand", { brand, ownerId });
 
   const { data, error } = await supabase.from("brands").insert({
     ...brand,
-    owner_id: user?.id ?? null,
+    owner_id: ownerId,
   }).select("*");
 
   if (error) {
