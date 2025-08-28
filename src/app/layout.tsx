@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import "./globals.css";
 
 import { Modal } from "@/components/Modal";
+import { Loader } from "@/components/Ui";
 import { ReactQueryProvider } from "@/providers";
-import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
         className={`${inter.className} w-full flex justify-center min-h-screen`}
       >
         <ReactQueryProvider>
+          <Loader />
           {children}
           <Modal />
         </ReactQueryProvider>
