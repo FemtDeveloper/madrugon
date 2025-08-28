@@ -66,7 +66,7 @@ export type Database = {
           }
         ];
       };
-      user_favorites: {
+      wishlists: {
         Row: {
           created_at: string;
           id: number;
@@ -87,7 +87,7 @@ export type Database = {
         };
         Relationships: [];
       };
-      users: {
+    users: {
         Row: {
           age: number | null;
           avatar: string | null;
@@ -95,7 +95,7 @@ export type Database = {
           city: string | null;
           created_at: string;
           id: string;
-          isSeller: boolean | null;
+      is_seller: boolean | null;
           name: string | null;
           email: string | null;
           phone_number: string | null;
@@ -107,7 +107,7 @@ export type Database = {
           city?: string | null;
           created_at?: string;
           id?: string;
-          isSeller?: boolean | null;
+      is_seller?: boolean | null;
           name?: string | null;
           email: string | null;
           phone_number: string | null;
@@ -118,7 +118,7 @@ export type Database = {
           brand?: string | null;
           city?: string | null;
           id?: string;
-          isSeller?: boolean | null;
+      is_seller?: boolean | null;
           name?: string | null;
           phone_number: string | null;
         };

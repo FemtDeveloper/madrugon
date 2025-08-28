@@ -3,6 +3,8 @@
 interface CreateProductDTO {
   brand: string | null;
   category: Category | null;
+  category_id?: string | null;
+  store_id?: string | null;
   created_at: string; // Date string since it's timestamp with time zone
   description: string | null;
   discount_percentage: number | null;

@@ -45,7 +45,7 @@ const ProfileModal = ({ setisModalOpen }: Props) => {
           >
             Mis favoritos
           </Link>
-          {user.isSeller && (
+            {user.is_seller && (
             <Link
               href="/mis-productos"
               aria-label="Enlace a mis productos"

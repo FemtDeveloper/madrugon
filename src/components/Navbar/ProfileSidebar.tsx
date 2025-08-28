@@ -63,12 +63,12 @@ const ProfileSidebar = () => {
           <div className="flex flex-col items-center gap-2">
             <p className="h3_bold text-center">{user?.name}</p>
             <p className="b1">{user?.brand}</p>
-            {user?.isSeller && (
+      {user?.is_seller && (
               <div className="flex flex-col items-center gap-2">
                 <p className="b3 bg-success py-1 px-2 rounded-xl text-white">
                   Soy vendedor
                 </p>
-                {user?.isSeller && (
+        {user?.is_seller && (
                   <Link
                     href="/vender"
                     aria-label="boton a vender"
@@ -82,7 +82,7 @@ const ProfileSidebar = () => {
             )}
           </div>
           <div className="flex flex-col grow items-center pt-7 gap-4 w-full">
-            {user?.isSeller && (
+            {user?.is_seller && (
               <CustomLink
                 btnTitle="Mis productos"
                 path="/mis-productos"

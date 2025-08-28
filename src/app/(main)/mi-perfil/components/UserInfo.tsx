@@ -6,6 +6,9 @@ import { Check, LogOut, Pencil, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { updateUser } from "@/app/auth/actions";
+import CreateBrandForm from "./CreateBrandForm";
+import CreateStoreForm from "./CreateStoreForm";
+import { getMyProfile } from "@/utils/getMyProfile";
 import { useForm } from "react-hook-form";
 import { useShallow } from "zustand/react/shallow";
 
@@ -34,7 +37,7 @@ export function UserInfo() {
       brand: user?.brand ?? "",
       age: user?.age ?? "",
       city: user?.city ?? "",
-      isSeller: user?.isSeller ?? false,
+          is_seller: user?.is_seller ?? false,
     },
   });
   const onSubmit = async (data: userUpdateDTO, e: any) => {
@@ -47,6 +50,8 @@ export function UserInfo() {
     openLoader({ size: "md", title: "Guardando perfil..." });
     try {
       await updateUser(data, user?.id);
+  // Refresh profile after update
+  await getMyProfile();
       openModal({
         description: "Has Actualizado tus datos exitosamente",
         title: "Actualización exitosa",
@@ -68,7 +73,7 @@ export function UserInfo() {
         brand: user.brand ?? "",
         age: user.age ?? "",
         city: user.city ?? "",
-        isSeller: user.isSeller ?? false,
+          is_seller: user.is_seller ?? false,
       });
     }
   }, [user, reset]);
@@ -183,14 +188,14 @@ export function UserInfo() {
           {isEditing ? (
             <RHFRadioButtons
               control={control}
-              name="isSeller"
-              options={["Soy vendedor", "No soy vendedor"]}
+              name="is_seller"
+              options={[{ label: "Soy vendedor", value: true }, { label: "No soy vendedor", value: false }]}
               label=""
               variant="small"
             />
           ) : (
             <p className="mt-6 text-base font-medium text-gray-900 bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
-              {user?.isSeller ? "Soy vendedor" : "No soy vendedor"}
+              {user?.is_seller ? "Soy vendedor" : "No soy vendedor"}
             </p>
           )}
         </div>
@@ -215,6 +220,17 @@ export function UserInfo() {
           ) : null}
         </div>
       </form>
+      {/* Create Brand / Store quick actions */}
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="p-4 border rounded-lg">
+          <h3 className="font-semibold mb-2">Crear Marca</h3>
+          <CreateBrandForm user={user} onCreated={async () => await getMyProfile()} />
+        </div>
+        <div className="p-4 border rounded-lg">
+          <h3 className="font-semibold mb-2">Crear Tienda</h3>
+          <CreateStoreForm user={user} onCreated={async () => await getMyProfile()} />
+        </div>
+      </div>
       {/* Account Info */}
       <div className="mt-10 text-xs text-gray-400 text-center md:text-right">
         <span>

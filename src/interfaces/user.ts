@@ -6,7 +6,7 @@ interface User {
   city: string | null;
   created_at: string;
   id: string;
-  isSeller: boolean | null;
+  is_seller: boolean | null;
   name: string | null;
   email: string | null;
   phone: string | null;
@@ -18,6 +18,6 @@ interface userUpdateDTO {
   brand: string;
   age: number | string;
   city: string;
-  isSeller: boolean;
+  is_seller: boolean;
 }
 /* eslint-enable unused-imports/no-unused-vars */

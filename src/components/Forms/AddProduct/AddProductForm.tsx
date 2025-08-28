@@ -3,11 +3,14 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { usePathname } from "next/navigation";
 import { useShallow } from "zustand/react/shallow";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { CATEGORIES, GENDERS } from "@/utils/menu";
+import { GENDERS } from "@/utils/menu";
+import { getAllCategories } from "@/services/categories";
+import { getStoresByOwner } from "@/services/stores";
+import { useUserStore } from "@/stores";
 import {
   RHFCheckboxes,
   RHFCustomInput,
@@ -46,25 +49,52 @@ const AddProductForm = ({ product }: Props) => {
       description: product?.description ?? "",
       brand: product?.brand ?? "",
       name: product?.name ?? "",
-      gender: (capitalize(product?.gender ?? "") ?? "Hombre") as Gender,
-      sizes: product?.sizes ?? [],
-      price: product?.price ?? 0,
-      regular_price: product?.regular_price ?? 0,
-      category: (capitalize(product?.category ?? "") ?? "Jeans") as Category,
+    gender: (capitalize(product?.gender ?? "") ?? "Hombre") as Gender,
+    sizes: product?.sizes ?? [],
+    price: product?.price ?? 0,
+    regular_price: product?.regular_price ?? 0,
+    category_id: product?.category_id ?? "",
+    store_id: product?.store_id ?? "",
     },
     resolver: zodResolver(addProductSchema),
   });
   const selectedGender = watch("gender");
-  const selectedCategory = watch("category");
+  const selectedCategory = watch("category_id");
+
+  const user = useUserStore((s) => s.user);
+  const [categories, setCategories] = useState<Array<any>>([]);
+  const [stores, setStores] = useState<Array<any>>([]);
+  
+  useEffect(() => {
+    (async () => {
+      try {
+        const cats = await getAllCategories();
+        setCategories(cats ?? []);
+        if (user?.id) {
+          const myStores = await getStoresByOwner(user.id);
+          setStores(myStores ?? []);
+        }
+      } catch (err) {
+        console.error("Failed to load categories/stores:", err);
+      }
+    })();
+  }, [user]);
 
   const onSubmit: SubmitHandler<FormData> = async (data, e) => {
     setIsLoading(true);
 
     e?.preventDefault();
-    const payload = data as unknown as Product;
-    pathName.includes("edit")
-      ? await updateProduct(payload, images, product?.id)
-      : await addProduct(payload, images);
+    const payload = {
+      ...((data as unknown) as Product),
+      category_id: data.category_id,
+      store_id: data.store_id,
+    } as Product & { category_id: string; store_id: string };
+
+    if (pathName.includes("edit")) {
+      await updateProduct(payload, images, product?.id);
+    } else {
+      await addProduct(payload, images);
+    }
 
     setIsLoading(false);
     openModal({
@@ -95,6 +125,21 @@ const AddProductForm = ({ product }: Props) => {
         name="brand"
         placeholder="Ingresa tu marca"
       />
+      {/* Store select */}
+      <div>
+        <label className="b1">Tienda</label>
+        <select
+          {...(control as any).register("store_id")}
+          className="w-full p-2 border rounded"
+        >
+          <option value="">Selecciona una tienda</option>
+          {stores.map((s) => (
+            <option key={s.id} value={s.id}>
+              {s.name}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className="flex w-full justify-between gap-4">
         <RHFCustomNumericInput
           control={control}
@@ -115,12 +160,20 @@ const AddProductForm = ({ product }: Props) => {
         options={GENDERS}
         label="Género"
       />
-      <RHFRadioButtons
-        control={control}
-        name="category"
-        options={CATEGORIES}
-        label="Categorías"
-      />
+      <div>
+        <label className="b1">Categoría</label>
+        <select
+          {...(control as any).register("category_id")}
+          className="w-full p-2 border rounded"
+        >
+          <option value="">Selecciona una categoría</option>
+          {categories.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.name}
+            </option>
+          ))}
+        </select>
+      </div>
       <RHFCheckboxes
         control={control}
         name="sizes"

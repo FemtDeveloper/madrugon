@@ -1,9 +1,15 @@
 import clsx from "clsx";
 import { Controller } from "react-hook-form";
 
+interface OptionItem {
+  label: string;
+  value: any;
+}
+
 interface Props {
   control: any;
-  options: string[];
+  // Accept either simple string options or objects with value and label
+  options: Array<string | OptionItem>;
   name: string;
   label: string;
   variant?: "small" | "medium" | "large";
@@ -22,9 +28,11 @@ const RHFRadioButtons = ({
         {label}
       </label>
       <div className="flex gap-4">
-        {options.map((option) => (
+        {options.map((option) => {
+          const opt = typeof option === 'string' ? { label: option, value: option } : option;
+          return (
           <Controller
-            key={option}
+            key={String(opt.label)}
             name={name}
             control={control}
             render={({ field }) => {
@@ -34,9 +42,9 @@ const RHFRadioButtons = ({
                     <input
                       {...field}
                       type="radio"
-                      id={option}
-                      value={option}
-                      checked={field.value === option}
+                      id={opt.label}
+                      value={String(opt.value)}
+                      checked={field.value === opt.value}
                       className={clsx(
                         "appearance-none rounded-full bg-white checked:bg-black",
                         variant === "medium" ? "size-3" : "size-2"
@@ -44,16 +52,17 @@ const RHFRadioButtons = ({
                     />
                   </div>
                   <label
-                    htmlFor={option}
+                    htmlFor={opt.label}
                     className={clsx(variant === "medium" ? "b1" : "b2")}
                   >
-                    {option}
+                    {opt.label}
                   </label>
                 </div>
               );
             }}
           />
-        ))}
+          );
+        })}
       </div>
     </div>
   );

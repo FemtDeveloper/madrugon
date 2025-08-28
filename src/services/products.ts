@@ -43,7 +43,7 @@ export const addFavorite = async (productId: string, userId: string) => {
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from("user_favorites")
+    .from("wishlists")
     .insert({ product_id: productId, user_id: userId });
 
   if (error) {
@@ -58,7 +58,7 @@ export const getFavoriteProducts = async (
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from("user_favorites")
+  .from("wishlists")
     .select(
       `
     product_id,
