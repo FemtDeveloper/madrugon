@@ -22,13 +22,15 @@ export function UserInfo() {
       closeModal: state.closeModal,
     }))
   );
+  console.log({ user });
+
   const [isEditing, setIsEditing] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
   const { openLoader, closeLoader } = useLoaderStore();
   const { handleSubmit, control, reset } = useForm<userUpdateDTO>({
     defaultValues: {
       name: user?.name ?? "",
-      phone_number: user?.phone_number ?? "",
+      phone_number: user?.phone ?? "",
       brand: user?.brand ?? "",
       age: user?.age ?? "",
       city: user?.city ?? "",
@@ -36,8 +38,12 @@ export function UserInfo() {
     },
   });
   const onSubmit = async (data: userUpdateDTO, e: any) => {
+    console.log({ data, user });
+
     e.preventDefault();
     if (!user) return null;
+    console.log({ data, user });
+
     openLoader({ size: "md", title: "Guardando perfil..." });
     try {
       await updateUser(data, user?.id);
@@ -58,7 +64,7 @@ export function UserInfo() {
     if (user) {
       reset({
         name: user.name ?? "",
-        phone_number: user.phone_number ?? "",
+        phone_number: user.phone ?? "",
         brand: user.brand ?? "",
         age: user.age ?? "",
         city: user.city ?? "",
@@ -135,7 +141,7 @@ export function UserInfo() {
             />
           ) : (
             <p className="mt-6 text-base font-medium text-gray-900 bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
-              {user?.phone_number || "No informa"}
+              {user?.phone || "No informa"}
             </p>
           )}
         </div>

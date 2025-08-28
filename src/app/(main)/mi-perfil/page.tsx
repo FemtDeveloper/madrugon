@@ -1,17 +1,15 @@
+"use client";
+
 import { Loader } from "@/components/Ui";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
+import { getMyProfile } from "@/utils/getMyProfile";
+import { useEffect } from "react";
 import Avatar from "./components/Avatar";
 import { UserInfo } from "./components/UserInfo";
 
-const ProfilePage = async () => {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error || !data?.user) {
-    redirect("/");
-  }
+const ProfilePage = () => {
+  useEffect(() => {
+    getMyProfile();
+  }, []);
   return (
     <>
       <Loader />

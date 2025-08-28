@@ -1,13 +1,11 @@
 "use client";
-import Cookies from "js-cookie";
-import Link from "next/link";
-import { useEffect } from "react";
 
 import { useResponsive } from "@/hooks";
 import { useUserStore } from "@/stores";
-
+import { getMyProfile } from "@/utils/getMyProfile";
+import Link from "next/link";
+import { useEffect } from "react";
 import { IsoIcon } from "../Icons";
-
 import NavbarLinks from "./NavbarLinks";
 import Profile from "./Profile";
 import Searchbar from "./Searchbar";
@@ -20,14 +18,10 @@ interface Props {
 const Navbar = ({ isAuthenticated }: Props) => {
   const { isMobile } = useResponsive();
   const setIsAuthenticated = useUserStore((state) => state.setIsAuthenticated);
-  const setUser = useUserStore((state) => state.setUser);
 
   useEffect(() => {
-    const user = Cookies.get("user");
-    if (user) {
-      setUser(JSON.parse(user) as User);
-    }
-  }, [setUser]);
+    getMyProfile();
+  }, []);
 
   useEffect(() => {
     setIsAuthenticated(isAuthenticated);
