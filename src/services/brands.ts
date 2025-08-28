@@ -5,6 +5,8 @@ export const createBrand = async (brand: {
   slug: string;
   description?: string | null;
   logo_url?: string | null;
+  website_url?: string | null;
+  is_active?: boolean | null;
 }) => {
   const supabase = createClient();
 
@@ -46,4 +48,11 @@ export const getBrandsByOwner = async (ownerId: string) => {
 
   if (error) throw new Error(error.message);
   return data;
+};
+
+export const updateBrand = async (id: string, payload: Partial<{ name: string; slug: string; description?: string | null; logo_url?: string | null }>) => {
+  const supabase = createClient();
+  const { data, error } = await supabase.from('brands').update(payload).eq('id', id).select('*');
+  if (error) throw new Error(error.message);
+  return data?.[0];
 };

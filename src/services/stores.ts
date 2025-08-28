@@ -1,15 +1,6 @@
 import { createClient } from "@/utils";
 
-export const createStore = async (store: {
-  name: string;
-  slug: string;
-  description?: string | null;
-  logo_url?: string | null;
-  banner_url?: string | null;
-  phone?: string | null;
-  email?: string | null;
-  website_url?: string | null;
-}) => {
+export const createStore = async (store:CreateStoreParams) => {
   const supabase = createClient();
   // Try to fetch the authenticated user using the client auth helper.
   // Use getUser() which returns a promise and is compatible with Supabase JS v2
@@ -46,4 +37,11 @@ export const getStoresByOwner = async (ownerId: string) => {
 
   if (error) throw new Error(error.message);
   return data;
+};
+
+export const updateStore = async (id: string, payload: Partial<{ name: string; slug: string; description?: string | null; logo_url?: string | null; banner_url?: string | null }>) => {
+  const supabase = createClient();
+  const { data, error } = await supabase.from('stores').update(payload).eq('id', id).select('*');
+  if (error) throw new Error(error.message);
+  return data?.[0];
 };
