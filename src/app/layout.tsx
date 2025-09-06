@@ -6,6 +6,7 @@ import { Loader } from "@/components/Ui";
 import { ReactQueryProvider } from "@/providers";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,7 +32,9 @@ export default function RootLayout({
         className={`${inter.className} w-full flex justify-center min-h-screen`}
       >
         <ReactQueryProvider>
-          <Analytics />
+          <Suspense fallback={null}>
+            <Analytics />
+          </Suspense>
           <Loader />
           {children}
           <Modal />
