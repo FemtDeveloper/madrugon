@@ -61,7 +61,9 @@ const ProfileSidebar = () => {
             height={80}
           />
           <div className="flex flex-col items-center gap-2">
-            <p className="h3_bold text-center">{user?.name}</p>
+            <p className="h3_bold text-center">
+              {user?.first_name} {user?.last_name}
+            </p>
             <p className="b1">{user?.brand}</p>
             {user?.is_seller && (
               <div className="flex flex-col items-center gap-2">

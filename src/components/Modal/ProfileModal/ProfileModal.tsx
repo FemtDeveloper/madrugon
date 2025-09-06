@@ -27,7 +27,9 @@ const ProfileModal = ({ setisModalOpen }: Props) => {
     <div className="md:flex flex-col gap-3 rounded-2xl p-3 bg-white absolute top-15 md:-left-52 2xl:-left-full shadow-2xl w-56">
       {user && (
         <>
-          <p className="b1 font-bold border-y py-1">{user?.name}</p>
+          <p className="b1 font-bold border-y py-1">
+            {user?.first_name} {user?.last_name}
+          </p>
           <Link
             href="/mi-perfil"
             aria-label="Enlace a mi perfil"
