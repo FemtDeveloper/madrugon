@@ -39,7 +39,17 @@ export const getStoresByOwner = async (ownerId: string) => {
   return data;
 };
 
-export const updateStore = async (id: string, payload: Partial<{ name: string; slug: string; description?: string | null; logo_url?: string | null; banner_url?: string | null }>) => {
+export const updateStore = async (id: string, payload: Partial<{ 
+  name: string; 
+  slug: string; 
+  description?: string | null; 
+  logo_url?: string | null; 
+  banner_url?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  website_url?: string | null;
+  is_active?: boolean | null;
+}>) => {
   const supabase = createClient();
   const { data, error } = await supabase.from('stores').update(payload).eq('id', id).select('*');
   if (error) throw new Error(error.message);

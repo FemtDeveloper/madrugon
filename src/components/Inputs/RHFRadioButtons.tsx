@@ -39,28 +39,38 @@ const RHFRadioButtons = ({
               name={name}
               control={control}
               render={({ field }) => {
+                const inputId = `${name}-${String(opt.value)}`;
+                // Ensure we set the typed option value (e.g., boolean) rather than string from event
+                const handleChange = () => field.onChange(opt.value);
+                const isChecked = field.value === opt.value;
+
                 return (
-                  <div className="flex gap-2 items-center">
+                  <label
+                    htmlFor={inputId}
+                    className={clsx(
+                      "flex gap-2 items-center cursor-pointer select-none"
+                    )}
+                  >
                     <div className="border flex justify-center items-center rounded-full w-5 h-5">
                       <input
-                        {...field}
+                        name={field.name}
+                        ref={field.ref}
+                        onBlur={field.onBlur}
+                        onChange={handleChange}
                         type="radio"
-                        id={opt.label}
+                        id={inputId}
                         value={String(opt.value)}
-                        checked={field.value === opt.value}
+                        checked={isChecked}
                         className={clsx(
                           "appearance-none rounded-full bg-white checked:bg-black",
                           variant === "medium" ? "size-3" : "size-2"
                         )}
                       />
                     </div>
-                    <label
-                      htmlFor={opt.label}
-                      className={clsx(variant === "medium" ? "b1" : "b2")}
-                    >
+                    <span className={clsx(variant === "medium" ? "b1" : "b2")}>
                       {opt.label}
-                    </label>
-                  </div>
+                    </span>
+                  </label>
                 );
               }}
             />

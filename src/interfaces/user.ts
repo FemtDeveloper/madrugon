@@ -1,28 +1,28 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unused-imports/no-unused-vars */
 interface User {
-  id: string;
-  role_id?: string | null;
-  email: string | null;
-  first_name: string | null;
-  last_name: string | null;
-  phone: string | null;
-  date_of_birth: string | null; // ISO date
-  gender: string | null;
-  profile_image_url: string | null;
-  is_active?: boolean;
-  is_verified?: boolean;
-  verification_date?: string | null;
-  last_login?: string | null;
-  created_at: string;
-  updated_at: string;
-  is_seller: boolean | null;
   // Backwards compatibility fields used across the app
-  name?: string | null;
+  age?: number | null;
   avatar?: string | null;
   brand?: string | null;
-  age?: number | null;
   city?: string | null;
+  created_at: string;
+  date_of_birth: string | null; // ISO date
+  email: string | null;
+  first_name: string | null;
+  gender: string | null;
+  id: string;
+  is_active?: boolean;
+  is_seller: boolean | null;
+  is_verified?: boolean;
+  last_login?: string | null;
+  last_name: string | null;
   phone_number?: string | null;
+  phone: string | null;
+  profile_image_url: string | null;
+  role_id?: string | null;
+  updated_at: string;
+  verification_date?: string | null;
 }
 
 interface userUpdateDTO {
@@ -31,6 +31,7 @@ interface userUpdateDTO {
   phone?: string;
   date_of_birth?: string; // ISO date
   gender?: string;
+  profile_image_url?: string;
   is_seller?: boolean;
 }
 /* eslint-enable unused-imports/no-unused-vars */
