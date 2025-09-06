@@ -1,6 +1,6 @@
 # Supabase Database Schema (public)
 
-Last generated: 2025-08-27
+Last generated: 2025-09-06
 
 Supabase project URL: [https://wdciupspomamkepqdfxz.supabase.co](https://wdciupspomamkepqdfxz.supabase.co)
 
@@ -15,7 +15,7 @@ Notes
 
 ### brands (rows: 0)
 
-- RLS: false
+- RLS: true
 - Primary key: `id` (uuid)
 - Columns:
   - `id` — uuid, default: gen_random_uuid()
@@ -27,7 +27,9 @@ Notes
   - `is_active` — bool, default: true
   - `created_at` — timestamptz, default: now()
   - `updated_at` — timestamptz, default: now()
+  - `owner_id` — uuid, nullable
 - Foreign keys:
+  - `owner_id` -> `users.id`
   - referenced by `products.brand_id`
 
 ---
@@ -390,6 +392,7 @@ Notes
   - `last_login` — timestamptz, nullable
   - `created_at` — timestamptz, default: now()
   - `updated_at` — timestamptz, default: now()
+  - `is_seller` — bool, default: false
 - Foreign keys:
   - `id` -> `auth.users.id` (link to auth schema)
   - `role_id` -> `user_roles.id`

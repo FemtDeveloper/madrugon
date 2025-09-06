@@ -1,0 +1,33 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Publicly readable images (optional). Remove if you want private by default.
+    match /public/{allPaths=**} {
+      allow read;
+    }
+
+    // Authenticated users can read/write within their own prefix
+    match /users/{userId}/{allPaths=**} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId
+        && request.resource.size < 10 * 1024 * 1024 // 10MB max
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    // Brand assets
+    match /brands/{brandId}/{allPaths=**} {
+      allow read: if true; // adjust if needed
+      allow write: if request.auth != null
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    // Store assets
+    match /stores/{storeId}/{allPaths=**} {
+      allow read: if true; // adjust if needed
+      allow write: if request.auth != null
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}

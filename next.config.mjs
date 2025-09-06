@@ -9,6 +9,18 @@ const nextConfig = {
         protocol: "https",
         hostname: "hzkxzvmxjrwshjeducza.supabase.co",
       },
+      // Firebase Storage download URLs
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+        pathname: "/v0/b/**",
+      },
+      // Public bucket URLs (if used)
+      {
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+        pathname: "/**",
+      },
     ],
   },
 };

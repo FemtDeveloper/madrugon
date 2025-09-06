@@ -5,9 +5,10 @@ import {
   RHFCustomSelect,
   RHFRadioButtons,
 } from "@/components/Inputs";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { CustomButton } from "@/components/Ui";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 
 interface Props {
@@ -23,7 +24,7 @@ export default function ProfileForm({
   setIsEditing,
   onSubmit,
 }: Props) {
-  const { handleSubmit, control, reset } = useForm<any>({
+  const { handleSubmit, control, reset, setValue, watch } = useForm<any>({
     defaultValues: {
       first_name: user?.first_name ?? "",
       last_name: user?.last_name ?? "",
@@ -34,6 +35,10 @@ export default function ProfileForm({
       is_seller: user?.is_seller ?? false,
     },
   });
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const profileUrl = watch("profile_image_url") as string | undefined;
 
   useEffect(() => {
     reset({
@@ -128,18 +133,76 @@ export default function ProfileForm({
       </div>
       <div className="relative group">
         <label className="text-gray-600 text-xs font-semibold">
-          Imagen de Perfil (URL)
+          Imagen de Perfil
         </label>
         {isEditing ? (
-          <RHFCustomInput
-            name="profile_image_url"
-            control={control}
-            label="URL de imagen de perfil"
-          />
+          <div className="flex items-center gap-3">
+            <div className="shrink-0">
+              <Image
+                src={profileUrl || "/assets/images/isoicon.png"}
+                alt="avatar preview"
+                width={64}
+                height={64}
+                className="rounded-full border object-cover w-16 h-16"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <RHFCustomInput
+                name="profile_image_url"
+                control={control}
+                label="URL de imagen de perfil"
+              />
+              <button
+                type="button"
+                className="px-3 py-2 text-xs border rounded"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+              >
+                {uploading ? "Subiendo..." : "Subir"}
+              </button>
+            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file || !user?.id) return;
+                setUploading(true);
+                try {
+                  const { uploadImageToFirebase } = await import(
+                    "@/services/uploads"
+                  );
+                  const url = await uploadImageToFirebase(
+                    file,
+                    { kind: "profile", userId: user.id },
+                    { width: 800, quality: 80, format: "webp" }
+                  );
+                  setValue("profile_image_url", url, {
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  });
+                } catch (err) {
+                  console.error(err);
+                  alert("Error subiendo la imagen de perfil");
+                } finally {
+                  setUploading(false);
+                  e.currentTarget.value = "";
+                }
+              }}
+            />
+          </div>
         ) : (
-          <p className="mt-2 text-gray-800">
-            {user?.profile_image_url || "No informa"}
-          </p>
+          <div className="mt-2">
+            <Image
+              src={user?.profile_image_url || "/assets/images/isoicon.png"}
+              alt="avatar"
+              width={80}
+              height={80}
+              className="rounded-full border object-cover w-20 h-20"
+            />
+          </div>
         )}
       </div>
       <div className="relative group col-span-1 md:col-span-2">

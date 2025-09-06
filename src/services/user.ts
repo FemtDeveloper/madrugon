@@ -4,15 +4,15 @@ import { createClient } from "@/utils/supabase/client";
 export const updateUserClient = async (userData: userUpdateDTO, userId: string) => {
   const supabase = createClient();
 
-  const payload: Record<string, unknown> = {
-    first_name: userData.first_name?.trim() ?? null,
-    last_name: userData.last_name?.trim() ?? null,
-    phone: userData.phone ?? null,
-    date_of_birth: userData.date_of_birth ?? null,
-    gender: userData.gender ?? null,
-    profile_image_url: userData.profile_image_url ?? null,
-    is_seller: typeof userData.is_seller === "boolean" ? userData.is_seller : null,
-  };
+  // Only include known columns present in the schema and only when provided
+  const payload: Record<string, unknown> = {};
+  if (typeof userData.first_name === "string") payload.first_name = userData.first_name.trim();
+  if (typeof userData.last_name === "string") payload.last_name = userData.last_name.trim();
+  if (typeof userData.phone !== "undefined") payload.phone = userData.phone ?? null;
+  if (typeof userData.date_of_birth !== "undefined") payload.date_of_birth = userData.date_of_birth ?? null;
+  if (typeof userData.gender !== "undefined") payload.gender = userData.gender ?? null;
+  if (typeof userData.profile_image_url !== "undefined") payload.profile_image_url = userData.profile_image_url ?? null;
+  if (typeof userData.is_seller !== "undefined") payload.is_seller = !!userData.is_seller;
 
   const { data: updatedUserRows, error } = await supabase
     .from("users")

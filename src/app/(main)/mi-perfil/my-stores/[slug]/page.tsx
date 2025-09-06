@@ -5,11 +5,12 @@ import { getStoresByOwner, updateStore } from "@/services/stores";
 import { useLoaderStore, useModalStore } from "@/stores";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 import { CustomButton } from "@/components/Ui";
 import { useUserStore } from "@/stores";
 import { ArrowLeft } from "lucide-react";
-import { useEffect } from "react";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 
 interface StoreFormData {
@@ -32,18 +33,19 @@ export default function EditStorePage() {
   const { openModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
 
-  const { handleSubmit, control, reset } = useForm<StoreFormData>({
-    defaultValues: {
-      name: "",
-      description: "",
-      logo_url: "",
-      banner_url: "",
-      phone: "",
-      email: "",
-      website_url: "",
-      is_active: true,
-    },
-  });
+  const { handleSubmit, control, reset, setValue, watch } =
+    useForm<StoreFormData>({
+      defaultValues: {
+        name: "",
+        description: "",
+        logo_url: "",
+        banner_url: "",
+        phone: "",
+        email: "",
+        website_url: "",
+        is_active: true,
+      },
+    });
 
   const { data: stores, isPending: isLoadingStores } = useQuery({
     queryKey: ["stores", user?.id],
@@ -52,6 +54,9 @@ export default function EditStorePage() {
   });
 
   const store = (stores || [])?.find((s: any) => s.slug === slug);
+  const logoRef = useRef<HTMLInputElement>(null);
+  const bannerRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState<"logo" | "banner" | null>(null);
 
   useEffect(() => {
     if (store) {
@@ -159,17 +164,115 @@ export default function EditStorePage() {
             />
           </div>
 
-          <RHFCustomInput
-            name="logo_url"
-            control={control}
-            label="URL del Logo"
-          />
+          <div className="flex items-end gap-3">
+            <div className="shrink-0 mb-1">
+              <Image
+                src={watch("logo_url") || "/assets/images/isoicon.png"}
+                alt="logo preview"
+                width={64}
+                height={64}
+                className="rounded border object-cover w-16 h-16"
+              />
+            </div>
+            <RHFCustomInput
+              name="logo_url"
+              control={control}
+              label="URL del Logo"
+            />
+            <button
+              type="button"
+              className="px-3 py-2 text-xs border rounded mb-1"
+              disabled={uploading === "logo"}
+              onClick={() => logoRef.current?.click()}
+            >
+              {uploading === "logo" ? "Subiendo..." : "Subir"}
+            </button>
+            <input
+              ref={logoRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file || !store?.id) return;
+                setUploading("logo");
+                try {
+                  const { uploadImageToFirebase } = await import(
+                    "@/services/uploads"
+                  );
+                  const url = await uploadImageToFirebase(
+                    file,
+                    { kind: "store", storeId: String(store.id), type: "logo" },
+                    { width: 800, quality: 80, format: "webp" }
+                  );
+                  setValue("logo_url", url, { shouldDirty: true });
+                } catch (err) {
+                  console.error(err);
+                  alert("Error subiendo el logo");
+                } finally {
+                  setUploading(null);
+                  e.currentTarget.value = "";
+                }
+              }}
+            />
+          </div>
 
-          <RHFCustomInput
-            name="banner_url"
-            control={control}
-            label="URL del Banner"
-          />
+          <div className="flex items-end gap-3">
+            <div className="shrink-0 mb-1">
+              <Image
+                src={watch("banner_url") || "/assets/images/isoicon.png"}
+                alt="banner preview"
+                width={128}
+                height={64}
+                className="rounded border object-cover w-32 h-16"
+              />
+            </div>
+            <RHFCustomInput
+              name="banner_url"
+              control={control}
+              label="URL del Banner"
+            />
+            <button
+              type="button"
+              className="px-3 py-2 text-xs border rounded mb-1"
+              disabled={uploading === "banner"}
+              onClick={() => bannerRef.current?.click()}
+            >
+              {uploading === "banner" ? "Subiendo..." : "Subir"}
+            </button>
+            <input
+              ref={bannerRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file || !store?.id) return;
+                setUploading("banner");
+                try {
+                  const { uploadImageToFirebase } = await import(
+                    "@/services/uploads"
+                  );
+                  const url = await uploadImageToFirebase(
+                    file,
+                    {
+                      kind: "store",
+                      storeId: String(store.id),
+                      type: "banner",
+                    },
+                    { width: 1600, quality: 80, format: "webp" }
+                  );
+                  setValue("banner_url", url, { shouldDirty: true });
+                } catch (err) {
+                  console.error(err);
+                  alert("Error subiendo el banner");
+                } finally {
+                  setUploading(null);
+                  e.currentTarget.value = "";
+                }
+              }}
+            />
+          </div>
 
           <RHFCustomInput name="phone" control={control} label="Teléfono" />
 

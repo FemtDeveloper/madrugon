@@ -1,25 +1,31 @@
 "use client";
-import { useMutation } from "@tanstack/react-query";
-import Image from "next/image";
+
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import { EditImageIcon } from "@/components/Icons";
-import { uploadImage } from "@/services/images";
+import { uploadImageToFirebase } from "@/services/uploads";
+import { updateUserClient } from "@/services/user";
 import { useUserStore } from "@/stores";
+import { useMutation } from "@tanstack/react-query";
+import Image from "next/image";
 
 const Avatar = () => {
   const user = useUserStore((state) => state.user);
   const inputRef = useRef<HTMLInputElement>(null);
   const [avatarUrl, setAvatarUrl] = useState(
-    user?.avatar ?? "/images/isoicon.png"
+    user?.profile_image_url ?? "/assets/images/isoicon.png"
   );
 
   const handleAvatarChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && user) {
-      const url = await uploadImage(e.target.files[0], user?.id);
-
-      setAvatarUrl(url);
-    }
+    const file = e.target.files?.[0];
+    if (!file || !user?.id) return;
+    const url = await uploadImageToFirebase(
+      file,
+      { kind: "profile", userId: user.id },
+      { width: 400, quality: 80, format: "webp" }
+    );
+    setAvatarUrl(url);
+    await updateUserClient({ profile_image_url: url } as any, user.id);
   };
   const { mutate } = useMutation({
     mutationKey: ["avatarUpdate"],
@@ -27,7 +33,7 @@ const Avatar = () => {
   });
 
   useEffect(() => {
-    if (user && user.avatar) setAvatarUrl(user.avatar);
+    if (user && user.profile_image_url) setAvatarUrl(user.profile_image_url);
     return () => {};
   }, [user]);
 
@@ -50,7 +56,7 @@ const Avatar = () => {
       </figure>
       <input
         type="file"
-        accept="image/png, image/gif, image/jpeg"
+        accept="image/*"
         className="hidden"
         ref={inputRef}
         onChange={mutate}

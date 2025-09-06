@@ -5,11 +5,12 @@ import { getBrandsByOwner, updateBrand } from "@/services/brands";
 import { useLoaderStore, useModalStore } from "@/stores";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 import { CustomButton } from "@/components/Ui";
 import { useUserStore } from "@/stores";
 import { ArrowLeft } from "lucide-react";
-import { useEffect } from "react";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 
 interface BrandFormData {
@@ -29,15 +30,16 @@ export default function EditBrandPage() {
   const { openModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
 
-  const { handleSubmit, control, reset } = useForm<BrandFormData>({
-    defaultValues: {
-      name: "",
-      description: "",
-      logo_url: "",
-      website_url: "",
-      is_active: true,
-    },
-  });
+  const { handleSubmit, control, reset, setValue, watch } =
+    useForm<BrandFormData>({
+      defaultValues: {
+        name: "",
+        description: "",
+        logo_url: "",
+        website_url: "",
+        is_active: true,
+      },
+    });
 
   const { data: brands, isPending: isLoadingBrands } = useQuery({
     queryKey: ["brands", user?.id],
@@ -46,6 +48,8 @@ export default function EditBrandPage() {
   });
 
   const brand = (brands || [])?.find((b: any) => b.slug === slug);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (brand) {
@@ -147,11 +151,58 @@ export default function EditBrandPage() {
             />
           </div>
 
-          <RHFCustomInput
-            name="logo_url"
-            control={control}
-            label="URL del Logo"
-          />
+          <div className="flex items-end gap-3">
+            <div className="shrink-0 mb-1">
+              <Image
+                src={watch("logo_url") || "/assets/images/isoicon.png"}
+                alt="logo preview"
+                width={64}
+                height={64}
+                className="rounded border object-cover w-16 h-16"
+              />
+            </div>
+            <RHFCustomInput
+              name="logo_url"
+              control={control}
+              label="URL del Logo"
+            />
+            <button
+              type="button"
+              className="px-3 py-2 text-xs border rounded mb-1"
+              disabled={uploading}
+              onClick={() => fileRef.current?.click()}
+            >
+              {uploading ? "Subiendo..." : "Subir"}
+            </button>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file || !brand?.id) return;
+                setUploading(true);
+                try {
+                  const { uploadImageToFirebase } = await import(
+                    "@/services/uploads"
+                  );
+                  const url = await uploadImageToFirebase(
+                    file,
+                    { kind: "brand", brandId: String(brand.id) },
+                    { width: 800, quality: 80, format: "webp" }
+                  );
+                  setValue("logo_url", url, { shouldDirty: true });
+                } catch (err) {
+                  console.error(err);
+                  alert("Error subiendo el logo");
+                } finally {
+                  setUploading(false);
+                  e.currentTarget.value = "";
+                }
+              }}
+            />
+          </div>
 
           <RHFCustomInput
             name="website_url"
