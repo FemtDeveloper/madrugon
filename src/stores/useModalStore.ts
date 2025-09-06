@@ -1,11 +1,14 @@
+import { ReactNode } from "react";
 import { create } from "zustand";
 
-interface ModalContentProps {
-  title: string;
-  description: string;
-  onConfirm?: Function;
-  onCancel?: Function;
-}
+type ModalContentProps =
+  | {
+      title?: string;
+      description?: string;
+      onConfirm?: Function;
+      onCancel?: Function;
+    }
+  | ReactNode;
 
 interface ModalProps {
   isModalOpen: boolean;
@@ -20,5 +23,5 @@ export const useModalStore = create<ModalProps>((set) => ({
   modalContent: null,
   variant: "success",
   openModal: (content) => set({ isModalOpen: true, modalContent: content }),
-  closeModal: () => set({ isModalOpen: false }),
+  closeModal: () => set({ isModalOpen: false, modalContent: null }),
 }));
