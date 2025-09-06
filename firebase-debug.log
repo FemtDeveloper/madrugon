@@ -1,0 +1,111 @@
+[debug] [2025-09-06T16:47:21.363Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:47:21.364Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:47:21.365Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:47:21.365Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:48:21.792Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:48:21.793Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:48:21.817Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:48:21.817Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:48:21.817Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:48:21.818Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:50:51.780Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:50:51.782Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:50:51.796Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:50:51.796Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:50:51.796Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:50:51.796Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:50:51.803Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:50:51.804Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:50:51.804Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:50:51.804Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:50:54.917Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:50:54.917Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:51:15.625Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:51:15.625Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:51:15.626Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T16:51:15.626Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T16:51:15.627Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=20
+[debug] [2025-09-06T16:51:16.107Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-09-06T16:51:16.107Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[debug] [2025-09-06T16:51:22.850Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:51:22.850Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:51:22.851Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T16:51:22.851Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T16:51:22.851Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/mayorista-beac9/services/cloudresourcemanager.googleapis.com [none]
+[debug] [2025-09-06T16:51:22.851Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/mayorista-beac9/services/cloudresourcemanager.googleapis.com x-goog-quota-user=projects/mayorista-beac9
+[debug] [2025-09-06T16:51:23.547Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/mayorista-beac9/services/cloudresourcemanager.googleapis.com 200
+[debug] [2025-09-06T16:51:23.547Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/mayorista-beac9/services/cloudresourcemanager.googleapis.com [omitted]
+[debug] [2025-09-06T16:51:23.550Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T16:51:23.550Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T16:51:23.550Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/mayorista-beac9 [none]
+[debug] [2025-09-06T16:51:24.082Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/mayorista-beac9 200
+[debug] [2025-09-06T16:51:24.082Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/mayorista-beac9 {"projectNumber":"313703227547","projectId":"mayorista-beac9","lifecycleState":"ACTIVE","name":"mayorista","labels":{"firebase":"enabled"},"createTime":"2021-10-09T04:17:57.452Z"}
+[info] Now using project mayorista-beac9
+[debug] [2025-09-06T16:51:27.811Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:51:27.811Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:52:16.107Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:52:16.108Z] > authorizing via signed-in user (costeecon@gmail.com)
+[info] 
+=== Firestore Setup Actuation
+[info] +  Wrote firestore.rules 
+[info] +  Wrote firestore.indexes.json 
+[info] +  Wrote configuration info to firebase.json 
+[info] +  Wrote project information to .firebaserc 
+[debug] [2025-09-06T16:52:24.323Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:52:24.323Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:52:24.327Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T16:52:24.327Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T16:52:24.327Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/mayorista-beac9 [none]
+[debug] [2025-09-06T16:52:24.792Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/mayorista-beac9 200
+[debug] [2025-09-06T16:52:24.792Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/mayorista-beac9 {"projectNumber":"313703227547","projectId":"mayorista-beac9","lifecycleState":"ACTIVE","name":"mayorista","labels":{"firebase":"enabled"},"createTime":"2021-10-09T04:17:57.452Z"}
+[info] Now using project mayorista-beac9
+[debug] [2025-09-06T16:52:28.133Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:52:28.133Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:52:32.511Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T16:52:32.511Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T16:52:32.512Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T16:52:32.512Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T16:52:32.512Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/mayorista-beac9/services/cloudaicompanion.googleapis.com [none]
+[debug] [2025-09-06T16:52:32.512Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/mayorista-beac9/services/cloudaicompanion.googleapis.com x-goog-quota-user=projects/mayorista-beac9
+[debug] [2025-09-06T16:52:33.136Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/mayorista-beac9/services/cloudaicompanion.googleapis.com 200
+[debug] [2025-09-06T16:52:33.137Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/mayorista-beac9/services/cloudaicompanion.googleapis.com [omitted]
+[debug] [2025-09-06T17:04:12.783Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T17:04:12.783Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T17:04:12.818Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T17:04:12.818Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T17:04:12.819Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T17:04:12.819Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T17:04:12.819Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/mayorista-beac9 [none]
+[debug] [2025-09-06T17:04:13.387Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/mayorista-beac9 200
+[debug] [2025-09-06T17:04:13.387Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/mayorista-beac9 {"projectNumber":"313703227547","projectId":"mayorista-beac9","lifecycleState":"ACTIVE","name":"mayorista","labels":{"firebase":"enabled"},"createTime":"2021-10-09T04:17:57.452Z"}
+[debug] [2025-09-06T17:04:13.412Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T17:04:13.413Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T17:04:13.413Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T17:04:13.413Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T17:04:13.413Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mayorista-beac9/webApps pageSize=100
+[debug] [2025-09-06T17:04:13.802Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mayorista-beac9/webApps 200
+[debug] [2025-09-06T17:04:13.802Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mayorista-beac9/webApps {"apps":[{"name":"projects/mayorista-beac9/webApps/1:313703227547:web:4b106bfc443472e9efa63e","appId":"1:313703227547:web:4b106bfc443472e9efa63e","displayName":"Madrugon Mayorista","projectId":"mayorista-beac9","webId":"NjczMjdmNGMtNjliOS00NDE4LTg0ZjQtNWNkZWExZWZlYjlm","apiKeyId":"8dc5a487-4a1a-48f5-95d6-713d9e973388","state":"ACTIVE","expireTime":"1970-01-01T00:00:00Z","etag":"1_d09add0c-ca3c-4d9b-89ab-e32c020f161e"},{"name":"projects/mayorista-beac9/webApps/1:313703227547:web:68932dde1ba8c641efa63e","appId":"1:313703227547:web:68932dde1ba8c641efa63e","displayName":"Mayorista","projectId":"mayorista-beac9","webId":"YmEyY2VmNzctOTc5Ni00NGQyLTgxOGItNTc5OTA2NjcwYjQw","apiKeyId":"8dc5a487-4a1a-48f5-95d6-713d9e973388","state":"ACTIVE","expireTime":"1970-01-01T00:00:00Z","etag":"1_ce80cb3e-e0f0-4f1b-8950-71486285123b"}]}
+[debug] [2025-09-06T17:04:52.098Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T17:04:52.098Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T17:04:52.099Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T17:04:52.099Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T17:04:52.099Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mayorista-beac9:searchApps pageSize=100
+[debug] [2025-09-06T17:04:52.377Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mayorista-beac9:searchApps 200
+[debug] [2025-09-06T17:04:52.377Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mayorista-beac9:searchApps {"apps":[{"name":"projects/mayorista-beac9/webApps/1:313703227547:web:4b106bfc443472e9efa63e","displayName":"Madrugon Mayorista","platform":"WEB","appId":"1:313703227547:web:4b106bfc443472e9efa63e","namespace":"NjczMjdmNGMtNjliOS00NDE4LTg0ZjQtNWNkZWExZWZlYjlm","apiKeyId":"8dc5a487-4a1a-48f5-95d6-713d9e973388","state":"ACTIVE","expireTime":"1970-01-01T00:00:00Z"},{"name":"projects/mayorista-beac9/webApps/1:313703227547:web:68932dde1ba8c641efa63e","displayName":"Mayorista","platform":"WEB","appId":"1:313703227547:web:68932dde1ba8c641efa63e","namespace":"YmEyY2VmNzctOTc5Ni00NGQyLTgxOGItNTc5OTA2NjcwYjQw","apiKeyId":"8dc5a487-4a1a-48f5-95d6-713d9e973388","state":"ACTIVE","expireTime":"1970-01-01T00:00:00Z"}]}
+[debug] [2025-09-06T17:04:52.377Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T17:04:52.377Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T17:04:52.377Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:313703227547:web:4b106bfc443472e9efa63e/config [none]
+[debug] [2025-09-06T17:04:52.732Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:313703227547:web:4b106bfc443472e9efa63e/config 200
+[debug] [2025-09-06T17:04:52.732Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:313703227547:web:4b106bfc443472e9efa63e/config {"projectId":"mayorista-beac9","appId":"1:313703227547:web:4b106bfc443472e9efa63e","databaseURL":"https://mayorista-beac9-default-rtdb.firebaseio.com","storageBucket":"mayorista-beac9.appspot.com","locationId":"us-east1","apiKey":"AIzaSyCtvLGZ2cLJOFGfOOzwwkcmKnOPJCpQw5c","authDomain":"mayorista-beac9.firebaseapp.com","messagingSenderId":"313703227547","measurementId":"G-1P6EG2KSG7"}
+[debug] [2025-09-06T17:04:52.752Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T17:04:52.753Z] > authorizing via signed-in user (costeecon@gmail.com)
+[debug] [2025-09-06T17:04:52.753Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T17:04:52.753Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T17:04:52.754Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mayorista-beac9:searchApps pageSize=100
+[debug] [2025-09-06T17:04:52.909Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mayorista-beac9:searchApps 200
+[debug] [2025-09-06T17:04:52.909Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mayorista-beac9:searchApps {"apps":[{"name":"projects/mayorista-beac9/webApps/1:313703227547:web:4b106bfc443472e9efa63e","displayName":"Madrugon Mayorista","platform":"WEB","appId":"1:313703227547:web:4b106bfc443472e9efa63e","namespace":"NjczMjdmNGMtNjliOS00NDE4LTg0ZjQtNWNkZWExZWZlYjlm","apiKeyId":"8dc5a487-4a1a-48f5-95d6-713d9e973388","state":"ACTIVE","expireTime":"1970-01-01T00:00:00Z"},{"name":"projects/mayorista-beac9/webApps/1:313703227547:web:68932dde1ba8c641efa63e","displayName":"Mayorista","platform":"WEB","appId":"1:313703227547:web:68932dde1ba8c641efa63e","namespace":"YmEyY2VmNzctOTc5Ni00NGQyLTgxOGItNTc5OTA2NjcwYjQw","apiKeyId":"8dc5a487-4a1a-48f5-95d6-713d9e973388","state":"ACTIVE","expireTime":"1970-01-01T00:00:00Z"}]}
+[debug] [2025-09-06T17:04:52.909Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T17:04:52.909Z] Checked if tokens are valid: true, expires at: 1757180283639
+[debug] [2025-09-06T17:04:52.909Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:313703227547:web:68932dde1ba8c641efa63e/config [none]
+[debug] [2025-09-06T17:04:53.400Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:313703227547:web:68932dde1ba8c641efa63e/config 200
+[debug] [2025-09-06T17:04:53.400Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:313703227547:web:68932dde1ba8c641efa63e/config {"projectId":"mayorista-beac9","appId":"1:313703227547:web:68932dde1ba8c641efa63e","databaseURL":"https://mayorista-beac9-default-rtdb.firebaseio.com","storageBucket":"mayorista-beac9.appspot.com","locationId":"us-east1","apiKey":"AIzaSyCtvLGZ2cLJOFGfOOzwwkcmKnOPJCpQw5c","authDomain":"mayorista-beac9.firebaseapp.com","messagingSenderId":"313703227547","measurementId":"G-XRQVBCJ4TX"}

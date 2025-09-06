@@ -1,5 +1,6 @@
 import "./globals.css";
 
+import Analytics from "@/components/Analytics/Analytics";
 import { Modal } from "@/components/Modal";
 import { Loader } from "@/components/Ui";
 import { ReactQueryProvider } from "@/providers";
@@ -30,6 +31,7 @@ export default function RootLayout({
         className={`${inter.className} w-full flex justify-center min-h-screen`}
       >
         <ReactQueryProvider>
+          <Analytics />
           <Loader />
           {children}
           <Modal />
