@@ -8,7 +8,7 @@ interface Props {
 
 const ProductGrid = ({ products, isEditable = false }: Props) => {
   return (
-    <div className="w-full max-w-wrapper flex items-center justify-center h-full flex-wrap gap-3 lg:gap-6">
+    <div className="w-full max-w-wrapper flex items-center justify-center h-full flex-wrap gap-3 lg:gap-6 z-0">
       {products.map((product, index) => (
         <ProductCard key={index} product={product} isEditable={isEditable} />
       ))}

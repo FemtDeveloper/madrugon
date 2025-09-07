@@ -1,5 +1,5 @@
 interface Props {
-  sizes: string[];
+  sizes?: string[] | null;
 }
 const Sizes = ({ sizes }: Props) => {
   return (

@@ -11,12 +11,15 @@ export const getMyProducts = async (userId: string) => {
       id,
       name,
       slug,
+      gender,
+      sizes,
       description,
       created_at,
       base_price,
       compare_price,
       brands:brands(name),
       product_images(image_url),
+      categories:categories(name),
       stores!inner(owner_id)
     `
     )
@@ -35,16 +38,16 @@ export const getMyProducts = async (userId: string) => {
     created_at: row.created_at,
     price: row.base_price ?? 0,
     regular_price: row.compare_price ?? 0,
-    brand: row.brands?.name || "",
-    images: Array.isArray(row.product_images)
+    brand: row.brands?.name ?? null,
+    category: row.categories?.name ?? null,
+  images: Array.isArray(row.product_images)
       ? row.product_images.map((pi: any) => pi.image_url)
       : [],
-    category: null,
     category_id: row.category_id ?? null,
     store_id: row.store_id ?? null,
     user_id: null,
-    sizes: [],
-    gender: null,
+    sizes: row.sizes ?? [],
+    gender: row.gender ?? null,
     discount_percentage: null,
   }));
 };
@@ -85,6 +88,7 @@ export const getProductById = async (id: string): Promise<Product | null> => {
       base_price,
       compare_price,
       brand_id,
+      categories:categories(name),
       created_at,
       product_images(image_url)
     `
@@ -111,11 +115,11 @@ export const getProductById = async (id: string): Promise<Product | null> => {
   sizes: Array.isArray((data as any).sizes) ? (data as any).sizes : [],
   gender: (data as any).gender ?? null,
     store_id: (data as any).store_id ?? null,
-    category: null,
+    category: (data as any).categories?.name ?? null,
     category_id: (data as any).category_id ?? null,
     price: (data as any).base_price ?? 0,
     regular_price: (data as any).compare_price ?? 0,
-    brand: (data as any).brand_id ?? null, // form expects brand select value (id)
+    brand: (data as any).brands?.name ?? ((data as any).brand_id ?? null),
     images,
     created_at: (data as any).created_at ?? new Date().toISOString(),
     discount_percentage: null,

@@ -1,9 +1,51 @@
-import { deleteFilesByUrls } from "@/lib/firebase/storage";
 import { createClient } from "@/utils";
-// import { createClient as createServerClient } from "@/utils/supabase/server";
+import { deleteFilesByUrls } from "@/lib/firebase/storage";
+
+const selectFields = `
+  id,
+  name,
+  slug,
+  description,
+  sizes,
+  gender,
+  store_id,
+  category_id,
+  base_price,
+  compare_price,
+  brand_id,
+  created_at,
+  product_images(image_url),
+  brands:brands!products_brand_id_fkey(id, name),
+  categories:categories!products_category_id_fkey(id, name),
+  stores:stores!products_store_id_fkey(id, name)
+  `;
+
+// Normalize DB rows into the UI Product shape expected by ProductCard
+const mapRowToProduct = (row: any): Product => {
+  return {
+    id: row.id,
+    name: row.name,
+    slug: row.slug,
+    description: row.description ?? null,
+    sizes: Array.isArray(row.sizes) ? row.sizes : [],
+    gender: row.gender ?? null,
+    store_id: row.store_id ?? null,
+    category_id: row.category_id ?? null,
+    // canonical pricing exposed through legacy aliases used by UI
+    price: row.base_price ?? null,
+    regular_price: row.compare_price ?? null,
+    // expose names for easy rendering in cards
+    brand: row?.brands?.name ?? null,
+    category: row?.categories?.name ?? null,
+    images: Array.isArray(row.product_images)
+      ? row.product_images.map((pi: any) => pi.image_url)
+      : [],
+    created_at: row.created_at ?? null,
+  } as unknown as Product;
+};
 
 export const getAllProducts = async (): Promise<Product[] | null> => {
-    const supabase = createClient();
+  const supabase = createClient();
   const { data, error } = await supabase.from("products").select("*");
 
   if (error) {
@@ -14,7 +56,7 @@ export const getAllProducts = async (): Promise<Product[] | null> => {
 export const getProductBySlug = async (
   slug: string
 ): Promise<Product | null> => {
-    const supabase = createClient();
+  const supabase = createClient();
   const { data, error } = await supabase
     .from("products")
     .select("*")
@@ -29,7 +71,7 @@ export const getProductBy = async (
   term: "id" | "slug",
   identifier: string
 ): Promise<Product | null> => {
-    const supabase = createClient();
+  const supabase = createClient();
   const { data, error } = await supabase
     .from("products")
     .select("*")
@@ -60,7 +102,7 @@ export const getFavoriteProducts = async (
   const supabase = createClient();
 
   const { data, error } = await supabase
-  .from("wishlists")
+    .from("wishlists")
     .select(
       `
     product_id,
@@ -79,32 +121,53 @@ export const getFavoriteProducts = async (
 export const getProductsByGender = async (gender: Gender) => {
   const supabase = createClient();
 
-  const { data, error } = await supabase
-    .from("products")
-    .select("*")
-    .filter("gender", "eq", gender.toLowerCase());
+  const genderCapitalized = `${gender.charAt(0).toUpperCase()}${gender.slice(
+    1
+  )}`;
+
+  let query = supabase.from("products").select(selectFields);
+
+  query = query.filter("gender", "eq", genderCapitalized as string);
+
+  const { data, error } = await query;
 
   if (error) {
     return null;
   }
-  return data;
+
+  return (data || []).map(mapRowToProduct) as Product[];
 };
 export const getProductsByCategory = async (category: Category) => {
   const supabase = createClient();
+  // If caller passed a UUID (category_id) we should filter by category_id.
+  const isUuid =
+    typeof category === "string" &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      category
+    );
 
+    if (isUuid) {
   const { data, error } = await supabase
-    .from("products")
-    .select("*")
-    .filter("category", "eq", category.toLowerCase());
-
-  if (error) {
-    return null;
+        .from("products")
+        .select(selectFields)
+        .eq("category_id", category as string);
+      if (error) return null;
+  return (data || []).map(mapRowToProduct) as Product[];
+    } else {
+      const selectWithInner = selectFields.replace(
+        "categories:categories!products_category_id_fkey(id, name)",
+        "categories:categories!inner(id, name)"
+      );
+  const { data, error } = await supabase
+        .from("products")
+        .select(selectWithInner)
+        .eq("categories.slug", (category as string).toLowerCase());
+      if (error) return null;
+  return (data || []).map(mapRowToProduct) as Product[];
   }
-  return data;
-};
+}
 
 export const getProductsBySearchNavbar = async (searchTerm: string) => {
-
   const supabase = createClient();
   const { data, error } = await supabase
     .from("products")
@@ -120,7 +183,7 @@ export const getProductsByGenderAndCategory = async (
   gender: Gender,
   categories: Category[]
 ) => {
-    const supabase = createClient();
+  const supabase = createClient();
   const { data, error } = await supabase
     .from("products")
     .select("*")
@@ -158,8 +221,8 @@ export const addProduct = async (
     brand_id: (product as any).brand ?? null,
     base_price: (product as any).price ?? 0,
     compare_price: (product as any).regular_price ?? null,
-  sizes: Array.isArray((product as any).sizes) ? (product as any).sizes : [],
-  gender: (product as any).gender ?? null,
+    sizes: Array.isArray((product as any).sizes) ? (product as any).sizes : [],
+    gender: (product as any).gender ?? null,
     is_active: true,
     status: "published",
   };
@@ -194,7 +257,8 @@ export const updateProduct = async (
 ) => {
   const supabase = createClient();
 
-  if (product.category_id === undefined) throw new Error("category_id is required");
+  if (product.category_id === undefined)
+    throw new Error("category_id is required");
   if (product.store_id === undefined) throw new Error("store_id is required");
   if (!id) throw new Error("product id is required");
 
@@ -210,8 +274,8 @@ export const updateProduct = async (
     brand_id: (product as any).brand ?? null,
     base_price: (product as any).price ?? 0,
     compare_price: (product as any).regular_price ?? null,
-  sizes: Array.isArray((product as any).sizes) ? (product as any).sizes : [],
-  gender: (product as any).gender ?? null,
+    sizes: Array.isArray((product as any).sizes) ? (product as any).sizes : [],
+    gender: (product as any).gender ?? null,
   };
 
   const { error: updErr, data } = await supabase
@@ -243,7 +307,9 @@ export const updateProduct = async (
 
   if (toAdd.length) {
     const rows = toAdd.map((u) => ({ product_id: id, image_url: u }));
-    const { error: imgErr } = await supabase.from("product_images").insert(rows);
+    const { error: imgErr } = await supabase
+      .from("product_images")
+      .insert(rows);
     if (imgErr) throw new Error(imgErr.message);
   }
 

@@ -1,6 +1,5 @@
-import { CustomLink } from "@/components/Ui";
-
 import Categories from "./Categories";
+import { CustomLink } from "@/components/Ui";
 import Prices from "./Prices";
 import Sizes from "./Sizes";
 
@@ -13,7 +12,6 @@ const ProductInfo = ({ product }: Props) => {
     brand,
     category,
     description,
-    discount_percentage,
     regular_price,
     gender,
     name,
@@ -28,11 +26,7 @@ const ProductInfo = ({ product }: Props) => {
       <h2 className="b2 text-p-1 font-bold underline">
         {brand?.toUpperCase()}
       </h2>
-      <Prices
-        discount_percentage={discount_percentage}
-        price={price}
-        regular_price={regular_price}
-      />
+      <Prices price={price} regular_price={regular_price} />
       <CustomLink
         path={`https://wa.me/57${3507107300}`}
         btnTitle="Contactar al vendedor"
