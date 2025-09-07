@@ -1,9 +1,10 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import {
+  deleteObject,
+  getDownloadURL,
   getStorage,
   ref,
   uploadBytes,
-  getDownloadURL,
 } from "firebase/storage";
 
 // Lazy init Firebase app (credentials via env vars)
@@ -33,4 +34,19 @@ export async function uploadFileAndGetUrl(path: string, file: Blob) {
     cacheControl: "public, max-age=31536000, s-maxage=31536000",
   });
   return await getDownloadURL(storageRef);
+}
+
+export async function deleteFilesByUrls(urls: string[]) {
+  const storage = getFirebaseStorage();
+  await Promise.all(
+    urls.map(async (u) => {
+      try {
+        const r = ref(storage, u); // accepts gs:// or https URL
+        await deleteObject(r);
+      } catch (e) {
+        // ignore individual delete errors; best-effort cleanup
+        console.warn("Failed to delete firebase object", u, e);
+      }
+    })
+  );
 }

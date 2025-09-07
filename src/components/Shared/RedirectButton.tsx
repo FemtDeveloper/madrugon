@@ -1,6 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
 
+import { useRouter } from "next/navigation";
 import { EditIcon } from "../Icons";
 
 interface Props {
@@ -12,7 +12,6 @@ const RedirectButton = ({ url }: Props) => {
   return (
     <button
       onClick={(e) => {
-        console.log("Redirect button clicked");
         e.stopPropagation();
         push(url);
       }}

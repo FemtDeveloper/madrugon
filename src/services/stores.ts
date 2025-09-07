@@ -7,14 +7,12 @@ export const createStore = async (store:CreateStoreParams) => {
   let ownerId: string | null = null;
   try {
     const getUserRes = await (supabase.auth as any).getUser?.();
-    const authUser = (getUserRes as any)?.data?.user ?? null;
-    ownerId = authUser?.id ?? null;
-    console.log("createStore: authUser:", authUser);
+  const authUser = (getUserRes as any)?.data?.user ?? null;
+  ownerId = authUser?.id ?? null;
   } catch {
     // ignore - ownerId stays null
   }
 
-  console.log("createStore: inserting store", { store, ownerId });
 
   const { data, error } = await supabase.from("stores").insert({
     ...store,
@@ -54,4 +52,15 @@ export const updateStore = async (id: string, payload: Partial<{
   const { data, error } = await supabase.from('stores').update(payload).eq('id', id).select('*');
   if (error) throw new Error(error.message);
   return data?.[0];
+};
+
+export const getStoreById = async (id: string) => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('stores')
+    .select('*')
+    .eq('id', id)
+    .single();
+  if (error) throw new Error(error.message);
+  return data;
 };

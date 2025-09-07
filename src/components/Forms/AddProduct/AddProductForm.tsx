@@ -8,8 +8,10 @@ import {
   RHFRadioButtons,
 } from "@/components/Inputs";
 import { addProduct, updateProduct } from "@/services/products";
+import { getStoreById, getStoresByOwner } from "@/services/stores";
 import { useModalStore, useUserStore } from "@/stores";
 import { capitalize, getSizes } from "@/utils";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -17,11 +19,9 @@ import CreateBrandModal from "@/app/(main)/mi-perfil/components/CreateBrandModal
 import { CustomButton } from "@/components/Ui";
 import { getBrandsByOwner } from "@/services/brands";
 import { getAllCategories } from "@/services/categories";
-import { getStoresByOwner } from "@/services/stores";
 import { useProductStore } from "@/stores/useProductStore";
 import { GENDERS } from "@/utils/menu";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import type { z } from "zod";
 import { useShallow } from "zustand/react/shallow";
@@ -43,57 +43,111 @@ const AddProductForm = ({ product }: Props) => {
   );
   const queryClient = useQueryClient();
   const pathName = usePathname();
+  const user = useUserStore((s) => s.user);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { control, handleSubmit, watch } = useForm<FormData>({
+  const { control, handleSubmit, watch, setValue } = useForm<FormData>({
     defaultValues: {
       description: product?.description ?? "",
-      brand: product?.brand ?? "",
+      brand: (product?.brand as any) ?? "",
       name: product?.name ?? "",
       gender: (capitalize(product?.gender ?? "") ?? "Hombre") as Gender,
-      sizes: product?.sizes ?? [],
+      sizes: (product?.sizes as any) ?? [],
       price: product?.price ?? 0,
       regular_price: product?.regular_price ?? 0,
-      category_id: product?.category_id ?? "",
-      store_id: product?.store_id ?? "",
+      category_id: (product as any)?.category_id ?? "",
+      store_id: (product as any)?.store_id ?? "",
     },
     resolver: zodResolver(addProductSchema),
   });
   const selectedGender = watch("gender");
   const selectedCategory = watch("category_id");
+  const selectedStore = watch("store_id");
 
-  const user = useUserStore((s) => s.user);
-  const [categories, setCategories] = useState<Array<any>>([]);
-  const [brands, setBrands] = useState<Array<any>>([]);
+  const { data: brandsData = [] } = useQuery({
+    queryKey: ["brands"],
+    queryFn: async () => {
+      if (!user?.id) return [];
+      return getBrandsByOwner(user.id);
+    },
+    enabled: !!user?.id,
+  });
+
+  const { data: categoriesData = [] } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      if (!user?.id) return [];
+      return getAllCategories();
+    },
+    enabled: !!user?.id,
+  });
+
+  const { data: storesData = [] } = useQuery({
+    queryKey: ["stores", user?.id],
+    queryFn: async () => {
+      if (!user?.id) return [];
+      return getStoresByOwner(user.id);
+    },
+    enabled: !!user?.id,
+  });
+
   const [showCreateBrandModal, setShowCreateBrandModal] = useState(false);
-  const [stores, setStores] = useState<Array<any>>([]);
+  const [missingStoreLabel, setMissingStoreLabel] = useState<string | null>(
+    null
+  );
 
   const selectedCategorySlug =
-    categories.find((c) => c.id === selectedCategory)?.slug ?? selectedCategory;
+    categoriesData.find((c) => c.id === selectedCategory)?.slug ??
+    selectedCategory;
 
   useEffect(() => {
-    (async () => {
-      try {
-        const cats = await getAllCategories();
-        setCategories(cats ?? []);
-        if (user?.id) {
-          const myBrands = await getBrandsByOwner(user.id);
-          setBrands(myBrands ?? []);
+    if (!selectedStore && storesData.length === 1) {
+      setValue("store_id", storesData[0].id);
+    }
+  }, [selectedStore, storesData, setValue]);
+
+  useEffect(() => {
+    const prodStoreId = (product as any)?.store_id as string | undefined;
+    if (!selectedStore && product && prodStoreId) {
+      setValue("store_id", prodStoreId);
+    } else {
+      // preset skipped
+    }
+  }, [selectedStore, product, setValue, storesData.length]);
+
+  useEffect(() => {
+    const prodStoreId = (product as any)?.store_id as string | undefined;
+    if (!prodStoreId) return;
+    const exists = storesData.some((s) => s.id === prodStoreId);
+    if (!exists) {
+      (async () => {
+        try {
+          const s = await getStoreById(prodStoreId);
+          setMissingStoreLabel(s?.name ?? "Tienda actual");
+        } catch {
+          setMissingStoreLabel("Tienda actual");
         }
-        if (user?.id) {
-          const myStores = await getStoresByOwner(user.id);
-          setStores(myStores ?? []);
-        }
-      } catch (err) {
-        console.error("Failed to load categories/stores:", err);
-      }
-    })();
-  }, [user]);
+      })();
+    } else {
+      setMissingStoreLabel(null);
+    }
+  }, [product, storesData]);
 
   const onSubmit: SubmitHandler<FormData> = async (data, e) => {
     setIsLoading(true);
 
     e?.preventDefault();
+    // Require at least one image before proceeding
+    if (!images || images.length === 0) {
+      setIsLoading(false);
+      openModal({
+        title: "Faltan imágenes",
+        description:
+          "Debes subir al menos una imagen del producto antes de guardar.",
+        onConfirm: closeModal,
+      });
+      return;
+    }
     const payload = {
       ...(data as unknown as Product),
       category_id: data.category_id,
@@ -101,7 +155,11 @@ const AddProductForm = ({ product }: Props) => {
     } as Product & { category_id: string; store_id: string };
 
     if (pathName.includes("edit")) {
-      await updateProduct(payload, images, product?.id);
+      await updateProduct(
+        payload,
+        images,
+        product?.id ? String(product.id) : undefined
+      );
     } else {
       await addProduct(payload, images);
     }
@@ -136,7 +194,7 @@ const AddProductForm = ({ product }: Props) => {
             <RHFCustomSelect
               control={control}
               name="brand"
-              options={brands.map((b) => ({ label: b.name, value: b.id }))}
+              options={brandsData?.map((b) => ({ label: b.name, value: b.id }))}
               placeholder={user ? "Selecciona una marca" : "No tienes marcas"}
               label="Marca"
             />
@@ -151,20 +209,33 @@ const AddProductForm = ({ product }: Props) => {
             </button>
           </div>
         </div>
-        {/* Store select */}
+        {/* Store select (controlled) */}
         <div>
-          <label className="b1">Tienda</label>
-          <select
-            {...(control as any).register("store_id")}
-            className="w-full p-2 border rounded"
-          >
-            <option value="">Selecciona una tienda</option>
-            {stores.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name}
-              </option>
-            ))}
-          </select>
+          {(() => {
+            const prodStoreId = (product as any)?.store_id as
+              | string
+              | undefined;
+            const storeOptions = [
+              ...(prodStoreId && !storesData.some((s) => s.id === prodStoreId)
+                ? [
+                    {
+                      label: missingStoreLabel ?? "Tienda actual",
+                      value: prodStoreId,
+                    },
+                  ]
+                : []),
+              ...storesData.map((s) => ({ label: s.name, value: s.id })),
+            ];
+            return (
+              <RHFCustomSelect
+                control={control}
+                name="store_id"
+                options={storeOptions}
+                placeholder="Selecciona una tienda"
+                label="Tienda"
+              />
+            );
+          })()}
         </div>
         <div className="flex w-full justify-between gap-4">
           <RHFCustomNumericInput
@@ -190,7 +261,10 @@ const AddProductForm = ({ product }: Props) => {
           <RHFCustomSelect
             control={control}
             name="category_id"
-            options={categories.map((c) => ({ label: c.name, value: c.id }))}
+            options={categoriesData.map((c) => ({
+              label: c.name,
+              value: c.id,
+            }))}
             placeholder="Selecciona una categoría"
             label="Categoría"
           />
@@ -218,10 +292,6 @@ const AddProductForm = ({ product }: Props) => {
               exact: false,
             });
             // also refresh local brands array
-            if (user?.id) {
-              const myBrands = await getBrandsByOwner(user.id);
-              setBrands(myBrands ?? []);
-            }
           }}
         />
       )}

@@ -13,9 +13,8 @@ export const createBrand = async (brand: {
   let ownerId: string | null = null;
   try {
     const getUserRes = await (supabase.auth as any).getUser?.();
-    const authUser = (getUserRes as any)?.data?.user ?? null;
-    ownerId = authUser?.id ?? null;
-    console.log("createBrand: authUser:", authUser);
+  const authUser = (getUserRes as any)?.data?.user ?? null;
+  ownerId = authUser?.id ?? null;
   } catch {
     // ignore
   }
@@ -25,7 +24,6 @@ export const createBrand = async (brand: {
     throw new Error("No authenticated user found. You must be signed in to create a brand.");
   }
 
-  console.log("createBrand: inserting brand", { brand, ownerId });
 
   const { data, error } = await supabase.from("brands").insert({
     ...brand,

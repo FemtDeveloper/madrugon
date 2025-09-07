@@ -11,11 +11,9 @@ const normalize = (s?: string) => (s ?? "").toString().trim().toLowerCase();
 
 export const getSizes = (gender: Gender, category?: Category | string) => {
   const cat = normalize(category as string);
-  console.log({cat});
   
 
-  // If category looks like a UUID (category_id), we can't resolve it here —
-  // fall back to children sizes (same default as before).
+
   if (isUuid(cat)) return AVAILABLE_SIZES.childrenPants;
 
   const isJeans =

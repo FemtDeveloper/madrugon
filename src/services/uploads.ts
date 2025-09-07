@@ -47,3 +47,35 @@ export async function uploadImageToFirebase(
   const url = await uploadFileAndGetUrl(path, processed);
   return url;
 }
+
+// Upload up to 3 product images. Images are compressed on the client before upload.
+export async function uploadProductImagesToFirebase(
+  files: File[],
+  opts: { userId: string; width?: number; quality?: number }
+) {
+  // Enforce a hard cap of 3 images
+  const selected = files.slice(0, 3);
+  const urls: string[] = [];
+
+  for (const f of selected) {
+    if (!f.type.startsWith("image/")) continue;
+    if (f.size > MAX_FILE_SIZE_BYTES)
+      throw new Error("Una o más imágenes superan 10MB");
+
+    const processed = await compressImageClient(f, {
+      width: opts.width ?? 1600,
+      quality: opts.quality ?? 80,
+      format: "image/webp",
+    });
+
+    const safeName = f.name.replace(/[^a-zA-Z0-9_.-]/g, "-");
+    const ts = Date.now();
+    const path = `products/users/${opts.userId}/${ts}-${Math.random()
+      .toString(36)
+      .slice(2)}-${safeName}`;
+    const url = await uploadFileAndGetUrl(path, processed);
+    urls.push(url);
+  }
+
+  return urls;
+}

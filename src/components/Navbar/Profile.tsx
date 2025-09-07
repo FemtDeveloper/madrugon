@@ -1,11 +1,10 @@
 "use client";
-import Link from "next/link";
-import { useShallow } from "zustand/react/shallow";
 
 import { useSidebarStore, useUserStore } from "@/stores";
-
 import { ProfileFilledIcon, ProfileIcon } from "../Icons";
 
+import Link from "next/link";
+import { useShallow } from "zustand/react/shallow";
 
 const Profile = () => {
   const isAuthenticated = useUserStore((state) => state.isAuthenticated);
@@ -25,7 +24,6 @@ const Profile = () => {
           onClick={() => {
             setIsProfileSidebarOpen(true);
             setSidebarType("profile");
-            console.log("opening");
           }}
         >
           <ProfileFilledIcon />

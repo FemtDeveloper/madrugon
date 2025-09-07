@@ -1,5 +1,7 @@
 import { AddProductForm, ImagesUpload } from "@/components/Forms";
-import { getProductBy } from "@/services/products";
+
+import { getProductById } from "@/services/products.server";
+import ProductImagesHydrator from "./product-images-hydrator";
 
 const EditarProductoPorIdPage = async ({
   params,
@@ -7,7 +9,8 @@ const EditarProductoPorIdPage = async ({
   params: Promise<{ id: string }>;
 }) => {
   const resolved = await params;
-  const product = await getProductBy("id", resolved.id);
+
+  const product = await getProductById(resolved.id);
 
   if (!product) {
     return null;
@@ -15,6 +18,7 @@ const EditarProductoPorIdPage = async ({
 
   return (
     <div className="w-full max-w-wrapper flex flex-col md:flex-row py-12">
+      <ProductImagesHydrator images={product.images ?? []} />
       <ImagesUpload images={product.images ?? []} />
       <AddProductForm product={product} />
     </div>
