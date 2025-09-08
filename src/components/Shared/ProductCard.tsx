@@ -23,7 +23,7 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
   const hasDiscount = calculatedDiscount > 0;
 
   return (
-    <article className="product_card w-full group max-w-40 lg:max-w-60 flex flex-col bg-white rounded-2xl lg:rounded-3xl shadow-sm hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 overflow-hidden">
+    <article className="product_card w-full h-full group max-w-40 lg:max-w-60 flex flex-col bg-white rounded-2xl lg:rounded-3xl shadow-sm hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 overflow-hidden">
       <figure className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
         {hasDiscount && (
           <div className="absolute z-20 top-2 left-2 lg:top-3 lg:left-3">
@@ -94,12 +94,14 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
             )}
           </div>
 
-          {hasDiscount && regular_price && (
+          {hasDiscount && regular_price ? (
             <div className="bg-green-50 px-2 py-0.5 rounded-full">
               <span className="text-xs text-green-700 font-medium">
                 Ahorra ${formatCurrency(regular_price - price!)}
               </span>
             </div>
+          ) : (
+            <div className="h-6" />
           )}
         </div>
 

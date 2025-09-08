@@ -29,7 +29,7 @@ const Navbar = ({ isAuthenticated }: Props) => {
 
   return (
     <header className="w-full relative flex justify-center px-4 bg-white shadow-sm z-50">
-      <nav className="w-full flex gap-8  lg:gap-13  max-w-wrapper">
+      <nav className="w-full flex gap-4 lg:gap-13  max-w-wrapper">
         <div className="w-full flex items-center justify-between gap-4">
           <Link href="/" aria-label="Link que te dirige al home">
             <IsoIcon width={isMobile ? 32 : 42} height={isMobile ? 24 : 32} />

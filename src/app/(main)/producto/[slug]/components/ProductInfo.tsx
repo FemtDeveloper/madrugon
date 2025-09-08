@@ -18,6 +18,29 @@ const ProductInfo = ({ product }: Props) => {
     price,
     sizes,
   } = product;
+  // safe numeric coercion (DB values may be strings)
+  const toNumber = (v: any): number | null => {
+    if (v === null || v === undefined) return null;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : null;
+  };
+
+  const finalPriceNum = toNumber((product as any).base_price ?? price ?? null);
+  const finalRegularNum = toNumber(
+    (product as any).compare_price ?? regular_price ?? null
+  );
+
+  let discountPercentage: number | null = null;
+  if (
+    finalRegularNum != null &&
+    finalPriceNum != null &&
+    finalRegularNum > 0 &&
+    finalRegularNum > finalPriceNum
+  ) {
+    discountPercentage = Math.round(
+      ((finalRegularNum - finalPriceNum) / finalRegularNum) * 100
+    );
+  }
 
   return (
     <div className="infoContainer flex flex-col w-full lg:w-[55%] gap-3 px-4 lg:px-0 pb-4">
@@ -26,7 +49,11 @@ const ProductInfo = ({ product }: Props) => {
       <h2 className="b2 text-p-1 font-bold underline">
         {brand?.toUpperCase()}
       </h2>
-      <Prices price={price} regular_price={regular_price} />
+      <Prices
+        price={price}
+        regular_price={regular_price}
+        discount_percentage={discountPercentage}
+      />
       <CustomLink
         path={`https://wa.me/57${3507107300}`}
         btnTitle="Contactar al vendedor"

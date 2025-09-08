@@ -1,13 +1,13 @@
 "use client";
-import clsx from "clsx";
-import { useRouter } from "next/navigation";
+
 import { Dispatch, useState } from "react";
 
-import { useSidebarStore } from "@/stores";
 import { CATEGORIES } from "@/utils/menu";
-
 import { ChevronLeftIcon } from "../Icons";
 import { CustomLink } from "../Ui";
+import clsx from "clsx";
+import { useRouter } from "next/navigation";
+import { useSidebarStore } from "@/stores";
 
 interface Props {
   isOpen: boolean;
@@ -71,7 +71,7 @@ const CategorySidebar = ({ isOpen, setIsOpen, gender }: Props) => {
                 value={category.toLowerCase()}
                 checked={selectedCategories.includes(category.toLowerCase())}
                 onChange={() => handleSelect(category.toLowerCase())}
-                className="appearance-none w-4 h-4 border-2 border-blue-500 rounded-sm bg-white checked:bg-title"
+                className="appearance-none w-4 h-4 border-2 border-gray-800 rounded-sm bg-white checked:bg-title"
               />
             </div>
           ))}

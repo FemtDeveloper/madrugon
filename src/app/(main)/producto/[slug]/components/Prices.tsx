@@ -16,7 +16,6 @@ const Prices = ({
   base_price,
   compare_price,
 }: Props) => {
-  // prefer canonical names if present
   const finalPrice = base_price ?? price ?? null;
   const finalRegular = compare_price ?? regular_price ?? null;
 
@@ -31,7 +30,7 @@ const Prices = ({
       {discount_percentage &&
         discount_percentage > 0 &&
         finalRegular != null && (
-          <h3 className="text-xl font-bold tracking-normal line-through text-p-1">
+          <h3 className="font-bold tracking-normal line-through text-p-1">
             $ {formatCurrency(finalRegular)}
           </h3>
         )}

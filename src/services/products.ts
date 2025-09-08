@@ -59,13 +59,14 @@ export const getProductBySlug = async (
   const supabase = createClient();
   const { data, error } = await supabase
     .from("products")
-    .select("*")
+    .select(selectFields)
     .filter("slug", "eq", slug);
 
   if (error) {
     return null;
   }
-  return data[0];
+const products = (data || []).map(mapRowToProduct) as Product[];
+return products.length > 0 ? products[0] : null;
 };
 export const getProductBy = async (
   term: "id" | "slug",
