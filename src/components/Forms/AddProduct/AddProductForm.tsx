@@ -7,25 +7,25 @@ import {
   RHFCustomSelect,
   RHFRadioButtons,
 } from "@/components/Inputs";
-import { addProduct, updateProduct } from "@/services/products";
-import { getStoreById, getStoresByOwner } from "@/services/stores";
-import { useModalStore, useUserStore } from "@/stores";
-import { capitalize, getSizes } from "@/utils";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { addProduct, updateProduct } from "@/services/products";
+import { capitalize, getSizes } from "@/utils";
+import { getStoreById, getStoresByOwner } from "@/services/stores";
+import { useEffect, useState } from "react";
+import { useModalStore, useUserStore } from "@/stores";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import CreateBrandModal from "@/app/(main)/mi-perfil/components/CreateBrandModal";
 import { CustomButton } from "@/components/Ui";
-import { getBrandsByOwner } from "@/services/brands";
-import { getAllCategories } from "@/services/categories";
-import { useProductStore } from "@/stores/useProductStore";
 import { GENDERS } from "@/utils/menu";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname } from "next/navigation";
-import type { z } from "zod";
-import { useShallow } from "zustand/react/shallow";
 import { addProductSchema } from "./schema";
+import { getAllCategories } from "@/services/categories";
+import { getBrandsByOwner } from "@/services/brands";
+import { usePathname } from "next/navigation";
+import { useProductStore } from "@/stores/useProductStore";
+import { useShallow } from "zustand/react/shallow";
+import type { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type FormData = z.infer<typeof addProductSchema>;
 
@@ -181,11 +181,13 @@ const AddProductForm = ({ product }: Props) => {
         <RHFCustomInput
           control={control}
           name="name"
+          label="Nombre del producto"
           placeholder="Ingresa el nombre de tu producto"
         />
         <RHFCustomInput
           control={control}
           name="description"
+          label="Descripción del producto"
           placeholder="Ingresa la descripción de tu producto"
           inputHeight={300}
         />
@@ -241,12 +243,14 @@ const AddProductForm = ({ product }: Props) => {
           <RHFCustomNumericInput
             control={control}
             name="price"
+            label="Precio final"
             placeholder="Ingresa el precio final"
             type="currency"
           />
           <RHFCustomNumericInput
             control={control}
             name="regular_price"
+            label="Precio original"
             placeholder="Ingresa el precio original"
             type="currency"
           />
