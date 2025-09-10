@@ -1,6 +1,7 @@
 "use client";
-import clsx from "clsx";
+
 import Link from "next/link";
+import clsx from "clsx";
 
 interface Props {
   path?: string;
@@ -23,8 +24,8 @@ const CustomLink = ({
 }: Props) => {
   const getWidth = () => {
     if (size === "xLarge") return "w-[310px] py-3 px-4";
-    if (size === "large") return "w-[270px]  py-3 px-4";
-    if (size === "medium") return "w-[197px]  py-3 px-4";
+    if (size === "large") return "w-[270px] py-3.5 px-5";
+    if (size === "medium") return "w-[197px] py-3 px-4";
     return "w-[140px]";
   };
 

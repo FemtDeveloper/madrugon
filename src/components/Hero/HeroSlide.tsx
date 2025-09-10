@@ -18,17 +18,15 @@ const HeroSlide = ({ content, isFirstSlide = false }: Props) => {
         alt={`Hero image for ${title}`}
         className="object-cover object-top -z-10"
         priority={isFirstSlide}
-        sizes="100vw"
-        quality={85}
+        sizes="(min-width: 1536px) 1536px, (min-width: 1280px) 1280px, (min-width: 1024px) 1024px, 100vw"
+        quality={70}
         loading={isFirstSlide ? "eager" : "lazy"}
       />
 
-      <div className="titleContainer flex flex-col gap-3">
-        <h2 className="d1 text-white text-center font-bold">{title}</h2>
-        {subtitle && (
-          <h4 className="b3 lg:b1 text-white text-center">{subtitle}</h4>
-        )}
-      </div>
+      <h2 className="d1 text-white text-center font-bold">{title}</h2>
+      {subtitle && (
+        <h3 className="b3 lg:b1 text-white text-center">{subtitle}</h3>
+      )}
       <CustomLink path={path} btnTitle={btnTitle} />
     </div>
   );

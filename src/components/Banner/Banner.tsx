@@ -1,6 +1,5 @@
-import Image from "next/image";
-
 import { CustomLink } from "../Ui";
+import Image from "next/image";
 
 interface Props {
   content: Banner;
@@ -38,9 +37,9 @@ const BannerComponent = ({ content }: Props) => {
         </div>
         <div className="rightContent flex flex-col justify-end items-center gap-2 lg:gap-10 ">
           <div className="subtitle flex flex-col justify-center gap-1 text-white rounded-3xl max-h-52 lg:p-4 lg:bg-blur">
-            <h5 className="lg:d1 text-[52px] leading-none text-center">
+            <h4 className="lg:d1 text-[52px] leading-none text-center">
               {title}
-            </h5>
+            </h4>
             <h6 className="text-center">{titleDescription}</h6>
           </div>
         </div>

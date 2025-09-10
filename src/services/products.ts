@@ -84,39 +84,96 @@ export const getProductBy = async (
   return data[0];
 };
 
-export const addFavorite = async (productId: string, userId: string) => {
+export const addFavorite = async (
+  productId: string,
+  userId: string
+): Promise<{ status: "added" | "removed" | "skipped"; reason?: string }> => {
   const supabase = createClient();
 
-  const { data, error } = await supabase
+  // Validate UUID to avoid DB errors when using mock products
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+    productId
+  );
+  if (!isUuid) {
+    // Can't persist non-UUID due to FK constraint (wishlists.product_id -> products.id)
+    return { status: "skipped", reason: "non-uuid-product" };
+  }
+
+  // Toggle behavior: if exists -> remove, else -> add
+  // First try to delete existing row
+  const { data: deleted, error: delErr } = await supabase
+    .from("wishlists")
+    .delete()
+    .eq("user_id", userId)
+    .eq("product_id", productId)
+    .select("id");
+
+  if (delErr) {
+    // If RLS or other delete issue occurs, surface the error
+    throw new Error(delErr.message);
+  }
+
+  if (Array.isArray(deleted) && deleted.length > 0) {
+    return { status: "removed" };
+  }
+
+  // Not found, insert as favorite
+  const { error: insErr } = await supabase
     .from("wishlists")
     .insert({ product_id: productId, user_id: userId });
 
-  if (error) {
-    throw new Error(error.message);
+  if (insErr) {
+    // If a race caused a duplicate, treat as added (idempotent)
+    if ((insErr as any).code === "23505") {
+      return { status: "added" };
+    }
+    throw new Error(insErr.message);
   }
 
-  return data;
+  return { status: "added" };
 };
 export const getFavoriteProducts = async (
-  user_id: string
+  user_id: string,
+  client?: any
 ): Promise<FavoriteProduct[] | null> => {
-  const supabase = createClient();
+  const supabase = client ?? createClient();
 
-  const { data, error } = await supabase
+  // Get favorite product IDs for this user
+  const { data: favRows, error: favErr } = await supabase
     .from("wishlists")
-    .select(
-      `
-    product_id,
-    products (name, price, description, sizes, images, id, brand, category, created_at, regular_price )
-  `
-    )
+    .select("product_id")
     .eq("user_id", user_id);
 
-  if (error) {
-    console.error({ error });
+  if (favErr) {
+    console.error({ favErr });
+    return null;
   }
 
-  return data as unknown as FavoriteProduct[];
+  const productIds = (favRows ?? [])
+    .map((r: any) => r.product_id)
+    .filter(Boolean);
+
+  if (productIds.length === 0) return [];
+
+  // Fetch products in a second query using the unified selectFields and map shape
+  const { data: productsRows, error: prodErr } = await supabase
+    .from("products")
+    .select(selectFields)
+    .in("id", productIds);
+
+  if (prodErr) {
+    console.error({ prodErr });
+    return null;
+  }
+
+  const mapped = (productsRows || []).map(mapRowToProduct) as Product[];
+  // Maintain the FavoriteProduct shape expected by the page
+  const byId = new Map<string, Product>(mapped.map((p) => [p.id, p]));
+  const result: FavoriteProduct[] = productIds
+    .map((pid: string) => ({ product_id: pid, products: byId.get(pid)! }))
+    .filter((x: { product_id: string; products: Product | undefined }) => !!x.products) as FavoriteProduct[];
+
+  return result;
 };
 
 export const getProductsByGender = async (gender: Gender) => {

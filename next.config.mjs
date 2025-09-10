@@ -4,6 +4,10 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
+    formats: ["image/avif", "image/webp"],
+    // Tailor to our layout: common breakpoints for hero and grid images
+    deviceSizes: [360, 414, 640, 768, 1024, 1280, 1536],
+    imageSizes: [64, 96, 128, 256, 384],
     remotePatterns: [
       {
         protocol: "https",

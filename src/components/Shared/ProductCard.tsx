@@ -23,7 +23,7 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
   const hasDiscount = calculatedDiscount > 0;
 
   return (
-    <article className="product_card w-full h-full max-h-96 group max-w-48 lg:max-w-60 flex flex-col bg-white rounded-2xl lg:rounded-3xl shadow-sm hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 overflow-hidden">
+    <article className="product_card w-full h-full max-h-96 group max-w-40 md:max-w-60 flex flex-col bg-white rounded-2xl lg:rounded-3xl shadow-sm hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 overflow-hidden">
       <figure className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
         {hasDiscount && (
           <div className="absolute z-20 top-2 left-2 lg:top-3 lg:left-3">
@@ -71,7 +71,7 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
               href={`/categorias/${category
                 .replace(/\s+/g, "-")
                 .toLowerCase()}`}
-              className="text-xs text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full font-medium border border-blue-100 hover:bg-blue-100 transition-colors"
+              className="text-xs text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full font-medium border border-blue-100 hover:bg-blue-100 transition-colors"
             >
               {category}
             </Link>

@@ -1,8 +1,7 @@
-import { redirect } from "next/navigation";
-
 import { ProductGrid } from "@/components/Shared";
 import { createClient } from "@/utils/supabase/server";
 import { getFavoriteProducts } from "@/services/products";
+import { redirect } from "next/navigation";
 
 const FavoritosPage = async () => {
   const supabase = await createClient();
@@ -13,9 +12,9 @@ const FavoritosPage = async () => {
     redirect("/");
   }
   const favoriteProducts: FavoriteProduct[] | null = await getFavoriteProducts(
-    data.user.id
+    data.user.id,
+    supabase
   );
-  // console.log(favoriteProducts);
 
   return (
     <section className="flex flex-col h-full w-full max-w-wrapper py-4 gap-8">
