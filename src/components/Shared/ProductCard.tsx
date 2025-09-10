@@ -23,7 +23,7 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
   const hasDiscount = calculatedDiscount > 0;
 
   return (
-    <article className="product_card w-full h-full max-h-96 group max-w-40 lg:max-w-60 flex flex-col bg-white rounded-2xl lg:rounded-3xl shadow-sm hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 overflow-hidden">
+    <article className="product_card w-full h-full max-h-96 group max-w-48 lg:max-w-60 flex flex-col bg-white rounded-2xl lg:rounded-3xl shadow-sm hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 overflow-hidden">
       <figure className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
         {hasDiscount && (
           <div className="absolute z-20 top-2 left-2 lg:top-3 lg:left-3">
@@ -71,7 +71,7 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
               href={`/categorias/${category
                 .replace(/\s+/g, "-")
                 .toLowerCase()}`}
-              className="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full font-medium border border-blue-100 hover:bg-blue-100 transition-colors"
+              className="text-xs text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full font-medium border border-blue-100 hover:bg-blue-100 transition-colors"
             >
               {category}
             </Link>
@@ -82,41 +82,42 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
           {name}
         </h3>
 
-        <div className="price_section flex flex-col items-center space-y-0.5">
+        <div className="price_section flex flex-col items-center space-y-1.5">
           <div className="flex items-center justify-center gap-2">
             <span className="text-lg lg:text-xl font-bold text-gray-900">
               ${formatCurrency(price!)}
             </span>
             {regular_price && regular_price !== price && (
-              <span className="text-xs lg:text-sm line-through text-gray-400">
+              <span className="text-xs lg:text-sm line-through text-gray-700">
                 ${formatCurrency(regular_price)}
               </span>
             )}
           </div>
+          <div>
+            {hasDiscount && regular_price ? (
+              <div className="bg-green-50 px-2 py-0.5 rounded-full">
+                <span className="text-xs text-green-700 font-medium">
+                  Ahorra ${formatCurrency(regular_price - price!)}
+                </span>
+              </div>
+            ) : (
+              <div className="h-6" />
+            )}
+          </div>
 
-          {hasDiscount && regular_price ? (
-            <div className="bg-green-50 px-2 py-0.5 rounded-full">
-              <span className="text-xs text-green-700 font-medium">
-                Ahorra ${formatCurrency(regular_price - price!)}
-              </span>
+          {brand && (
+            <div className="flex justify-center">
+              <Link
+                href={`/marcas/${brand.replace(/\s+/g, "-").toLowerCase()}`}
+                className="text-xs lg:text-sm text-gray-700 hover:text-blue-900 font-medium relative group/brand transition-colors duration-300"
+                aria-label={`Ver productos de la marca ${brand}`}
+              >
+                <span className="relative z-10">{brand}</span>
+                <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-gray-400 to-gray-800 transform scale-x-0 group-hover/brand:scale-x-100 transition-transform duration-300 origin-left" />
+              </Link>
             </div>
-          ) : (
-            <div className="h-6" />
           )}
         </div>
-
-        {brand && (
-          <div className="flex justify-center">
-            <Link
-              href={`/marcas/${brand.replace(/\s+/g, "-").toLowerCase()}`}
-              className="text-xs lg:text-sm text-gray-600 hover:text-blue-600 font-medium relative group/brand transition-colors duration-300"
-              aria-label={`Ver productos de la marca ${brand}`}
-            >
-              <span className="relative z-10">{brand}</span>
-              <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-gray-400 to-gray-800 transform scale-x-0 group-hover/brand:scale-x-100 transition-transform duration-300 origin-left" />
-            </Link>
-          </div>
-        )}
 
         <div className="flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <div className="flex space-x-1">

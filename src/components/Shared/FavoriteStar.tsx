@@ -1,11 +1,10 @@
 "use client";
-import { useState } from "react";
-
-import { addFavorite } from "@/services/products";
-import { useUserStore } from "@/stores";
 
 import { HeartIcon, HeartIconFilled } from "../Icons";
 
+import { addFavorite } from "@/services/products";
+import { useState } from "react";
+import { useUserStore } from "@/stores";
 
 interface Props {
   productId: string;
@@ -23,6 +22,8 @@ const FavoriteStar = ({ productId }: Props) => {
     <button
       className="h-8 w-8 bg-blur rounded-full grid place-items-center"
       onClick={handleFavoriteProduct}
+      aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
+      title={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
     >
       {isFavorite ? <HeartIconFilled /> : <HeartIcon />}
     </button>

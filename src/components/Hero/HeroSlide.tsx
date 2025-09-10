@@ -1,6 +1,5 @@
-import Image from "next/image";
-
 import { CustomLink } from "../Ui";
+import Image from "next/image";
 
 interface Props {
   content: Hero;
@@ -21,7 +20,7 @@ const HeroSlide = ({ content }: Props) => {
       <div className="titleContainer flex flex-col gap-3">
         <h2 className="d1 text-white text-center font-bold">{title}</h2>
         {subtitle && (
-          <h5 className="b3 lg:b1 text-white text-center">{subtitle}</h5>
+          <h4 className="b3 lg:b1 text-white text-center">{subtitle}</h4>
         )}
       </div>
       <CustomLink path={path} btnTitle={btnTitle} />
