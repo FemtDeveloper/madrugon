@@ -3,20 +3,26 @@ import Image from "next/image";
 
 interface Props {
   content: Hero;
+  shouldLoad?: boolean;
+  isFirstSlide?: boolean;
 }
 
-const HeroSlide = ({ content }: Props) => {
+const HeroSlide = ({ content, isFirstSlide = false }: Props) => {
   const { img, path, btnTitle, title, subtitle } = content;
+
   return (
     <div className="heroSlide flex flex-col relative justify-center items-center h-full gap-8">
       <Image
         src={img}
-        width={2000}
-        height={2000}
-        alt="Hero image"
-        className="absolute object-cover object-top -z-10 h-full"
-        priority
+        fill
+        alt={`Hero image for ${title}`}
+        className="object-cover object-top -z-10"
+        priority={isFirstSlide}
+        sizes="100vw"
+        quality={85}
+        loading={isFirstSlide ? "eager" : "lazy"}
       />
+
       <div className="titleContainer flex flex-col gap-3">
         <h2 className="d1 text-white text-center font-bold">{title}</h2>
         {subtitle && (

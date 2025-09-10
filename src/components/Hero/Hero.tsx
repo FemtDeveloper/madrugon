@@ -1,4 +1,5 @@
 "use client";
+
 import { Autoplay, EffectFade } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -18,10 +19,11 @@ const Hero = ({ content }: Props) => {
           className="hero h-full"
           autoplay={{ delay: 2500, disableOnInteraction: true }}
           pagination={{ clickable: true }}
+          watchSlidesProgress={true}
         >
           {content.map((hero, i) => (
             <SwiperSlide key={i} className="h-full">
-              <HeroSlide content={hero} />
+              <HeroSlide content={hero} isFirstSlide={i === 0} />
             </SwiperSlide>
           ))}
         </Swiper>

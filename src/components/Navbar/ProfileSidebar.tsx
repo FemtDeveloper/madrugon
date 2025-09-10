@@ -2,13 +2,13 @@
 
 import { useSidebarStore, useUserStore } from "@/stores";
 
-import { logout } from "@/app/auth/actions";
-import clsx from "clsx";
-import Image from "next/image";
-import Link from "next/link";
-import { useShallow } from "zustand/react/shallow";
 import { ChevronLeftIcon } from "../Icons";
 import { CustomLink } from "../Ui";
+import Image from "next/image";
+import Link from "next/link";
+import clsx from "clsx";
+import { logout } from "@/app/auth/actions";
+import { useShallow } from "zustand/react/shallow";
 
 const ProfileSidebar = () => {
   const { isProfileSidebarOpen, setIsProfileSidebarOpen } = useSidebarStore(
@@ -50,6 +50,7 @@ const ProfileSidebar = () => {
             onClick={() => {
               setIsProfileSidebarOpen(false);
             }}
+            aria-label="Cerrar menú de perfil"
           >
             <ChevronLeftIcon color="white" />
           </button>

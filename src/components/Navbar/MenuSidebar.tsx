@@ -1,8 +1,7 @@
-import { SetStateAction } from "react";
-
-import { genderMapping, GENDERS } from "@/utils/menu";
-
 import { ChevronLeftIcon, ChevronRightIcon } from "../Icons";
+import { GENDERS, genderMapping } from "@/utils/menu";
+
+import { SetStateAction } from "react";
 
 interface Props {
   setIsSidebarOpen: () => void;
@@ -17,7 +16,11 @@ const MenuSidebar = ({
 }: Props) => {
   return (
     <div className="flex flex-col items-start gap-6 absolute w-full">
-      <button className="bg-title rounded-full p-1" onClick={setIsSidebarOpen}>
+      <button
+        className="bg-title rounded-full p-1"
+        aria-label="Cerrar menú"
+        onClick={setIsSidebarOpen}
+      >
         <ChevronLeftIcon color="white" />
       </button>{" "}
       <div className="flex flex-col gap-12 w-full">

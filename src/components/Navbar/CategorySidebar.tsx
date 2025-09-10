@@ -57,6 +57,7 @@ const CategorySidebar = ({ isOpen, setIsOpen, gender }: Props) => {
       <button
         className="bg-title rounded-full p-1"
         onClick={() => setIsOpen(false)}
+        aria-label="Cerrar menú de categorías"
       >
         <ChevronLeftIcon color="white" />
       </button>
@@ -65,9 +66,10 @@ const CategorySidebar = ({ isOpen, setIsOpen, gender }: Props) => {
         <div className="flex flex-col w-full gap-6">
           {CATEGORIES.map((category, i) => (
             <div key={i} className="w-full flex justify-between">
-              <p>{category}</p>
+              <label htmlFor={`category-${i}`}>{category}</label>
               <input
                 type="checkbox"
+                id={`category-${i}`}
                 value={category.toLowerCase()}
                 checked={selectedCategories.includes(category.toLowerCase())}
                 onChange={() => handleSelect(category.toLowerCase())}
