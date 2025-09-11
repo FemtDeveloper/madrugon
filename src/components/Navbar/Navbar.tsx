@@ -6,7 +6,6 @@ import NavbarLinks from "./NavbarLinks";
 import Profile from "./Profile";
 import Searchbar from "./Searchbar";
 import SidebarMenuButton from "./SidebarMenuButton";
-import { getMyProfile } from "@/utils/getMyProfile";
 import { useEffect } from "react";
 import { useResponsive } from "@/hooks";
 import { useUserStore } from "@/stores";
@@ -18,10 +17,6 @@ interface Props {
 const Navbar = ({ isAuthenticated }: Props) => {
   const { isMobile } = useResponsive();
   const setIsAuthenticated = useUserStore((state) => state.setIsAuthenticated);
-
-  useEffect(() => {
-    getMyProfile();
-  }, []);
 
   useEffect(() => {
     setIsAuthenticated(isAuthenticated);

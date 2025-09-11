@@ -1,11 +1,13 @@
 import "./globals.css";
 
+import { ReactQueryProvider, UserBootstrapProvider } from "@/providers";
+
 import Analytics from "@/components/Analytics/Analytics";
-import { Modal } from "@/components/Modal";
-import { Loader } from "@/components/Ui";
-import { ReactQueryProvider } from "@/providers";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Loader } from "@/components/Ui";
+import type { Metadata } from "next";
+import { Modal } from "@/components/Modal";
+import PromotionModal from "@/components/Modal/PromotionModal/PromotionModal";
 import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,12 +34,15 @@ export default function RootLayout({
         className={`${inter.className} w-full flex justify-center min-h-screen`}
       >
         <ReactQueryProvider>
-          <Suspense fallback={null}>
-            <Analytics />
-          </Suspense>
-          <Loader />
-          {children}
-          <Modal />
+          <UserBootstrapProvider>
+            <Suspense fallback={null}>
+              <Analytics />
+            </Suspense>
+            <Loader />
+            {children}
+            <Modal />
+            <PromotionModal />
+          </UserBootstrapProvider>
         </ReactQueryProvider>
       </body>
     </html>

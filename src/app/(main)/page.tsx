@@ -1,23 +1,26 @@
-import { Hero, heroContent } from "@/components/Hero";
+import "swiper/css";
+import "swiper/css/autoplay";
+import "swiper/css/pagination";
+
 import {
   MainCategories,
   mainCategoriesContent,
 } from "@/components/MainCategories";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
+
+import HomepageBannerFromDB from "@/components/Banner/HomepageBannerFromDB";
+import { HeroFromDB } from "@/components/Hero";
 import { MainGrid } from "@/components/MainGrid";
-import { Banner } from "@/components/Banner";
-import { BANNER_CONTENT } from "@/mocks";
 
 export default function Home() {
   return (
     <main className="flex w-full flex-col items-center justify-between">
       <div className="w-full flex flex-col gap-8 lg:gap:15 items-center">
-        <Hero content={heroContent} />
+        {/* Hero populated from DB */}
+        <HeroFromDB />
         <MainCategories content={mainCategoriesContent} />
         <MainGrid />
-        <Banner content={BANNER_CONTENT} />
+        {/* Homepage banner from DB (first active record) */}
+        <HomepageBannerFromDB />
       </div>
     </main>
   );

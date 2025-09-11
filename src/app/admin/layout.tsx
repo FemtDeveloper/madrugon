@@ -1,8 +1,6 @@
-import { redirect } from "next/navigation";
-
-import { createClient } from "@/utils/supabase/server";
-
 import { AdminNavbar } from "./components/Navbar";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 const layout = async ({
   children,
@@ -20,12 +18,15 @@ const layout = async ({
     redirect("/");
   }
 
-  const { data: isAdmin, error: errorUserData } = await supabase
+  const { data: profile } = await supabase
     .from("users")
-    .select("isAdmin")
-    .eq("id", user?.id);
+    .select("id, role_id, user_roles:role_id(name)")
+    .eq("id", user.id)
+    .single();
 
-  if (errorUserData || !isAdmin) {
+  const roleName = (profile as any)?.user_roles?.name as string | undefined;
+  const isAdmin = roleName === "admin" || roleName === "super_admin";
+  if (!isAdmin) {
     redirect("/");
   }
 

@@ -1,4 +1,4 @@
-const heroContent: Hero[] = [
+export const heroContent: Hero[] = [
   {
     img: "/images/main-hero.webp",
     path: "/promos",
@@ -14,4 +14,3 @@ const heroContent: Hero[] = [
   },
 ];
 
-export default heroContent;

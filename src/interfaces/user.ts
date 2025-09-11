@@ -15,12 +15,15 @@ interface User {
   is_active?: boolean;
   is_seller: boolean | null;
   is_verified?: boolean;
+  isAdmin?: boolean;
   last_login?: string | null;
   last_name: string | null;
   phone_number?: string | null;
   phone: string | null;
   profile_image_url: string | null;
   role_id?: string | null;
+  // Denormalized convenience field populated by getMyProfile via join
+  role_name?: string | null;
   updated_at: string;
   verification_date?: string | null;
 }

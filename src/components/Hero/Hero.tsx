@@ -2,15 +2,16 @@
 
 import { useEffect, useState } from "react";
 
-import HeroSlide from "./HeroSlide";
 import dynamic from "next/dynamic";
+import { HeroSlide } from "./HeroSlide";
+
 const HeroCarousel = dynamic(() => import("./HeroCarousel"), { ssr: false });
 
 interface Props {
   content: Hero[];
 }
 
-const Hero = ({ content }: Props) => {
+export const Hero = ({ content }: Props) => {
   const [swiperReady, setSwiperReady] = useState(false);
   const [isClient, setIsClient] = useState(false);
   useEffect(() => setIsClient(true), []);

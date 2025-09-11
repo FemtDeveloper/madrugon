@@ -46,12 +46,14 @@ const mapRowToProduct = (row: any): Product => {
 
 export const getAllProducts = async (): Promise<Product[] | null> => {
   const supabase = createClient();
-  const { data, error } = await supabase.from("products").select("*");
+  const { data, error } = await supabase
+    .from("products")
+    .select(selectFields);
 
   if (error) {
     return null;
   }
-  return data;
+  return (data || []).map(mapRowToProduct) as Product[];
 };
 export const getProductBySlug = async (
   slug: string
@@ -75,13 +77,14 @@ export const getProductBy = async (
   const supabase = createClient();
   const { data, error } = await supabase
     .from("products")
-    .select("*")
+    .select(selectFields)
     .filter(term, "eq", identifier);
 
   if (error) {
     return null;
   }
-  return data[0];
+  const products = (data || []).map(mapRowToProduct) as Product[];
+  return products.length > 0 ? products[0] : null;
 };
 
 export const addFavorite = async (
@@ -229,29 +232,38 @@ export const getProductsBySearchNavbar = async (searchTerm: string) => {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("products")
-    .select("*")
+    .select(selectFields)
     .textSearch("name", searchTerm.split(" ").join(" or ").trim());
 
   if (error) {
     return null;
   }
-  return data;
+  return (data || []).map(mapRowToProduct) as Product[];
 };
 export const getProductsByGenderAndCategory = async (
   gender: Gender,
   categories: Category[]
 ) => {
   const supabase = createClient();
+  // Normalize category slugs to lowercase for comparison
+  const categorySlugs = (categories || []).map((c) => String(c).toLowerCase());
+
+  // Use inner join on categories by slug and filter gender
+  const selectWithInner = selectFields.replace(
+    "categories:categories!products_category_id_fkey(id, name)",
+    "categories:categories!inner(id, name, slug)"
+  );
+
   const { data, error } = await supabase
     .from("products")
-    .select("*")
-    .in("category", categories)
-    .match({ gender });
+    .select(selectWithInner)
+    .in("categories.slug", categorySlugs)
+    .eq("gender", gender);
 
   if (error) {
     return null;
   }
-  return data;
+  return (data || []).map(mapRowToProduct) as Product[];
 };
 // getMyProducts moved to server-only module: services/products.server.ts
 

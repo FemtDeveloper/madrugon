@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 import { logout } from "@/app/auth/actions";
+import { useRole } from "@/hooks";
 import { useShallow } from "zustand/react/shallow";
 
 const ProfileSidebar = () => {
@@ -21,6 +22,8 @@ const ProfileSidebar = () => {
   const { user, setUser } = useUserStore(
     useShallow((state) => ({ user: state.user, setUser: state.setUser }))
   );
+
+  const { isAdmin } = useRole();
 
   const handleLogout = async () => {
     try {
@@ -93,7 +96,9 @@ const ProfileSidebar = () => {
                 onClick={() => setIsProfileSidebarOpen(false)}
               />
             )}
-
+            {isAdmin && (
+              <CustomLink btnTitle="Ir al Admin" path="/admin" size="medium" />
+            )}
             <CustomLink
               btnTitle="Mis favoritos"
               path="/mis-favoritos"

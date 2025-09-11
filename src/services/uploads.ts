@@ -1,5 +1,5 @@
-import { uploadFileAndGetUrl } from "@/lib/firebase/storage";
 import { compressImageClient } from "@/utils/image/compress";
+import { uploadFileAndGetUrl } from "@/lib/firebase/storage";
 
 // Max size (bytes) before client-side reject, irrespective of compression
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
@@ -44,6 +44,28 @@ export async function uploadImageToFirebase(
 
   const safeName = file.name.replace(/[^a-zA-Z0-9_.-]/g, "-");
   const path = makePath(target, safeName);
+  const url = await uploadFileAndGetUrl(path, processed);
+  return url;
+}
+
+// Upload a single promo banner image (compressed) to Firebase Storage
+export async function uploadPromoBannerImage(
+  file: File,
+  opts: { width?: number; quality?: number } = {}
+) {
+  if (!file.type.startsWith("image/")) throw new Error("Solo se permiten imágenes");
+  if (file.size > MAX_FILE_SIZE_BYTES)
+    throw new Error("La imagen supera el tamaño máximo de 10MB");
+
+  const processed = await compressImageClient(file, {
+    width: opts.width ?? 1600,
+    quality: opts.quality ?? 80,
+    format: "image/webp",
+  });
+
+  const ts = Date.now();
+  const safeName = file.name.replace(/[^a-zA-Z0-9_.-]/g, "-");
+  const path = `promo_banners/${ts}-${Math.random().toString(36).slice(2)}-${safeName}`;
   const url = await uploadFileAndGetUrl(path, processed);
   return url;
 }

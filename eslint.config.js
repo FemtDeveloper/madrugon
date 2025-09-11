@@ -4,7 +4,7 @@ import unusedImports from "eslint-plugin-unused-imports";
 
 const compat = new FlatCompat();
 
-export default [
+const config = [
   // Convert legacy extends into flat-compatible config
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
@@ -28,6 +28,17 @@ export default [
           argsIgnorePattern: "^_",
         },
       ],
+      // Prefer TanStack Query for data fetching in components
+      "no-restricted-imports": [
+        "warn",
+        {
+          name: "swr",
+          message:
+            "Use @tanstack/react-query instead of swr per project rules.",
+        },
+      ],
+      // Gentle nudge to use CustomButton/CustomLink
+
       "@typescript-eslint/ban-ts-comment": [
         "warn",
         { "ts-expect-error": "allow-with-description" },
@@ -38,3 +49,5 @@ export default [
     ignores: ["node_modules/**", ".next/**", "dist/**", "build/**"],
   },
 ];
+
+export default config;

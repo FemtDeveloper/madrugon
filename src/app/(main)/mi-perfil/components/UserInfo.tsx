@@ -4,17 +4,17 @@ import { logoutClient, updateUserClient } from "@/services/user";
 import { useLoaderStore, useModalStore, useUserStore } from "@/stores";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { getBrandsByOwner } from "@/services/brands";
-import { getStoresByOwner } from "@/services/stores";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useShallow } from "zustand/react/shallow";
 import CreateBrandModal from "./CreateBrandModal";
 import CreateStoreModal from "./CreateStoreModal";
 import ProfileForm from "./ProfileForm";
 import ProfileHeader from "./ProfileHeader";
 import RelationsSection from "./RelationsSection";
+import { getBrandsByOwner } from "@/services/brands";
+import { getStoresByOwner } from "@/services/stores";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useShallow } from "zustand/react/shallow";
+import { useState } from "react";
 
 export function UserInfo() {
   const user = useUserStore((state) => state.user);
@@ -59,7 +59,7 @@ export function UserInfo() {
     router.push("/");
   };
 
-  const mutation = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: async (payload: userUpdateDTO) => {
       return await updateUserClient(payload, user!.id);
     },
@@ -83,20 +83,28 @@ export function UserInfo() {
         exact: false,
       });
     },
+    onError: (error) => {
+      console.error("Error updating user:", error);
+      openModal({
+        title: "Error",
+        description:
+          `Ocurrió un error al actualizar tu perfil. Por favor, intenta de nuevo. ${
+            (error as any)?.message ?? ""
+          }` ||
+          "Ocurrió un error al actualizar tu perfil. Por favor, intenta de nuevo.",
+        onConfirm: closeModal,
+      });
+    },
+    onSettled: () => {
+      closeLoader();
+    },
   });
 
   const onSubmit = async (data: userUpdateDTO, e: any) => {
     e.preventDefault();
     if (!user) return;
     openLoader({ size: "md", title: "Guardando perfil..." });
-    try {
-      await mutation.mutateAsync(data);
-    } catch (err) {
-      console.error("Update user failed", err);
-      alert("Error actualizando perfil. Intenta nuevamente.");
-    } finally {
-      closeLoader();
-    }
+    await mutateAsync(data);
   };
 
   const handleCreateBrand = () => {

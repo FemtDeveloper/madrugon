@@ -2,7 +2,8 @@
 
 import { Autoplay, EffectFade, Virtual } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import HeroSlide from "./HeroSlide";
+
+import { HeroSlide } from "./HeroSlide";
 
 interface Props {
   content: Hero[];

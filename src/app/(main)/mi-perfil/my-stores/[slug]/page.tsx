@@ -12,6 +12,7 @@ import { useUserStore } from "@/stores";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
+import { useShallow } from "zustand/shallow";
 
 interface StoreFormData {
   name: string;
@@ -30,7 +31,12 @@ export default function EditStorePage() {
   const slug = params.slug as string;
   const user = useUserStore((state) => state.user);
   const { openLoader, closeLoader } = useLoaderStore();
-  const { openModal, closeModal } = useModalStore();
+  const { openModal, closeModal } = useModalStore(
+    useShallow((state) => ({
+      openModal: state.openModal,
+      closeModal: state.closeModal,
+    }))
+  );
   const queryClient = useQueryClient();
 
   const { handleSubmit, control, reset, setValue, watch } =

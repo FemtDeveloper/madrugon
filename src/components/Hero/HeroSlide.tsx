@@ -1,5 +1,5 @@
-import { CustomLink } from "../Ui";
 import Image from "next/image";
+import { CustomLink } from "../Ui";
 
 interface Props {
   content: Hero;
@@ -7,7 +7,7 @@ interface Props {
   isFirstSlide?: boolean;
 }
 
-const HeroSlide = ({ content, isFirstSlide = false }: Props) => {
+export const HeroSlide = ({ content, isFirstSlide = false }: Props) => {
   const { img, path, btnTitle, title, subtitle } = content;
 
   return (
@@ -31,5 +31,3 @@ const HeroSlide = ({ content, isFirstSlide = false }: Props) => {
     </div>
   );
 };
-
-export default HeroSlide;
