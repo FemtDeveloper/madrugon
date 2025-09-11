@@ -7,10 +7,9 @@ import { HeroSlide } from "./HeroSlide";
 
 interface Props {
   content: Hero[];
-  onReady?: () => void;
 }
 
-const HeroCarousel = ({ content, onReady }: Props) => {
+const HeroCarousel = ({ content }: Props) => {
   return (
     <Swiper
       modules={[EffectFade, Autoplay, Virtual]}
@@ -19,7 +18,6 @@ const HeroCarousel = ({ content, onReady }: Props) => {
       autoplay={{ delay: 2500, disableOnInteraction: true }}
       pagination={{ clickable: true }}
       watchSlidesProgress={true}
-      onInit={onReady}
       virtual
     >
       {content.map((hero, i) => (
