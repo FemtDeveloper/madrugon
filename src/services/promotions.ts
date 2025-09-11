@@ -5,7 +5,7 @@ export const listActivePromoBanners = async () => {
   const now = new Date().toISOString();
   const { data, error } = await supabase
     .from("promo_banners")
-    .select("*")
+  .select("id,image_url,cta_url,is_active,is_modal,modal_priority,show_once_per_session,created_at,updated_at")
     .eq("is_active", true)
     .or(`valid_from.is.null,valid_from.lte.${now}`)
     .or(`valid_until.is.null,valid_until.gte.${now}`)

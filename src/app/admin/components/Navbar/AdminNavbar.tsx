@@ -1,10 +1,10 @@
 "use client";
-import Cookies from "js-cookie";
-import Link from "next/link";
-import { useEffect } from "react";
 
+import Cookies from "js-cookie";
 import { IsoIcon } from "@/components/Icons";
+import Link from "next/link";
 import { SidebarMenuButton } from "@/components/Navbar";
+import { useEffect } from "react";
 import { useResponsive } from "@/hooks";
 import { useUserStore } from "@/stores";
 
@@ -35,6 +35,23 @@ const Navbar = ({ isAuthenticated }: Props) => {
           <Link href="/" aria-label="Link que te dirige al home">
             <IsoIcon width={isMobile ? 32 : 42} height={isMobile ? 24 : 32} />
           </Link>
+          <div className="flex items-center gap-4">
+            <Link className="b2 text-primary hover:underline" href="/admin">
+              Admin
+            </Link>
+            <Link
+              className="b2 text-primary hover:underline"
+              href="/admin/banners"
+            >
+              Banners
+            </Link>
+            <Link
+              className="b2 text-primary hover:underline"
+              href="/admin/modals"
+            >
+              Modales
+            </Link>
+          </div>
         </div>
         <SidebarMenuButton />
       </nav>

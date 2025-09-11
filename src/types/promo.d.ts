@@ -1,20 +1,25 @@
 interface PromoBanner {
+    id:          string;
+    title?:      string | null;
+    description?:string | null;
+    image_url:   string;
+    cta_label?:  string | null;
+    cta_url?:    string | null;
+    position:    number;
+    is_active:   boolean;
+    user_id?:    string | null;
+    created_at:  Date;
+    updated_at:  Date;
+}
+
+interface PromoModal {
     id:                    string;
-    title:                 string;
-    description:           string;
     image_url:             string;
-    cta_label:             string;
-    cta_url:               string;
-    discount_text:         string;
-    valid_from:            null;
-    valid_until:           null;
+    cta_url?:              string | null;
+    position:              number;
     is_active:             boolean;
-    is_modal:              boolean;
-    modal_priority:        number;
-    audience:              null;
     show_once_per_session: boolean;
-    created_by:            null;
-    updated_by:            null;
+    user_id?:              string | null;
     created_at:            Date;
     updated_at:            Date;
 }

@@ -1,6 +1,110 @@
-# Supabase Schema Snapshot (Phase 1)
+# Supabase Schema
 
-Generated: 2025-09-10
+## Promo placements split (banners vs modals)
+
+Run these migrations in your Supabase SQL editor (this block matches exactly what was applied):
+
+```sql
+-- Migration: create_promo_modals_add_banner_columns
+-- 1) Utility: ensure updated_at trigger function exists
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end
+$$;
+
+-- 2) Alter promo_banners with new columns used by the app
+alter table public.promo_banners
+  add column if not exists title varchar,
+  add column if not exists description text,
+  add column if not exists cta_label varchar,
+  add column if not exists position integer not null default 0,
+  add column if not exists user_id uuid;
+
+-- 2a) Add FK for user_id if not exists
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE conrelid = 'public.promo_banners'::regclass
+      AND conname = 'promo_banners_user_id_fkey'
+  ) THEN
+    ALTER TABLE public.promo_banners
+      ADD CONSTRAINT promo_banners_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
+  END IF;
+END$$;
+
+-- 2b) Helpful index for active banners ordering
+create index if not exists promo_banners_active_position_idx
+  on public.promo_banners (is_active, position);
+
+-- 2c) Ensure updated_at auto-updates
+DROP TRIGGER IF EXISTS set_updated_at ON public.promo_banners;
+CREATE TRIGGER set_updated_at
+BEFORE UPDATE ON public.promo_banners
+FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+
+-- 3) Create promo_modals table
+create table if not exists public.promo_modals (
+  id uuid primary key default gen_random_uuid(),
+  image_url text not null,
+  cta_url text,
+  position integer not null default 0,
+  is_active boolean not null default true,
+  show_once_per_session boolean not null default true,
+  user_id uuid,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint promo_modals_user_id_fkey foreign key (user_id) references public.users(id) on delete set null
+);
+
+-- 3a) Indexes
+create index if not exists promo_modals_active_position_idx
+  on public.promo_modals (is_active, position);
+
+-- 3b) updated_at trigger
+DROP TRIGGER IF EXISTS set_updated_at ON public.promo_modals;
+CREATE TRIGGER set_updated_at
+BEFORE UPDATE ON public.promo_modals
+FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+
+-- 3c) RLS and policies
+alter table public.promo_modals enable row level security;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'promo_modals' AND policyname = 'Allow read active modals'
+  ) THEN
+    CREATE POLICY "Allow read active modals"
+    ON public.promo_modals FOR SELECT
+    USING (is_active = true);
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'promo_modals' AND policyname = 'Users manage own modals'
+  ) THEN
+    CREATE POLICY "Users manage own modals"
+    ON public.promo_modals FOR ALL
+    USING (auth.uid() = user_id)
+    WITH CHECK (auth.uid() = user_id);
+  END IF;
+END$$;
+```
+
+RLS guidance: Public can read only active rows; creators can manage their own via user_id. Add broader admin policies if you need global CRUD.
+
+## Supabase Schema Snapshot (Phase 1)
+
+Generated: 2025-09-11
 Project URL: <https://wdciupspomamkepqdfxz.supabase.co>
 
 Note: This document reflects the current public schema after Phase 1 migration (CMS + Ads + Moderation + Roles helpers).
@@ -57,24 +161,29 @@ Note: This document reflects the current public schema after Phase 1 migration (
 - promo_banners (RLS: enabled)
 
   - id uuid PK
-  - title varchar not null
+  - title varchar
   - description text
   - image_url text not null
   - cta_label varchar
   - cta_url text
-  - discount_text varchar
   - valid_from timestamptz
   - valid_until timestamptz
   - is_active boolean default true
-  - is_modal boolean default false
-  - modal_priority int default 0
-  - audience jsonb
-  - show_once_per_session boolean default true
+  - is_modal boolean default false (legacy)
+  - modal_priority int default 0 (legacy)
+  - audience jsonb (legacy)
+  - show_once_per_session boolean default true (legacy)
+  - position integer default 0
+  - user_id uuid -> users.id
   - created_by uuid -> users.id
   - updated_by uuid -> users.id
   - created_at timestamptz default now()
   - updated_at timestamptz default now()
   - check: valid_until >= valid_from (if both present)
+
+  Indexes:
+
+  - promo_banners_active_position_idx (is_active, position)
 
 - promotion_events (RLS: enabled)
 
@@ -188,6 +297,7 @@ Note: This document reflects the current public schema after Phase 1 migration (
   - is_removed boolean default false
 
 - users (RLS: enabled)
+
   - id uuid
   - role_id uuid, nullable
   - email varchar, unique
@@ -211,6 +321,22 @@ Note: This document reflects the current public schema after Phase 1 migration (
   - verified_by uuid -> users.id
   - verified_at timestamptz
   - moderation_notes text
+
+- promo_modals (RLS: enabled)
+
+  - id uuid PK
+  - image_url text not null
+  - cta_url text
+  - position integer default 0
+  - is_active boolean default true
+  - show_once_per_session boolean default true
+  - user_id uuid -> users.id
+  - created_at timestamptz default now()
+  - updated_at timestamptz default now()
+
+  Indexes:
+
+  - promo_modals_active_position_idx (is_active, position)
 
 ## RLS Policies (high level)
 

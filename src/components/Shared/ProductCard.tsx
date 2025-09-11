@@ -58,7 +58,7 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
 
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
             <div className="backdrop-blur-md bg-white/30 px-2 py-1 rounded-full shadow-lg">
-              <CustomLabel title="Ver producto" variant="small" />
+              <CustomLabel title="Ver producto" size="small" />
             </div>
           </div>
         </Link>

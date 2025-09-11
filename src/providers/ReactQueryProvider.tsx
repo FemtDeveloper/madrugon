@@ -1,11 +1,14 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
+
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const ReactQueryProvider = ({ children }: { children: ReactNode }) => {
-  const queryClient = new QueryClient();
+  // Create a single QueryClient instance for the lifetime of the provider
+  // to ensure cache, invalidations and refetches are consistent across renders.
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
     <QueryClientProvider client={queryClient}>

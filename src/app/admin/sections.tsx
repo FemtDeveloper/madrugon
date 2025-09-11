@@ -1,4 +1,5 @@
-import { BagIcon, PromoIcon, UsersIcon } from "@/components/Icons";
+import { BagIcon, UsersIcon } from "@/components/Icons";
+
 import { SectionProps } from "@/interfaces/general";
 
 export const sections: SectionProps[] = [
@@ -7,10 +8,5 @@ export const sections: SectionProps[] = [
     title: "Productos",
     icon: <BagIcon size={50} />,
     url: "/admin/productos",
-  },
-  {
-    title: "Promociones",
-    icon: <PromoIcon size={50} />,
-    url: "/admin/promos",
   },
 ];

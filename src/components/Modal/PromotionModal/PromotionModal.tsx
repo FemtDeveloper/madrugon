@@ -1,19 +1,20 @@
 "use client";
 
-import { CustomButton, CustomLink } from "@/components/Ui";
 import { useEffect, useMemo, useState } from "react";
 
-import { listPromoBanners } from "@/services/cms";
+import { CustomLink } from "@/components/Ui";
+import { listPromoModals } from "@/services/cms";
 import { recordPromotionEvent } from "@/services/promotions";
 import { useQuery } from "@tanstack/react-query";
+import { XCircle } from "lucide-react";
 import Image from "next/image";
 
 const sessionKey = (id: string) => `promo_seen_${id}`;
 
 const PromotionModal = () => {
   const { data } = useQuery({
-    queryKey: ["promo_banners", { modalOnly: true, onlyActive: true }],
-    queryFn: () => listPromoBanners({ modalOnly: true, onlyActive: true }),
+    queryKey: ["promo_modals", { onlyActive: true }],
+    queryFn: () => listPromoModals({ onlyActive: true }),
   });
   const first = useMemo(() => (data as any[])?.[0], [data]);
   const [visible, setVisible] = useState(false);
@@ -55,38 +56,33 @@ const PromotionModal = () => {
 
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
-      <div className="relative bg-white rounded-2xl w-[92vw] max-w-xl shadow-xl overflow-hidden">
+      <div className="relative bg-white rounded-2xl w-3/4 h-3/4 max-w-xl shadow-xl overflow-hidden">
         {first.image_url && (
           <Image
             src={first.image_url}
-            alt={first.title || "Promoción"}
-            width={800}
-            height={600}
+            alt={"Promoción"}
+            fill
             className="w-full object-cover"
           />
         )}
-        <div className="p-6 flex flex-col gap-3">
-          {first.title && <h3 className="h3 text-primary">{first.title}</h3>}
-          {first.description && (
-            <p className="b1 text-primary/80">{first.description}</p>
-          )}
-          <div className="flex gap-3 mt-2">
-            <CustomButton
-              btnTitle="Cerrar"
-              variant="transparent"
+        <div className="flex gap-3 mt-2 place-content-center place-items-center h-full w-full">
+          {first.cta_url && (
+            <CustomLink
+              btnTitle={"Ver"}
+              path={first.cta_url}
               size="small"
-              onClick={onDismiss}
+              className="py-2"
+              onClick={onClick}
             />
-            {first.cta_url && (
-              <CustomLink
-                btnTitle={first.cta_label || "Ver"}
-                path={first.cta_url}
-                size="small"
-                onClick={onClick}
-              />
-            )}
-          </div>
+          )}
         </div>
+        <button
+          onClick={onDismiss}
+          className="absolute top-1 right-1 text-gray-100 hover:text-red-500/50 transition-colors duration-300"
+          aria-label="Close promo modal"
+        >
+          <XCircle size={32} />
+        </button>
       </div>
     </div>
   );

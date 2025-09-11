@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import clsx from "clsx";
+import Link from "next/link";
 
 interface Props {
   path?: string;
@@ -11,6 +11,7 @@ interface Props {
   type?: "button" | "link";
   btnType?: "button" | "submit" | "reset" | undefined;
   otherTab?: boolean;
+  className?: string;
   onClick?: () => void;
 }
 
@@ -21,6 +22,7 @@ const CustomLink = ({
   otherTab = false,
   onClick = () => null,
   variant = "filled",
+  className,
 }: Props) => {
   const getWidth = () => {
     if (size === "xLarge") return "w-[310px] py-3 px-4";
@@ -36,12 +38,13 @@ const CustomLink = ({
       aria-label={`Botón que dirige a la sección ${btnTitle}`}
       onClick={onClick}
       className={clsx(
-        "rounded-full max-w-[310px] z-10 flex justify-center items-center px-10 font-medium hover:shadow-sm hover:shadow-black hover:-translate-y-[2px] transition duration-300",
+        "rounded-full max-w-[310px] z-10 flex justify-center items-center px-10 font-medium hover:shadow-sm hover:shadow-black hover:-translate-y-[1px] transition duration-300",
         getWidth(),
         size === "large" && "b1",
         variant === "filled"
           ? " bg-title text-white"
-          : "bg-white text-black border"
+          : "bg-white text-black border",
+        className
       )}
     >
       {btnTitle}

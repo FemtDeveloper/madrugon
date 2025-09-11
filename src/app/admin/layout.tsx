@@ -31,7 +31,7 @@ const layout = async ({
   }
 
   return (
-    <div className="w-full max-w-wrapper pt-4 flex-col flex">
+    <div className="w-full max-w-wrapper pt-4 flex-col flex ">
       <AdminNavbar isAuthenticated={user.aud === "authenticated"} />
       {children}
     </div>

@@ -1,24 +1,27 @@
 import clsx from "clsx";
 
+type Size = "small" | "medium" | "large";
+
 interface Props {
   title: string;
-  variant?: "large" | "medium" | "small";
+  size?: Size;
+  className?: string;
 }
 
-const CustomLabel = ({ title, variant = "medium" }: Props) => {
-  const getWidth = () => {
-    if (variant === "large") return "w-[270px]";
-    if (variant === "medium") return "w-[197px]";
-    return "w-[140px]";
-  };
+const sizeClasses: Record<Size, string> = {
+  small: "text-xs py-1 px-2",
+  medium: "text-sm py-2 px-4",
+  large: "text-base py-3 px-6",
+};
 
+const CustomLabel = ({ title, size = "medium", className }: Props) => {
   return (
     <div
-      aria-label={`Botón que dirige a la sección ${title}`}
+      aria-label={`Etiqueta: ${title}`}
       className={clsx(
-        "rounded-full bg-title text-white py-2 lg:py-3 z-10 flex justify-center items-center",
-        getWidth(),
-        variant === "large" && "b1 px-10 w-52 py-3 lg:py-4"
+        "inline-flex items-center justify-center rounded-full bg-title text-white font-medium",
+        sizeClasses[size],
+        className
       )}
     >
       {title}

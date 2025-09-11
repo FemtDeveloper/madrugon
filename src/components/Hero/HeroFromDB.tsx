@@ -1,26 +1,25 @@
 "use client";
 
-import { listHeroSlides } from "@/services/cms";
+import { listPromoBanners } from "@/services/cms";
 import { useQuery } from "@tanstack/react-query";
 import Hero from "./Hero";
 
-// Converts DB hero_slides to existing Hero[] interface used by Hero component
-const mapSlides = (rows: any[]): Hero[] =>
+const mapSlides = (rows: PromoBanner[]): Hero[] =>
   (rows || []).map((r) => ({
     img: r.image_url,
     path: r.cta_url || "/",
     btnTitle: r.cta_label || "Ver",
-    title: r.title,
-    subtitle: r.subtitle || undefined,
+    title: r.title ?? "",
+    subtitle: r.description || undefined,
   }));
 
 export const HeroFromDB = () => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["hero_slides"],
-    queryFn: listHeroSlides,
+  const { isLoading, isError, data } = useQuery({
+    queryKey: ["promo_banners"],
+    queryFn: () => listPromoBanners(),
   });
 
-  if (isLoading) return null; // keep LCP stable; Hero has placeholder
+  if (isLoading) return null;
   if (isError) return null;
 
   const content = mapSlides(data as any[]);
