@@ -1,6 +1,8 @@
 import { revalidatePath, revalidateTag } from 'next/cache';
 
-// POST /api/revalidate/promo  (optionally body { targets?: string[] })
+// POST /api/revalidate/promo
+// Optional JSON body: { targets?: string[] }
+// Default tags now cover both promo_banners (hero) and homepage_banners (main banner)
 export async function POST(req: Request) {
   try {
     let targets: string[] | undefined;
@@ -9,7 +11,7 @@ export async function POST(req: Request) {
       targets = body?.targets;
     } catch {}
 
-    const defaultTags = ['promo_banners'];
+  const defaultTags = ['promo_banners', 'homepage_banners'];
     const tags = targets && targets.length ? targets : defaultTags;
     tags.forEach((t) => revalidateTag(t));
 

@@ -116,6 +116,14 @@ export const createHomepageBanner = async (input: BannerInput) => {
     .insert(input)
     .select("*")
     .single();
+  // Fire and forget revalidation
+  if (!error) {
+    fetch("/api/revalidate/promo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ targets: ["homepage_banners"] }),
+    }).catch(() => {});
+  }
   return handle(data, error);
 };
 
@@ -130,6 +138,13 @@ export const updateHomepageBanner = async (
     .eq("id", id)
     .select("*")
     .single();
+  if (!error) {
+    fetch("/api/revalidate/promo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ targets: ["homepage_banners"] }),
+    }).catch(() => {});
+  }
   return handle(data, error);
 };
 
@@ -137,6 +152,11 @@ export const deleteHomepageBanner = async (id: string) => {
   const supabase = createClient();
   const { error } = await supabase.from("homepage_banners").delete().eq("id", id);
   if (error) throw new Error(error.message);
+  fetch("/api/revalidate/promo", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ targets: ["homepage_banners"] }),
+  }).catch(() => {});
   return { success: true } as const;
 };
 
@@ -198,6 +218,13 @@ export const createPromoBanner = async (input: PromoBannerInput) => {
     .insert(input)
     .select("*")
     .single();
+  if (!error) {
+    fetch("/api/revalidate/promo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ targets: ["promo_banners"] }),
+    }).catch(() => {});
+  }
   return handle(data, error);
 };
 
@@ -212,6 +239,13 @@ export const updatePromoBanner = async (
     .eq("id", id)
     .select("*")
     .single();
+  if (!error) {
+    fetch("/api/revalidate/promo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ targets: ["promo_banners"] }),
+    }).catch(() => {});
+  }
   return handle(data, error);
 };
 
@@ -219,6 +253,11 @@ export const deletePromoBanner = async (id: string) => {
   const supabase = createClient();
   const { error } = await supabase.from("promo_banners").delete().eq("id", id);
   if (error) throw new Error(error.message);
+  fetch("/api/revalidate/promo", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ targets: ["promo_banners"] }),
+  }).catch(() => {});
   return { success: true } as const;
 };
 
@@ -275,6 +314,11 @@ export const reorderPromoBanners = async (order: { id: string; position: number 
       supabase.from("promo_banners").update({ position: o.position }).eq("id", o.id)
     )
   );
+  fetch("/api/revalidate/promo", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ targets: ["promo_banners"] }),
+  }).catch(() => {});
   return { success: true } as const;
 };
 

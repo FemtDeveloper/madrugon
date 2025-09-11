@@ -3,6 +3,7 @@
 import { RHFCustomInput } from "@/components/Inputs";
 import { CustomButton } from "@/components/Ui";
 import { createPromoBanner, type PromoBannerInput } from "@/services/cms";
+import { requestPromoRevalidation } from "@/services/revalidate";
 import { uploadPromoBannerImage } from "@/services/uploads";
 import { listUsersAdmin } from "@/services/users/users";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -89,6 +90,7 @@ export const BannersAdminForm = () => {
       } as PromoBannerInput),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["promo_banners"] });
+      requestPromoRevalidation({ immediate: true, tags: ["promo_banners"] });
       reset();
     },
   });

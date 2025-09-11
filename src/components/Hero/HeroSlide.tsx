@@ -7,7 +7,7 @@ interface Props {
   isFirstSlide?: boolean;
 }
 
-export const HeroSlide = ({ content, isFirstSlide = false }: Props) => {
+const HeroSlide = ({ content, isFirstSlide = false }: Props) => {
   const { img, path, btnTitle, title, subtitle } = content;
 
   return (
@@ -31,3 +31,5 @@ export const HeroSlide = ({ content, isFirstSlide = false }: Props) => {
     </div>
   );
 };
+
+export default HeroSlide;

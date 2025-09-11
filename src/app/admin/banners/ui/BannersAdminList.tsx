@@ -1,25 +1,41 @@
 "use client";
 
-import { CustomButton } from "@/components/Ui";
+import {
+  deletePromoBanner,
+  listPromoBanners,
+  reorderPromoBanners,
+  updatePromoBanner,
+} from "@/services/cms";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deletePromoBanner, listPromoBanners, reorderPromoBanners, updatePromoBanner } from "@/services/cms";
+
+import { CustomButton } from "@/components/Ui";
+import { requestPromoRevalidation } from "@/services/revalidate";
 
 export const BannersAdminList = () => {
   const queryClient = useQueryClient();
-  const { data } = useQuery({ queryKey: ["promo_banners"], queryFn: () => listPromoBanners() });
+  const { data } = useQuery({
+    queryKey: ["promo_banners"],
+    queryFn: () => listPromoBanners(),
+  });
 
   const updateMut = useMutation({
-    mutationFn: ({ id, patch }: { id: string; patch: any }) => updatePromoBanner(id, patch),
+    mutationFn: ({ id, patch }: { id: string; patch: any }) =>
+      updatePromoBanner(id, patch),
     onMutate: async ({ id, patch }) => {
       await queryClient.cancelQueries({ queryKey: ["promo_banners"] });
       const prev = queryClient.getQueryData<any[]>(["promo_banners"]);
-      queryClient.setQueryData<any[]>(["promo_banners"], (old) => (old ?? []).map((b) => (b.id === id ? { ...b, ...patch } : b)));
+      queryClient.setQueryData<any[]>(["promo_banners"], (old) =>
+        (old ?? []).map((b) => (b.id === id ? { ...b, ...patch } : b))
+      );
       return { prev };
     },
     onError: (_e, _vars, ctx) => {
       if (ctx?.prev) queryClient.setQueryData(["promo_banners"], ctx.prev);
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["promo_banners"] }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["promo_banners"] });
+      requestPromoRevalidation({ immediate: true, tags: ["promo_banners"] });
+    },
   });
 
   const deleteMut = useMutation({
@@ -27,28 +43,43 @@ export const BannersAdminList = () => {
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ["promo_banners"] });
       const prev = queryClient.getQueryData<any[]>(["promo_banners"]);
-      queryClient.setQueryData<any[]>(["promo_banners"], (old) => (old ?? []).filter((b) => b.id !== id));
+      queryClient.setQueryData<any[]>(["promo_banners"], (old) =>
+        (old ?? []).filter((b) => b.id !== id)
+      );
       return { prev };
     },
     onError: (_e, _vars, ctx) => {
       if (ctx?.prev) queryClient.setQueryData(["promo_banners"], ctx.prev);
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["promo_banners"] }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["promo_banners"] });
+      requestPromoRevalidation({ immediate: true, tags: ["promo_banners"] });
+    },
   });
 
   const reorderMut = useMutation({
-    mutationFn: (order: { id: string; position: number }[]) => reorderPromoBanners(order),
+    mutationFn: (order: { id: string; position: number }[]) =>
+      reorderPromoBanners(order),
     onMutate: async (order) => {
       await queryClient.cancelQueries({ queryKey: ["promo_banners"] });
       const prev = queryClient.getQueryData<any[]>(["promo_banners"]);
       const mapPos = new Map(order.map((o) => [o.id, o.position]));
-      queryClient.setQueryData<any[]>(["promo_banners"], (old) => (old ?? []).map((b) => ({ ...b, position: mapPos.get(b.id) ?? b.position })));
+      queryClient.setQueryData<any[]>(["promo_banners"], (old) =>
+        (old ?? []).map((b) => ({
+          ...b,
+          position: mapPos.get(b.id) ?? b.position,
+        }))
+      );
       return { prev };
     },
     onError: (_e, _vars, ctx) => {
       if (ctx?.prev) queryClient.setQueryData(["promo_banners"], ctx.prev);
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["promo_banners"] }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["promo_banners"] });
+      // Debounced to batch multiple drag operations
+      requestPromoRevalidation({ tags: ["promo_banners"] });
+    },
   });
 
   if (!data) return null;
@@ -77,14 +108,35 @@ export const BannersAdminList = () => {
         .slice()
         .sort((a: any, b: any) => a.position - b.position)
         .map((b: any) => (
-          <li key={b.id} className="border rounded p-3 flex items-center justify-between" draggable onDragStart={(e) => onDragStart(e, b.id)} onDrop={(e) => onDrop(e, b.id)}>
+          <li
+            key={b.id}
+            className="border rounded p-3 flex items-center justify-between"
+            draggable
+            onDragStart={(e) => onDragStart(e, b.id)}
+            onDrop={(e) => onDrop(e, b.id)}
+          >
             <div className="flex gap-3 items-center">
               <span className="b2 cursor-grab">#{b.position}</span>
               <span className="b2 font-semibold">{b.title}</span>
             </div>
             <div className="flex gap-2">
-              <CustomButton btnTitle={b.is_active ? "Desactivar" : "Activar"} variant="transparent" size="small" onClick={() => updateMut.mutate({ id: b.id, patch: { is_active: !b.is_active } })} />
-              <CustomButton btnTitle="Eliminar" variant="transparent" size="small" onClick={() => deleteMut.mutate(b.id)} />
+              <CustomButton
+                btnTitle={b.is_active ? "Desactivar" : "Activar"}
+                variant="transparent"
+                size="small"
+                onClick={() =>
+                  updateMut.mutate({
+                    id: b.id,
+                    patch: { is_active: !b.is_active },
+                  })
+                }
+              />
+              <CustomButton
+                btnTitle="Eliminar"
+                variant="transparent"
+                size="small"
+                onClick={() => deleteMut.mutate(b.id)}
+              />
             </div>
           </li>
         ))}

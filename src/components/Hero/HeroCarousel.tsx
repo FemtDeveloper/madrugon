@@ -3,13 +3,14 @@
 import { Autoplay, EffectFade, Virtual } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import { HeroSlide } from "./HeroSlide";
+import HeroSlide from "./HeroSlide";
 
 interface Props {
   content: Hero[];
+  onReady?: () => void;
 }
 
-const HeroCarousel = ({ content }: Props) => {
+const HeroCarousel = ({ content, onReady }: Props) => {
   return (
     <Swiper
       modules={[EffectFade, Autoplay, Virtual]}
@@ -18,6 +19,7 @@ const HeroCarousel = ({ content }: Props) => {
       autoplay={{ delay: 2500, disableOnInteraction: true }}
       pagination={{ clickable: true }}
       watchSlidesProgress={true}
+      onInit={onReady}
       virtual
     >
       {content.map((hero, i) => (

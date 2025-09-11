@@ -2,13 +2,13 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
 
+import { Hero } from "@/components/Hero";
 import {
   MainCategories,
   mainCategoriesContent,
 } from "@/components/MainCategories";
 
 import HomepageBannerFromDB from "@/components/Banner/HomepageBannerFromDB";
-import { HeroFromDB } from "@/components/Hero";
 import { MainGrid } from "@/components/MainGrid";
 
 export const dynamic = "force-static"; // ensure static generation
@@ -74,7 +74,7 @@ export default async function Home() {
   return (
     <main className="flex w-full flex-col items-center justify-between">
       <div className="w-full flex flex-col gap-8 lg:gap:15 items-center">
-        <HeroFromDB content={heroSlides} />
+        <Hero content={heroSlides} />
         <MainCategories content={mainCategoriesContent} />
         <MainGrid />
         <HomepageBannerFromDB banner={homepageBanner} />
