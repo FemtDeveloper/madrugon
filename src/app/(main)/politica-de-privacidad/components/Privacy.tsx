@@ -94,7 +94,7 @@ export default function PrivacyPolicy({
       </header>
 
       {/* Índice de contenido */}
-      <nav className="mb-10 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      <nav className="mb-10 rounded-2xl border border-gray-200 bg-white p-5 shadow-xs">
         <h2 className="mb-3 text-base font-semibold">Contenido</h2>
         <ul className="grid gap-2 sm:grid-cols-2">
           {items.map((item) => (

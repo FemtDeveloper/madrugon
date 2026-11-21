@@ -1,12 +1,19 @@
 import { NextResponse } from "next/server";
 import sharp from "sharp";
 
+import { getServerUser } from "@/utils/supabase/auth-guards";
+
 export const runtime = "nodejs";
 
 // POST /api/images/compress
 // Body: multipart/form-data with field 'file' (image)
 // Query params: w (max width), q (quality 1-100), format (jpeg|webp|png)
 export async function POST(request: Request) {
+  // Image processing is CPU-heavy: only signed-in users may use it
+  const { user } = await getServerUser();
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const { searchParams } = new URL(request.url);
     const maxW = Number(searchParams.get("w") || 1600);

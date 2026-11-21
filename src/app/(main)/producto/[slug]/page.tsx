@@ -6,6 +6,12 @@ import type { Database } from "../../../../../database.types";
 import { GridTitle } from "@/components/Shared";
 import { createSupabaseClient } from "@/lib/supabase/client";
 import { getProductBySlug } from "@/services/products";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { cache } from "react";
+
+// Dedupe the product query between generateMetadata and the page render
+const getProduct = cache(getProductBySlug);
 
 export const revalidate = 3600;
 
@@ -32,15 +38,34 @@ export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
   }
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProduct(slug);
+  if (!product) return { title: "Producto no encontrado | Madrugón Mayorista" };
+
+  const title = `${product.name} | Madrugón Mayorista`;
+  const description = product.description ?? undefined;
+  const image = product.images?.[0];
+  return {
+    title,
+    description,
+    openGraph: { title, description, images: image ? [image] : undefined },
+  };
+}
+
 const ProductDetail = async ({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) => {
   const resolved = await params;
-  const product = await getProductBySlug(resolved.slug);
+  const product = await getProduct(resolved.slug);
 
-  if (!product) return <h1>Loading</h1>;
+  if (!product) notFound();
 
   const { images } = product;
 

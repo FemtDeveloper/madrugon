@@ -52,7 +52,7 @@ export default function RelationsSection({
               {stores.map((s: any) => (
                 <li
                   key={s.id}
-                  className="flex items-center justify-between p-2 bg-gray-50 rounded"
+                  className="flex items-center justify-between p-2 bg-gray-50 rounded-sm"
                 >
                   <span className="font-medium">{s.name}</span>
                   <Link
@@ -106,7 +106,7 @@ export default function RelationsSection({
               {brands.map((b: any) => (
                 <li
                   key={b.id}
-                  className="flex items-center justify-between p-2 bg-gray-50 rounded"
+                  className="flex items-center justify-between p-2 bg-gray-50 rounded-sm"
                 >
                   <span className="font-medium">{b.name}</span>
                   <Link

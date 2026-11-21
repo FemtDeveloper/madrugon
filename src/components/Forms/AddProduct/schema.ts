@@ -10,6 +10,6 @@ export const addProductSchema = z.object({
   store_id: z.string().min(1, "Debes seleccionar una tienda"),
   gender: z.string(),
   sizes: z.string().array().nonempty(),
-  price: z.coerce.number().min(0, "El precio no puede ser negativo"),
-  regular_price: z.coerce.number().min(0, "El precio no puede ser negativo"),
+  price: z.coerce.number<number>().min(0, "El precio no puede ser negativo"),
+  regular_price: z.coerce.number<number>().min(0, "El precio no puede ser negativo"),
 });

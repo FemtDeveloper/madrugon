@@ -19,25 +19,27 @@ const Prices = ({
   const finalPrice = base_price ?? price ?? null;
   const finalRegular = compare_price ?? regular_price ?? null;
 
+  const hasDiscount =
+    !!discount_percentage &&
+    discount_percentage > 0 &&
+    finalRegular != null &&
+    finalPrice != null;
+
   return (
     <div className="priceContainer flex gap-4 items-center">
+      {/* Selling price is always base_price; compare_price is only the struck-through reference */}
       <h3 className="text-xl font-bold tracking-normal">
-        ${" "}
-        {formatCurrency(
-          discount_percentage ? finalPrice ?? 0 : finalRegular ?? 0
-        )}
+        $ {formatCurrency(finalPrice ?? finalRegular ?? 0)}
       </h3>
-      {discount_percentage &&
-        discount_percentage > 0 &&
-        finalRegular != null && (
+      {hasDiscount && (
+        <>
           <h3 className="font-bold tracking-normal line-through text-p-1">
             $ {formatCurrency(finalRegular)}
           </h3>
-        )}
-      {discount_percentage && discount_percentage > 0 && (
-        <span className="bg-title py-2 px-3 text-white rounded-xl">
-          {discount_percentage}% OFF
-        </span>
+          <span className="bg-title py-2 px-3 text-white rounded-xl">
+            {discount_percentage}% OFF
+          </span>
+        </>
       )}
     </div>
   );

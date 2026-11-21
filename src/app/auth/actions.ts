@@ -1,12 +1,9 @@
 "use server";
 
-import { useUserStore } from "@/stores";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-
-const setUser = useUserStore.getState().setUser;
 
 export async function login(formData: SigninParams) {
   const supabase = await createClient();
@@ -91,7 +88,6 @@ export const updateUser = async (userData: userUpdateDTO, userId: string) => {
   }
 
   if (updatedUserRows && updatedUserRows.length > 0) {
-    setUser(updatedUserRows[0] as unknown as User);
     const cookieStore2 = await cookies();
     cookieStore2.set("user", JSON.stringify(updatedUserRows[0]));
   }

@@ -20,7 +20,7 @@ const RHFCustomCheckbox = ({ name, control, label }: Props) => {
               type="checkbox"
               checked={!!field.value}
               onChange={(e) => field.onChange(e.target.checked)}
-              className="appearance-none rounded-sm bg-white checked:bg-black w-4 h-4 cursor-pointer"
+              className="appearance-none rounded-xs bg-white checked:bg-black w-4 h-4 cursor-pointer"
             />
           </div>
           <label className="b1 text-gray-600">{label}</label>

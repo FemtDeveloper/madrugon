@@ -1,5 +1,3 @@
-"use client";
-
 import { BANNER_CONTENT } from "@/mocks";
 import BannerComponent from "./Banner";
 

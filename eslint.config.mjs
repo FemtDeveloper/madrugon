@@ -1,12 +1,12 @@
-// ESLint 9+ flat config bridging Next.js presets
-import { FlatCompat } from "@eslint/eslintrc";
+// ESLint 9 flat config (eslint-config-next 16 ships native flat configs)
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
 import unusedImports from "eslint-plugin-unused-imports";
 
-const compat = new FlatCompat();
-
-const config = [
-  // Convert legacy extends into flat-compatible config
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+export default defineConfig([
+  ...nextVitals,
+  ...nextTs,
   {
     plugins: {
       "unused-imports": unusedImports,
@@ -37,17 +37,23 @@ const config = [
             "Use @tanstack/react-query instead of swr per project rules.",
         },
       ],
-      // Gentle nudge to use CustomButton/CustomLink
-
       "@typescript-eslint/ban-ts-comment": [
         "warn",
         { "ts-expect-error": "allow-with-description" },
       ],
       "@typescript-eslint/no-unused-expressions": "warn",
       "@typescript-eslint/no-unsafe-function-type": "off",
+      // New in eslint-plugin-react-hooks 7 (React Compiler rules). Pre-existing
+      // violations are reported as warnings so they can be fixed incrementally.
+      "react-hooks/set-state-in-effect": "warn",
     },
-    ignores: ["node_modules/**", ".next/**", "dist/**", "build/**"],
   },
-];
-
-export default config;
+  globalIgnores([
+    "node_modules/**",
+    ".next/**",
+    "out/**",
+    "dist/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);

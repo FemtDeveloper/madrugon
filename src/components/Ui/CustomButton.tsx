@@ -37,7 +37,7 @@ const CustomButton = ({
       onClick={onClick}
       disabled={disabled || loading}
       className={clsx(
-        "rounded-lg z-10 flex justify-center items-center px-10 font-medium hover:shadow-xs hover:shadow-black hover:-translate-y-[2px] transition duration-300",
+        "rounded-lg z-10 flex justify-center items-center px-10 font-medium hover:shadow-2xs hover:shadow-black hover:translate-y-[-2px] transition duration-300",
         getWidth(),
         (size === "large" || size === "xLarge") && "b1",
         variant === "filled"

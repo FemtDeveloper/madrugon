@@ -82,7 +82,7 @@ export const ModalsAdminList = () => {
         .slice()
         .sort((a: any, b: any) => a.position - b.position)
         .map((m: any) => (
-          <li key={m.id} className="border rounded p-3 flex items-center justify-between" draggable onDragStart={(e) => onDragStart(e, m.id)} onDrop={(e) => onDrop(e, m.id)}>
+          <li key={m.id} className="border rounded-sm p-3 flex items-center justify-between" draggable onDragStart={(e) => onDragStart(e, m.id)} onDrop={(e) => onDrop(e, m.id)}>
             <div className="flex gap-3 items-center">
               <span className="b2 cursor-grab">#{m.position}</span>
               <span className="b2">{m.cta_url || "(sin CTA)"}</span>

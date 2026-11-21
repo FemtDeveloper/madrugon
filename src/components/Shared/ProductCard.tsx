@@ -23,17 +23,17 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
   const hasDiscount = calculatedDiscount > 0;
 
   return (
-    <article className="product_card w-full h-full max-h-96 group max-w-40 md:max-w-60 flex flex-col bg-white rounded-2xl lg:rounded-3xl shadow-sm hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 overflow-hidden">
-      <figure className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+    <article className="product_card w-full h-full max-h-96 group max-w-40 md:max-w-60 flex flex-col bg-white rounded-2xl lg:rounded-3xl shadow-xs hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 overflow-hidden">
+      <figure className="relative overflow-hidden bg-linear-to-br from-gray-50 to-gray-100">
         {hasDiscount && (
           <div className="absolute z-20 top-2 left-2 lg:top-3 lg:left-3">
-            <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs px-2 py-1 rounded-full font-bold shadow-md">
+            <div className="bg-linear-to-r from-red-500 to-pink-500 text-white text-xs px-2 py-1 rounded-full font-bold shadow-md">
               -{calculatedDiscount}%
             </div>
           </div>
         )}
 
-        <div className="absolute z-20 top-2 right-2 lg:top-3 lg:right-3 backdrop-blur-sm bg-white/20 rounded-full p-0.5">
+        <div className="absolute z-20 top-2 right-2 lg:top-3 lg:right-3 backdrop-blur-xs bg-white/20 rounded-full p-0.5">
           <FavoriteStar productId={String(id)} />
         </div>
 
@@ -78,7 +78,7 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
           </div>
         )}
 
-        <h3 className="text-xs lg:text-sm text-gray-900 text-center font-semibold leading-tight group-hover:text-blue-600 transition-colors duration-300 line-clamp-2 min-h-[2rem] lg:min-h-[1.5rem] flex items-center justify-center">
+        <h3 className="text-xs lg:text-sm text-gray-900 text-center font-semibold leading-tight group-hover:text-blue-600 transition-colors duration-300 line-clamp-2 min-h-8 lg:min-h-6 flex items-center justify-center">
           {name}
         </h3>
 
@@ -113,7 +113,7 @@ const ProductCard = async ({ product, isEditable = false }: Props) => {
                 aria-label={`Ver productos de la marca ${brand}`}
               >
                 <span className="relative z-10">{brand}</span>
-                <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-gray-400 to-gray-800 transform scale-x-0 group-hover/brand:scale-x-100 transition-transform duration-300 origin-left" />
+                <div className="absolute inset-x-0 bottom-0 h-0.5 bg-linear-to-r from-gray-400 to-gray-800 transform scale-x-0 group-hover/brand:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
             </div>
           )}

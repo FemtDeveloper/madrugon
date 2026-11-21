@@ -49,7 +49,7 @@ const Searchbar = () => {
         spellCheck={false}
         value={searchTerm}
         onChange={handleSearchChange}
-        className="b2 lg:b1 focus:outline-none max-w-36 lg:max-w-max"
+        className="b2 lg:b1 focus:outline-hidden max-w-36 lg:max-w-max"
       />
       {isError && <div>Error: {error?.message}</div>}
       {productResults.length > 0 && searchTerm.length > 0 && (

@@ -110,7 +110,7 @@ export const BannersAdminList = () => {
         .map((b: any) => (
           <li
             key={b.id}
-            className="border rounded p-3 flex items-center justify-between"
+            className="border rounded-sm p-3 flex items-center justify-between"
             draggable
             onDragStart={(e) => onDragStart(e, b.id)}
             onDrop={(e) => onDrop(e, b.id)}

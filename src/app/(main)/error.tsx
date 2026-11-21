@@ -87,14 +87,14 @@ export default function Error({ error, reset }: ErrorProps) {
               <div className="space-y-3">
                 <div>
                   <strong className="text-gray-700">Mensaje:</strong>
-                  <pre className="text-xs text-gray-700 mt-1 overflow-x-auto whitespace-pre-wrap border border-gray-200 p-2 rounded">
+                  <pre className="text-xs text-gray-700 mt-1 overflow-x-auto whitespace-pre-wrap border border-gray-200 p-2 rounded-sm">
                     {error.message}
                   </pre>
                 </div>
                 {error.digest && (
                   <div>
                     <strong className="text-gray-700">Digest:</strong>
-                    <code className="text-xs text-gray-700 ml-2 border border-gray-200 px-2 py-1 rounded">
+                    <code className="text-xs text-gray-700 ml-2 border border-gray-200 px-2 py-1 rounded-sm">
                       {error.digest}
                     </code>
                   </div>
@@ -102,7 +102,7 @@ export default function Error({ error, reset }: ErrorProps) {
                 {error.stack && (
                   <div>
                     <strong className="text-gray-700">Stack Trace:</strong>
-                    <pre className="text-xs text-gray-700 mt-1 overflow-x-auto whitespace-pre-wrap border border-gray-200 p-2 rounded max-h-40 overflow-y-auto">
+                    <pre className="text-xs text-gray-700 mt-1 overflow-x-auto whitespace-pre-wrap border border-gray-200 p-2 rounded-sm max-h-40 overflow-y-auto">
                       {error.stack}
                     </pre>
                   </div>

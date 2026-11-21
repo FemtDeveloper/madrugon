@@ -60,7 +60,7 @@ const RHFCustomInput = ({
                   }
                   id={id}
                   placeholder={placeholder}
-                  className="focus-visible:outline-none w-full"
+                  className="focus-visible:outline-hidden w-full"
                   height={`${inputHeight}px`}
                   spellCheck={false}
                 />

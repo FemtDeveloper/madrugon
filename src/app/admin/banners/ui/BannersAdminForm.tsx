@@ -16,12 +16,12 @@ import { z } from "zod";
 const schema = z.object({
   title: z.string().min(1, "Requerido"),
   description: z.string().optional(),
-  image_url: z.string().url(),
+  image_url: z.url(),
   cta_label: z.string().optional(),
   cta_url: z.string().optional(),
-  position: z.coerce.number().int().min(0),
+  position: z.coerce.number<number>().int().min(0),
   is_active: z.enum(["true", "false"]),
-  user_id: z.string().uuid().optional().nullable(),
+  user_id: z.uuid().optional().nullable(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -153,7 +153,7 @@ export const BannersAdminForm = () => {
               alt="Preview"
               width={300}
               height={180}
-              className="object-cover rounded"
+              className="object-cover rounded-sm"
             />
           </div>
         )}

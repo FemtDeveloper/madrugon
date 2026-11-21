@@ -13,12 +13,11 @@ interface PageProps {
 }
 
 const BusquedaPage = async ({ searchParams }: PageProps) => {
-  // Await searchParams since it's always a Promise in Next.js 15
   const resolvedSearchParams = await searchParams;
 
   const products = await getProductsByGenderAndCategory(
     resolvedSearchParams.genero as Gender,
-    resolvedSearchParams.categorias.split(",") as Category[]
+    (resolvedSearchParams.categorias ?? "").split(",").filter(Boolean) as Category[]
   );
 
   return (

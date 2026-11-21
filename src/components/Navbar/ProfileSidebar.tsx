@@ -49,7 +49,7 @@ const ProfileSidebar = () => {
       >
         <div className="relative h-full w-full flex flex-col items-center gap-8">
           <button
-            className="bg-title absolute top-0 left-0 rounded-full p-1 hover:shadow-sm hover:shadow-black hover:-translate-y-[2px] transition duration-300"
+            className="bg-title absolute top-0 left-0 rounded-full p-1 hover:shadow-xs hover:shadow-black hover:translate-y-[-2px] transition duration-300"
             onClick={() => {
               setIsProfileSidebarOpen(false);
             }}

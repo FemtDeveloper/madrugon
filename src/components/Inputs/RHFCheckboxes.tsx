@@ -34,7 +34,7 @@ const RHFCheckboxes = ({ options, control, name, label }: Props) => {
                         onChange(value.filter((v: string) => v !== option));
                       }
                     }}
-                    className="appearance-none  rounded-sm  bg-white checked:bg-black w-4 h-4"
+                    className="appearance-none  rounded-xs  bg-white checked:bg-black w-4 h-4"
                   />
                 </div>
                 <label htmlFor={option} className="b1">

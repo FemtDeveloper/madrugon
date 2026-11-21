@@ -1,6 +1,9 @@
 import { ProductGrid } from "@/components/Shared";
 import { getProductsByGender } from "@/services/products";
 
+// Public catalog: statically generated and refreshed every 5 minutes (ISR)
+export const revalidate = 300;
+
 const ChildrenPage = async () => {
   const products = await getProductsByGender("Niños/as");
 

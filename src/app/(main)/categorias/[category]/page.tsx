@@ -3,6 +3,9 @@ import { createSupabaseClient } from "@/lib/supabase/client";
 import { getProductsByCategory } from "@/services/products";
 import type { Database } from "../../../../../database.types";
 
+// Public catalog: statically generated and refreshed every 5 minutes (ISR)
+export const revalidate = 300;
+
 type CategoryParam = { category: string };
 
 export async function generateStaticParams(): Promise<CategoryParam[]> {

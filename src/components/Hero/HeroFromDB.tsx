@@ -1,5 +1,3 @@
-"use client";
-
 import Hero from "./Hero";
 
 // This component now only receives already-fetched promo banners (mapped) from the server.

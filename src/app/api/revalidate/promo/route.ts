@@ -1,9 +1,16 @@
 import { revalidatePath, revalidateTag } from 'next/cache';
 
+import { isServerAdmin } from '@/utils/supabase/auth-guards';
+
+const ALLOWED_TAGS = new Set(['promo_banners', 'homepage_banners']);
+
 // POST /api/revalidate/promo
 // Optional JSON body: { targets?: string[] }
 // Default tags now cover both promo_banners (hero) and homepage_banners (main banner)
 export async function POST(req: Request) {
+  if (!(await isServerAdmin())) {
+    return Response.json({ error: 'Forbidden' }, { status: 403 });
+  }
   try {
     let targets: string[] | undefined;
     try {
@@ -12,8 +19,9 @@ export async function POST(req: Request) {
     } catch {}
 
   const defaultTags = ['promo_banners', 'homepage_banners'];
-    const tags = targets && targets.length ? targets : defaultTags;
-    tags.forEach((t) => revalidateTag(t));
+    const requested = targets?.filter((t) => ALLOWED_TAGS.has(t)) ?? [];
+    const tags = requested.length ? requested : defaultTags;
+    tags.forEach((t) => revalidateTag(t, { expire: 0 }));
 
     // Home page depends on these; revalidate its path for fresh HTML
     revalidatePath('/');

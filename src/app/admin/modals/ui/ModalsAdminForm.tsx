@@ -12,12 +12,12 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const schema = z.object({
-  image_url: z.string().url(),
+  image_url: z.url(),
   cta_url: z.string().optional(),
-  position: z.coerce.number().int().min(0),
+  position: z.coerce.number<number>().int().min(0),
   is_active: z.enum(["true", "false"]),
   show_once_per_session: z.enum(["true", "false"]),
-  user_id: z.string().uuid().optional().nullable(),
+  user_id: z.uuid().optional().nullable(),
 });
 
 type FormData = z.infer<typeof schema>;

@@ -1,6 +1,9 @@
 import { ProductGrid } from "@/components/Shared";
 import { getAllProducts } from "@/services/products";
 
+// Public catalog: statically generated and refreshed every 5 minutes (ISR)
+export const revalidate = 300;
+
 const TodoPage = async () => {
   const products = await getAllProducts();
   return (

@@ -29,7 +29,7 @@ const Navbar = ({ isAuthenticated }: Props) => {
   }, [isAuthenticated, setIsAuthenticated]);
 
   return (
-    <header className="w-full flex justify-center px-4 bg-white shadow-sm">
+    <header className="w-full flex justify-center px-4 bg-white shadow-xs">
       <nav className="w-full flex gap-8  lg:gap-13  max-w-wrapper">
         <div className="w-full flex items-center justify-between gap-4">
           <Link href="/" aria-label="Link que te dirige al home">

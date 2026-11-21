@@ -154,7 +154,7 @@ export default function ProfileForm({
               />
               <button
                 type="button"
-                className="px-3 py-2 text-xs border rounded"
+                className="px-3 py-2 text-xs border rounded-sm"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
               >

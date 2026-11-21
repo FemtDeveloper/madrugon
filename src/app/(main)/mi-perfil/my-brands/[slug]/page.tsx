@@ -158,7 +158,7 @@ export default function EditBrandPage() {
                 alt="logo preview"
                 width={64}
                 height={64}
-                className="rounded border object-cover w-16 h-16"
+                className="rounded-sm border object-cover w-16 h-16"
               />
             </div>
             <RHFCustomInput
@@ -168,7 +168,7 @@ export default function EditBrandPage() {
             />
             <button
               type="button"
-              className="px-3 py-2 text-xs border rounded mb-1"
+              className="px-3 py-2 text-xs border rounded-sm mb-1"
               disabled={uploading}
               onClick={() => fileRef.current?.click()}
             >

@@ -15,7 +15,7 @@ export const RegisterSchema = z.object({
     .max(15, {
       message: "El número de teléfono debe tener menos de 15 caracteres",
     }),
-  email: z.string().email({ message: "Email inválido" }),
+  email: z.email({ message: "Email inválido" }),
   password: z
     .string()
     .min(8, { message: "La contraseña debe tener al menos 8 caracteres" })
@@ -28,7 +28,7 @@ export const RegisterSchema = z.object({
 export type RegisterFormType = z.infer<typeof RegisterSchema>;
 
 export const LoginSchema = z.object({
-  email: z.string().email({ message: "Email inválido" }),
+  email: z.email({ message: "Email inválido" }),
   password: z
     .string()
     .min(8, { message: "La contraseña debe tener al menos 8 caracteres" })

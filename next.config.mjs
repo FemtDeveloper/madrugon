@@ -1,10 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   images: {
     formats: ["image/avif", "image/webp"],
+    // Next 16 only allows q=75 by default; the app uses quality={100} in a few places
+    qualities: [75, 100],
     // Tailor to our layout: common breakpoints for hero and grid images
     deviceSizes: [360, 414, 640, 768, 1024, 1280, 1536],
     imageSizes: [64, 96, 128, 256, 384],

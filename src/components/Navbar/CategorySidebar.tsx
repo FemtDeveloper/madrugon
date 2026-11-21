@@ -73,7 +73,7 @@ const CategorySidebar = ({ isOpen, setIsOpen, gender }: Props) => {
                 value={category.toLowerCase()}
                 checked={selectedCategories.includes(category.toLowerCase())}
                 onChange={() => handleSelect(category.toLowerCase())}
-                className="appearance-none w-4 h-4 border-2 border-gray-800 rounded-sm bg-white checked:bg-title"
+                className="appearance-none w-4 h-4 border-2 border-gray-800 rounded-xs bg-white checked:bg-title"
               />
             </div>
           ))}

@@ -201,7 +201,7 @@ const AddProductForm = ({ product }: Props) => {
               label="Marca"
             />
           </div>
-          <div className="flex-shrink-0 pt-6">
+          <div className="shrink-0 pt-6">
             <button
               type="button"
               className="text-sm text-primary underline"

@@ -38,7 +38,7 @@ const CustomLink = ({
       aria-label={`Botón que dirige a la sección ${btnTitle}`}
       onClick={onClick}
       className={clsx(
-        "rounded-full max-w-[310px] z-10 flex justify-center items-center px-10 font-medium hover:shadow-sm hover:shadow-black hover:-translate-y-[1px] transition duration-300",
+        "rounded-full max-w-[310px] z-10 flex justify-center items-center px-10 font-medium hover:shadow-xs hover:shadow-black hover:-translate-y-px transition duration-300",
         getWidth(),
         size === "large" && "b1",
         variant === "filled"
